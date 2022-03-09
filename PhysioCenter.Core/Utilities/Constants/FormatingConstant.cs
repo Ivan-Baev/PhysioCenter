@@ -1,4 +1,4 @@
-﻿namespace PhysioCenter.Core.Constants
+﻿namespace PhysioCenter.Core.Utilities.Constants
 {
     public class FormatingConstant
     {

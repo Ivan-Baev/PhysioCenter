@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
-using PhysioCenter.Core.Constants;
+using PhysioCenter.Core.Utilities.Constants;
 using PhysioCenter.Data;
 using PhysioCenter.ModelBinders;
 

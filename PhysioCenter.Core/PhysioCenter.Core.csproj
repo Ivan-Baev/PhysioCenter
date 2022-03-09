@@ -10,4 +10,9 @@
     <ProjectReference Include="..\PhysioCenter.Infrastructure\PhysioCenter.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Mappings\" />
+    <Folder Include="Contracts\" />
+  </ItemGroup>
+
 </Project>
