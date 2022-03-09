@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 using PhysioCenter.Core.Utilities.Constants;
-using PhysioCenter.Data;
+using PhysioCenter.Infrastructure.Data;
 using PhysioCenter.ModelBinders;
 
 var builder = WebApplication.CreateBuilder(args);
