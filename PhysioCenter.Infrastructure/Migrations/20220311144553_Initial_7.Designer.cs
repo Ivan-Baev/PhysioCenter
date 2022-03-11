@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PhysioCenter.Infrastructure.Data;
 
@@ -11,9 +12,10 @@ using PhysioCenter.Infrastructure.Data;
 namespace PhysioCenter.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220311144553_Initial_7")]
+    partial class Initial_7
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -448,7 +450,7 @@ namespace PhysioCenter.Infrastructure.Data.Migrations
 
                     b.HasIndex("ClientId");
 
-                    b.ToTable("TherapistsClients");
+                    b.ToTable("TherapistClient");
                 });
 
             modelBuilder.Entity("PhysioCenter.Infrastructure.Data.Models.TherapistService", b =>
@@ -466,7 +468,7 @@ namespace PhysioCenter.Infrastructure.Data.Migrations
 
                     b.HasIndex("TherapistId");
 
-                    b.ToTable("TherapistsServices");
+                    b.ToTable("TherapistServices");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

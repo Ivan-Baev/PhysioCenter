@@ -25,7 +25,8 @@
         public DbSet<Service> Services { get; set; }
 
         public DbSet<Therapist> Therapists { get; set; }
-        public DbSet<TherapistService> TherapistServices { get; set; }
+        public DbSet<TherapistService> TherapistsServices { get; set; }
+        public DbSet<TherapistClient> TherapistsClients { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -46,6 +47,10 @@
             builder
              .Entity<TherapistService>()
              .HasKey(x => new { x.ServiceId, x.TherapistId });
+
+            builder
+             .Entity<TherapistClient>()
+             .HasKey(x => new { x.TherapistId, x.ClientId });
 
             // Needed for Identity models configuration
             base.OnModelCreating(builder);

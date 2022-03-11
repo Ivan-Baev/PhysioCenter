@@ -14,6 +14,6 @@
         public virtual string UserId { get; set; }
 
         public virtual ICollection<Review> Reviews { get; set; } = new HashSet<Review>();
-        public virtual ICollection<Therapist> Therapists { get; set; } = new HashSet<Therapist>();
+        public virtual ICollection<TherapistClient> Therapists { get; set; } = new HashSet<TherapistClient>();
     }
 }
