@@ -15,7 +15,5 @@
         public virtual Service Service { get; set; }
 
         public bool isProvided { get; set; }
-
-        public virtual ICollection<Appointment> Appointments { get; set; } = new HashSet<Appointment>();
     }
 }

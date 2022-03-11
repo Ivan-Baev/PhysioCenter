@@ -15,11 +15,14 @@
         [Required]
         public Guid TherapistId { get; set; }
 
-        public Therapist Therapist { get; set; }
+        public virtual Therapist Therapist { get; set; }
 
         [Required]
-        public virtual TherapistService TherapistService { get; set; }
+        public Guid ServiceId { get; set; }
 
+        public virtual Service Service { get; set; }
+
+        [Required]
         public DateTime DateTime { get; set; }
     }
 }

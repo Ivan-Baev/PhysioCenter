@@ -18,7 +18,5 @@
         public string ImageUrl { get; set; }
 
         public virtual ICollection<Service> Services { get; set; } = new HashSet<Service>();
-
-        public virtual ICollection<Therapist> Therapists { get; set; } = new HashSet<Therapist>();
     }
 }

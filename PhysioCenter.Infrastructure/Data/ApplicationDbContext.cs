@@ -25,12 +25,10 @@
         public DbSet<Service> Services { get; set; }
 
         public DbSet<Therapist> Therapists { get; set; }
-
-        public DbSet<TherapistService> TherapistsServices { get; set; }
+        public DbSet<TherapistService> TherapistServices { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-
             builder
                .Entity<Therapist>()
                .HasOne<IdentityUser>()

@@ -4,7 +4,7 @@
 
 namespace PhysioCenter.Infrastructure.Data.Migrations
 {
-    public partial class InitialModelsCreated_1 : Migration
+    public partial class Initial_6 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

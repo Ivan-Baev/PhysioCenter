@@ -16,10 +16,7 @@
         [Required]
         public string Description { get; set; }
 
-        public string UserId { get; set; }
-
-        public Guid CategoryId { get; set; }
-        public virtual Category Category { get; set; }
+        public virtual string UserId { get; set; }
 
         public virtual ICollection<Appointment> Appointments { get; set; } = new HashSet<Appointment>();
         public virtual ICollection<TherapistService> Services { get; set; } = new HashSet<TherapistService>();

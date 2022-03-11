@@ -12,8 +12,8 @@ using PhysioCenter.Infrastructure.Data;
 namespace PhysioCenter.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220311133215_InitialModelsCreated_1.1")]
-    partial class InitialModelsCreated_11
+    [Migration("20220311143129_Initial_4")]
+    partial class Initial_4
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -238,16 +238,10 @@ namespace PhysioCenter.Infrastructure.Data.Migrations
                     b.Property<DateTime>("DateTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid?>("ServiceId")
+                    b.Property<Guid>("ServiceId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("TherapistId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("TherapistServiceServiceId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("TherapistServiceTherapistId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
@@ -257,8 +251,6 @@ namespace PhysioCenter.Infrastructure.Data.Migrations
                     b.HasIndex("ServiceId");
 
                     b.HasIndex("TherapistId");
-
-                    b.HasIndex("TherapistServiceServiceId", "TherapistServiceTherapistId");
 
                     b.ToTable("Appointments");
                 });
@@ -425,9 +417,6 @@ namespace PhysioCenter.Infrastructure.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("CategoryId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -445,8 +434,6 @@ namespace PhysioCenter.Infrastructure.Data.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CategoryId");
 
                     b.HasIndex("UserId")
                         .IsUnique();
@@ -469,7 +456,7 @@ namespace PhysioCenter.Infrastructure.Data.Migrations
 
                     b.HasIndex("TherapistId");
 
-                    b.ToTable("TherapistsServices");
+                    b.ToTable("TherapistServices");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -531,9 +518,11 @@ namespace PhysioCenter.Infrastructure.Data.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("PhysioCenter.Infrastructure.Data.Models.Service", null)
+                    b.HasOne("PhysioCenter.Infrastructure.Data.Models.Service", "Service")
                         .WithMany("Appointments")
-                        .HasForeignKey("ServiceId");
+                        .HasForeignKey("ServiceId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.HasOne("PhysioCenter.Infrastructure.Data.Models.Therapist", "Therapist")
                         .WithMany("Appointments")
@@ -541,17 +530,11 @@ namespace PhysioCenter.Infrastructure.Data.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("PhysioCenter.Infrastructure.Data.Models.TherapistService", "TherapistService")
-                        .WithMany("Appointments")
-                        .HasForeignKey("TherapistServiceServiceId", "TherapistServiceTherapistId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
                     b.Navigation("Client");
 
-                    b.Navigation("Therapist");
+                    b.Navigation("Service");
 
-                    b.Navigation("TherapistService");
+                    b.Navigation("Therapist");
                 });
 
             modelBuilder.Entity("PhysioCenter.Infrastructure.Data.Models.Client", b =>
@@ -598,19 +581,11 @@ namespace PhysioCenter.Infrastructure.Data.Migrations
 
             modelBuilder.Entity("PhysioCenter.Infrastructure.Data.Models.Therapist", b =>
                 {
-                    b.HasOne("PhysioCenter.Infrastructure.Data.Models.Category", "Category")
-                        .WithMany("Therapists")
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
                         .WithOne()
                         .HasForeignKey("PhysioCenter.Infrastructure.Data.Models.Therapist", "UserId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
-
-                    b.Navigation("Category");
                 });
 
             modelBuilder.Entity("PhysioCenter.Infrastructure.Data.Models.TherapistService", b =>
@@ -635,8 +610,6 @@ namespace PhysioCenter.Infrastructure.Data.Migrations
             modelBuilder.Entity("PhysioCenter.Infrastructure.Data.Models.Category", b =>
                 {
                     b.Navigation("Services");
-
-                    b.Navigation("Therapists");
                 });
 
             modelBuilder.Entity("PhysioCenter.Infrastructure.Data.Models.Service", b =>
@@ -657,11 +630,6 @@ namespace PhysioCenter.Infrastructure.Data.Migrations
                     b.Navigation("Reviews");
 
                     b.Navigation("Services");
-                });
-
-            modelBuilder.Entity("PhysioCenter.Infrastructure.Data.Models.TherapistService", b =>
-                {
-                    b.Navigation("Appointments");
                 });
 #pragma warning restore 612, 618
         }
