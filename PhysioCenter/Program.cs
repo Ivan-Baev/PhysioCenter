@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 using PhysioCenter.Core.Utilities.Constants;
 using PhysioCenter.Infrastructure.Data;
+using PhysioCenter.Infrastructure.Data.Models;
 using PhysioCenter.ModelBinders;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,17 +11,17 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(connectionString));builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseSqlServer(connectionString)); builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
-// Added EF Core resilient connection
-    options.UseSqlServer(connectionString,
-        sqlServerOptionsAction: sqlOptions =>
-    {
-        sqlOptions.EnableRetryOnFailure(
-        maxRetryCount: 5,
-        maxRetryDelay: TimeSpan.FromSeconds(30),
-        errorNumbersToAdd: null);
-    }));
+     // Added EF Core resilient connection
+     options.UseSqlServer(connectionString,
+         sqlServerOptionsAction: sqlOptions =>
+     {
+         sqlOptions.EnableRetryOnFailure(
+         maxRetryCount: 5,
+         maxRetryDelay: TimeSpan.FromSeconds(30),
+         errorNumbersToAdd: null);
+     }));
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 

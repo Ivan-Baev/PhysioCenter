@@ -6,7 +6,7 @@
 
     using PhysioCenter.Infrastructure.Data.Models;
 
-    public class ApplicationDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, string>
+    public class ApplicationDbContext : IdentityDbContext
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
@@ -32,17 +32,15 @@
         {
             builder
                .Entity<Therapist>()
-               .HasOne<ApplicationUser>()
+               .HasOne<IdentityUser>()
                .WithOne()
-               .HasForeignKey<Therapist>(t => t.UserId)
-               .OnDelete(DeleteBehavior.Restrict);
+               .HasForeignKey<Therapist>(t => t.UserId);
 
             builder
                 .Entity<Client>()
-                .HasOne<ApplicationUser>()
+                .HasOne<IdentityUser>()
                 .WithOne()
-                .HasForeignKey<Client>(c => c.UserId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .HasForeignKey<Client>(c => c.UserId);
 
             builder
              .Entity<TherapistService>()
@@ -52,8 +50,9 @@
              .Entity<TherapistClient>()
              .HasKey(x => new { x.TherapistId, x.ClientId });
 
-            // Needed for Identity models configuration
             base.OnModelCreating(builder);
+
+            // Needed for Identity models configuration
 
             var entityTypes = builder.Model.GetEntityTypes().ToList();
 
