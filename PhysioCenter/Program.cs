@@ -4,16 +4,19 @@ using Microsoft.EntityFrameworkCore;
 using PhysioCenter.Core.Utilities.Constants;
 using PhysioCenter.Infrastructure.Data;
 using PhysioCenter.Infrastructure.Data.Models;
+using PhysioCenter.Infrastructure.Data.Seeding;
 using PhysioCenter.ModelBinders;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(connectionString)); builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
-     // Added EF Core resilient connection
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseSqlServer(connectionString));
+
+// Added EF Core resilient connection
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
      options.UseSqlServer(connectionString,
          sqlServerOptionsAction: sqlOptions =>
      {
@@ -32,6 +35,7 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options =>
         options.Password.RequireNonAlphanumeric = false;
         options.Password.RequireUppercase = false;
     })
+    .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
 builder.Services.AddControllersWithViews()
@@ -43,6 +47,13 @@ builder.Services.AddControllersWithViews()
     });
 
 var app = builder.Build();
+
+using (var serviceScope = app.Services.CreateScope())
+{
+    var dbContext = serviceScope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+
+    new ApplicationDbContextSeeder().SeedAsync(dbContext, serviceScope.ServiceProvider).GetAwaiter().GetResult();
+}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

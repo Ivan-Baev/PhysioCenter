@@ -250,7 +250,7 @@ namespace PhysioCenter.Infrastructure.Data.Migrations
 
                     b.HasIndex("TherapistId");
 
-                    b.ToTable("Appointments");
+                    b.ToTable("Appointments", (string)null);
                 });
 
             modelBuilder.Entity("PhysioCenter.Infrastructure.Data.Models.Blog", b =>
@@ -273,7 +273,7 @@ namespace PhysioCenter.Infrastructure.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Blog");
+                    b.ToTable("Blog", (string)null);
                 });
 
             modelBuilder.Entity("PhysioCenter.Infrastructure.Data.Models.Category", b =>
@@ -296,7 +296,7 @@ namespace PhysioCenter.Infrastructure.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Categories");
+                    b.ToTable("Categories", (string)null);
                 });
 
             modelBuilder.Entity("PhysioCenter.Infrastructure.Data.Models.Client", b =>
@@ -318,7 +318,7 @@ namespace PhysioCenter.Infrastructure.Data.Migrations
                     b.HasIndex("UserId")
                         .IsUnique();
 
-                    b.ToTable("Clients");
+                    b.ToTable("Clients", (string)null);
                 });
 
             modelBuilder.Entity("PhysioCenter.Infrastructure.Data.Models.Note", b =>
@@ -344,7 +344,7 @@ namespace PhysioCenter.Infrastructure.Data.Migrations
 
                     b.HasIndex("TherapistId");
 
-                    b.ToTable("Notes");
+                    b.ToTable("Notes", (string)null);
                 });
 
             modelBuilder.Entity("PhysioCenter.Infrastructure.Data.Models.Review", b =>
@@ -372,7 +372,7 @@ namespace PhysioCenter.Infrastructure.Data.Migrations
 
                     b.HasIndex("TherapistId");
 
-                    b.ToTable("Reviews");
+                    b.ToTable("Reviews", (string)null);
                 });
 
             modelBuilder.Entity("PhysioCenter.Infrastructure.Data.Models.Service", b =>
@@ -403,7 +403,7 @@ namespace PhysioCenter.Infrastructure.Data.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("Services");
+                    b.ToTable("Services", (string)null);
                 });
 
             modelBuilder.Entity("PhysioCenter.Infrastructure.Data.Models.Therapist", b =>
@@ -433,7 +433,7 @@ namespace PhysioCenter.Infrastructure.Data.Migrations
                     b.HasIndex("UserId")
                         .IsUnique();
 
-                    b.ToTable("Therapists");
+                    b.ToTable("Therapists", (string)null);
                 });
 
             modelBuilder.Entity("PhysioCenter.Infrastructure.Data.Models.TherapistClient", b =>
@@ -448,7 +448,7 @@ namespace PhysioCenter.Infrastructure.Data.Migrations
 
                     b.HasIndex("ClientId");
 
-                    b.ToTable("TherapistsClients");
+                    b.ToTable("TherapistsClients", (string)null);
                 });
 
             modelBuilder.Entity("PhysioCenter.Infrastructure.Data.Models.TherapistService", b =>
@@ -466,7 +466,7 @@ namespace PhysioCenter.Infrastructure.Data.Migrations
 
                     b.HasIndex("TherapistId");
 
-                    b.ToTable("TherapistsServices");
+                    b.ToTable("TherapistsServices", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

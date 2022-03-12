@@ -1,11 +1,13 @@
 ﻿namespace PhysioCenter.Controllers
 {
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
 
     using PhysioCenter.Models;
 
     using System.Diagnostics;
 
+    [Authorize(Roles = "Administrator")]
     public class HomeController : BaseController
     {
         private readonly ILogger<HomeController> _logger;
