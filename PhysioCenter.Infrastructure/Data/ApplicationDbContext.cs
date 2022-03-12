@@ -6,7 +6,7 @@
 
     using PhysioCenter.Infrastructure.Data.Models;
 
-    public class ApplicationDbContext : IdentityDbContext
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, string>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
@@ -32,14 +32,14 @@
         {
             builder
                .Entity<Therapist>()
-               .HasOne<IdentityUser>()
+               .HasOne<ApplicationUser>()
                .WithOne()
                .HasForeignKey<Therapist>(t => t.UserId)
                .OnDelete(DeleteBehavior.Restrict);
 
             builder
                 .Entity<Client>()
-                .HasOne<IdentityUser>()
+                .HasOne<ApplicationUser>()
                 .WithOne()
                 .HasForeignKey<Client>(c => c.UserId)
                 .OnDelete(DeleteBehavior.Restrict);
