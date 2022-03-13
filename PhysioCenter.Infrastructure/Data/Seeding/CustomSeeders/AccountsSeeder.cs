@@ -30,11 +30,53 @@
                 "therapist1@physiocenter.com",
                 "Therapist");
 
+            await CreateUser(
+                userManager,
+                roleManager,
+                "therapist2@physiocenter.com",
+                "Therapist");
+
+            await CreateUser(
+                userManager,
+                roleManager,
+                "therapist3@physiocenter.com",
+                "Therapist");
+
+            await CreateUser(
+                userManager,
+                roleManager,
+                "therapist4@physiocenter.com",
+                "Therapist");
+
+            await CreateUser(
+                userManager,
+                roleManager,
+                "therapist5@physiocenter.com",
+                "Therapist");
+
+            await CreateUser(
+                userManager,
+                roleManager,
+                "therapist6@physiocenter.com",
+                "Therapist");
+
             // Create User
             await CreateUser(
                 userManager,
                 roleManager,
                 "user@physiocenter.com",
+                "Standard User");
+
+            await CreateUser(
+                userManager,
+                roleManager,
+                "user2@physiocenter.com",
+                "Standard User");
+
+            await CreateUser(
+                userManager,
+                roleManager,
+                "user3@physiocenter.com",
                 "Standard User");
         }
 
@@ -66,12 +108,12 @@
                         await userManager.AddToRoleAsync(user, roleName);
                     }
                 }
-            }
-            else
-            {
-                if (usersAssignedToRole.Count() != 0)
+                else
                 {
-                    var result = await userManager.CreateAsync(user, password);
+                    if (usersAssignedToRole.Count() != 0)
+                    {
+                        var result = await userManager.CreateAsync(user, password);
+                    }
                 }
             }
         }

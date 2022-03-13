@@ -29,6 +29,12 @@
                           {
                               new RolesSeeder(),
                               new AccountsSeeder(),
+                              new BlogSeeder(),
+                              new CategoriesSeeder(),
+                              new ServicesSeeder(),
+                              new TherapistsSeeder(),
+                              new TherapistsServices(),
+                              new ClientsSeeder(),
                           };
 
             foreach (var seeder in seeders)
