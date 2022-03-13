@@ -1,9 +1,7 @@
-﻿namespace PhysioCenter.Infrastructure.Data.Seeding
+﻿namespace PhysioCenter.Infrastructure.Data.Seeding.CustomSeeders
 {
     using Microsoft.AspNetCore.Identity;
     using Microsoft.Extensions.DependencyInjection;
-
-    using PhysioCenter.Infrastructure.Data.Models;
 
     using System;
     using System.Linq;

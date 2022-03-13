@@ -30,19 +30,19 @@
                             {
                                 new Client
                                 {
-                                    Id = new Guid("e927b696-781c-4fe3-a748-777df063c469"),
+                                    Id = new Guid("ec2aeec7-2f91-406c-927d-366eedccdf1b"),
                                     FirstName = "George",
                                     UserId = user1.Id,
                                 },
                                 new Client
                                 {
-                                    Id = new Guid("21392157-9603-47fa-88ae-773d4dcaecd3"),
+                                    Id = new Guid("c159d88b-3547-489a-83b7-8a1a011755f9"),
                                     FirstName = "Peter",
                                     UserId = user2.Id,
                                 },
                                 new Client
                                 {
-                                    Id = new Guid("388e1767-5878-444c-9230-d74b6733839a"),
+                                    Id = new Guid("4f33a224-57b2-4cdc-8746-af998e09ab9d"),
                                     FirstName = "Sylvana",
                                     UserId = user3.Id,
                                 },
