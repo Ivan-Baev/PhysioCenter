@@ -7,7 +7,6 @@
 
     using System.Diagnostics;
 
-    [Authorize(Roles = "Administrator")]
     public class HomeController : BaseController
     {
         private readonly ILogger<HomeController> _logger;
