@@ -1,28 +1,28 @@
-﻿   <div id="wrapper">
+﻿   <div id="wrapper" class="toggled">
         <div id="sidebar-wrapper">
             <ul class="sidebar-nav">
                 <li class="sidebar-brand">
                 </li>
                 <li>
-                    <a href="#">Dashboard</a>
+                    <a asp-area="Admin" asp-controller="Dashboard" asp-action="Index">Dashboard</a>
                 </li>
                 <li>
-                    <a href="#">Shortcuts</a>
+                    <a asp-area="Admin" asp-controller="Therapists" asp-action="Index">Therapists</a>
                 </li>
                 <li>
-                    <a href="#">Overview</a>
+                    <a asp-area="Admin" asp-controller="Clients" asp-action="Index">Clients</a>
                 </li>
                 <li>
-                    <a href="#">Events</a>
+                    <a asp-area="Admin" asp-controller="Appointments" asp-action="Index">Appointments</a>
                 </li>
                 <li>
-                    <a href="#">About</a>
+                    <a asp-area="Admin" asp-controller="Categories" asp-action="Index">Categories</a>
                 </li>
                 <li>
-                    <a href="#">Services</a>
+                    <a asp-area="Admin" asp-controller="Services" asp-action="Index">Services</a>
                 </li>
                 <li>
-                    <a href="#">Contact</a>
+                    <a asp-area="Admin" asp-controller="BlogPosts" asp-action="Index">Blog</a>
                 </li>
             </ul>
         </div>
