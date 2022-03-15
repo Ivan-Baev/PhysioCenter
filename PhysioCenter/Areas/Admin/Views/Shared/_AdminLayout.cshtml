@@ -19,7 +19,7 @@
         <div class="container px-5">
             <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3" href="#">PhysioCenter</a>
             <a href="#menu-toggle" class="btn btn-dark" id="menu-toggle">Menu</a>
-            <input class="form-control form-control-dark w-50" type="text" placeholder="Search" aria-label="Search">
+            <input class="form-control form-control-dark w-50" type="text" placeholder="Search" aria-label="Search" id="searchAdmin">
             <div class="navbar-nav">
                 <div class="nav-item text-nowrap">
                     <a class="nav-link" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">My account</a>
@@ -62,6 +62,7 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="~/js/menu-toggle.js" asp-append-version="true"></script>
+    <script src="~/js/search-admin.js" asp-append-version="true"></script>
 
     @await RenderSectionAsync("Scripts", required: false)
 </body>
