@@ -1,22 +1,23 @@
 ﻿namespace PhysioCenter.Core.Contracts
 {
-    using System;
+    using PhysioCenter.Infrastructure.Data.Models;
+
     using System.Collections.Generic;
     using System.Threading.Tasks;
 
     public interface IAppointmentsService
     {
-        Task<T> GetByIdAsync<T>(string id);
+        Task<Appointment> GetByIdAsync(string id);
 
-        Task<IEnumerable<T>> GetAllAsync<T>();
+        Task<IEnumerable<Appointment>> GetAllAsync();
 
-        Task<IEnumerable<T>> GetAllByTherapistAsync<T>(string salonId);
+        Task<IEnumerable<Appointment>> GetAllByTherapistAsync(string therapistId);
 
-        Task<IEnumerable<T>> GetUpcomingByUserAsync<T>(string userId);
+        Task<IEnumerable<Appointment>> GetUpcomingByUserAsync(string userId);
 
-        Task<IEnumerable<T>> GetPastByUserAsync<T>(string userId);
+        Task<IEnumerable<Appointment>> GetPastByUserAsync(string userId);
 
-        Task AddAsync(string userId, string salonId, string serviceId, DateTime dateTime);
+        Task AddAsync(Appointment input);
 
         Task DeleteAsync(string id);
     }

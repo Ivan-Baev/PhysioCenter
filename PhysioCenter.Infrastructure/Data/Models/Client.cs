@@ -8,7 +8,7 @@
         public Guid Id { get; set; } = Guid.NewGuid();
 
         [Required]
-        public string FirstName { get; set; }
+        public string FullName { get; set; }
 
         [Required]
         public virtual string UserId { get; set; }

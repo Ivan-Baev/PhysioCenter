@@ -5,9 +5,9 @@ VisualStudioVersion = 17.0.31912.275
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PhysioCenter", "PhysioCenter\PhysioCenter.csproj", "{82FB2BD0-563C-4098-B1CA-08EC8C4C066C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhysioCenter.Infrastructure", "PhysioCenter.Infrastructure\PhysioCenter.Infrastructure.csproj", "{A0C1D837-6C66-4B36-99D6-81AF4A736E99}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PhysioCenter.Infrastructure", "PhysioCenter.Infrastructure\PhysioCenter.Infrastructure.csproj", "{A0C1D837-6C66-4B36-99D6-81AF4A736E99}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhysioCenter.Core", "PhysioCenter.Core\PhysioCenter.Core.csproj", "{BAADE68C-6ECC-4A3F-82E0-6FACC348E1B5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PhysioCenter.Core", "PhysioCenter.Core\PhysioCenter.Core.csproj", "{BAADE68C-6ECC-4A3F-82E0-6FACC348E1B5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

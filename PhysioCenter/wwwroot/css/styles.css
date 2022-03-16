@@ -1999,6 +1999,7 @@ progress {
     --bs-table-hover-bg: rgba(0, 0, 0, 0.075);
     width: 100%;
     margin-bottom: 1rem;
+    margin-top: 1rem;
     color: #212529;
     vertical-align: top;
     border-color: #dee2e6;
@@ -3139,7 +3140,7 @@ textarea.form-control-lg {
 .btn {
     display: inline-block;
     font-weight: 400;
-    line-height: 1.5;
+    line-height: 1;
     color: #212529;
     text-align: center;
     text-decoration: none;
@@ -12026,3 +12027,4 @@ html {
         border-color: transparent;
         box-shadow: 0 0 0 3px rgba(255, 255, 255, .25);
     }
+    

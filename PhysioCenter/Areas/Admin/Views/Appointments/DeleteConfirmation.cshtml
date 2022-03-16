@@ -1,0 +1,30 @@
+﻿@using PhysioCenter.Models.Appointments
+@model AppointmentViewModel
+
+@{
+    ViewData["Title"] = "Delete Appointment";
+}
+
+        <h4 class="text-danger text-center">
+            <strong>Are you sure you want to delete this?</strong>
+        </h4>
+        <partial name="_DeleteEntityPartial" model="@Model" />
+
+        <div class="offset-md-5" style="margin-top: 30px">
+            <div class="row ml-5">
+                <form method="post">
+                    <button type="submit" class="btn btn-danger"
+                            asp-controller="Appointments"
+                            asp-action="Delete"
+                            asp-route-id="@Model.Id">
+                        Yes, Delete It!
+                    </button>
+                </form>
+                <div class="ml-5">
+                    <a class="btn btn-success" asp-controller="Appointments"
+                       asp-action="Index">
+                        No, Go Back
+                    </a>
+                </div>
+            </div>
+        </div>

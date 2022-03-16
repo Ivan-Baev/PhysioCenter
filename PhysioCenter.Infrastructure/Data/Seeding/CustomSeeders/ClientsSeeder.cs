@@ -31,19 +31,19 @@
                                 new Client
                                 {
                                     Id = new Guid("ec2aeec7-2f91-406c-927d-366eedccdf1b"),
-                                    FirstName = "George",
+                                    FullName = "George Hutchinson",
                                     UserId = user1.Id,
                                 },
                                 new Client
                                 {
                                     Id = new Guid("c159d88b-3547-489a-83b7-8a1a011755f9"),
-                                    FirstName = "Peter",
+                                    FullName = "Leonardo Callaghan",
                                     UserId = user2.Id,
                                 },
                                 new Client
                                 {
                                     Id = new Guid("4f33a224-57b2-4cdc-8746-af998e09ab9d"),
-                                    FirstName = "Sylvana",
+                                    FullName = "Alivia Brook",
                                     UserId = user3.Id,
                                 },
                             };

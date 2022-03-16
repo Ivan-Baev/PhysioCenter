@@ -1,17 +1,17 @@
+using Ganss.XSS;
+
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 using PhysioCenter.Core.Contracts;
-using PhysioCenter.Core.Mappings;
 using PhysioCenter.Core.Services.Appointments;
+using PhysioCenter.Core.Services.Clients;
+using PhysioCenter.Core.Services.Services;
+using PhysioCenter.Core.Services.Therapists;
 using PhysioCenter.Core.Utilities.Constants;
 using PhysioCenter.Infrastructure.Data;
-using PhysioCenter.Infrastructure.Data.Models;
 using PhysioCenter.Infrastructure.Data.Seeding;
 using PhysioCenter.ModelBinders;
-using PhysioCenter.Models;
-
-using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -52,12 +52,18 @@ builder.Services.AddControllersWithViews()
         options.ModelBinderProviders.Insert(2, new DoubleModelBinderProvider());
     });
 
+builder.Services.AddAutoMapper(typeof(Program));
+
+// HTML sanitizer - check if it works like this?
+builder.Services.AddSingleton<IHtmlSanitizer, HtmlSanitizer>();
+
 // Application services
+
 builder.Services.AddTransient<IAppointmentsService, AppointmentsService>();
-
+builder.Services.AddTransient<IServicesService, ServicesService>();
+builder.Services.AddTransient<IClientsService, ClientsService>();
+builder.Services.AddTransient<ITherapistsService, TherapistsService>();
 var app = builder.Build();
-
-AutoMapperConfig.RegisterMappings(typeof(ErrorViewModel).GetTypeInfo().Assembly);
 
 using (var serviceScope = app.Services.CreateScope())
 {

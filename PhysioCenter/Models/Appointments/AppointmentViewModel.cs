@@ -1,11 +1,10 @@
 ﻿namespace PhysioCenter.Models.Appointments
 {
-    using PhysioCenter.Core.Mappings;
     using PhysioCenter.Infrastructure.Data.Models;
 
     using System;
 
-    public class AppointmentViewModel : IMapFrom<Appointment>
+    public class AppointmentViewModel
     {
         public string Id { get; set; }
 
@@ -13,7 +12,7 @@
 
         public string ClientId { get; set; }
 
-        public string ClientFirstName { get; set; }
+        public string ClientFullName { get; set; }
 
         public string TherapistId { get; set; }
 

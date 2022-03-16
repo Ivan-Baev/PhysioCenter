@@ -1,0 +1,55 @@
+﻿@using PhysioCenter.Core.InputModels
+@model AppointmentInputViewModel
+
+@{
+    ViewData["Title"] = "Create an Appointment";
+    var therapists = ViewData["Therapists"] as SelectList;
+    var clients = ViewData["Clients"] as SelectList;
+    var services = ViewData["Services"] as SelectList;
+}
+
+
+@section Styles {
+<link href="https://rawgit.com/AuspeXeu/bootstrap-datetimepicker/master/css/bootstrap-datetimepicker.css" rel="stylesheet" />
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/solid.css" integrity="sha384-Rw5qeepMFvJVEZdSo1nDQD5B6wX0m7c5Z/pLNvjkB14W6Yki1hKbSEQaX9ffUbWe" crossorigin="anonymous">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/fontawesome.css" integrity="sha384-GVa9GOgVQgOk+TNYXu7S/InPTfSDTtBalSgkgqQ7sCik56N9ztlkoTr2f/T44oKV" crossorigin="anonymous">
+}
+
+<main role="main" class="pb-3">
+    <h2>Create New Appointment</h2>
+    <form method="post" enctype="multipart/form-data" class="pt-4">
+        <div class="form-group">
+            <label class="col-sm-2 col-form-label">Therapist</label>
+            <div class="col-sm-10">
+                <select asp-for="@Model.TherapistId" class="form-select" asp-items="@therapists" style="width:400px;">
+                    <option value="" disabled selected hidden>Choose a therapist...</option>
+                </select>
+                <span asp-validation-for="TherapistId" class="text"></span>
+            </div>
+            <label class="col-sm-2 col-form-label">Client</label>
+            <div class="col-sm-10">
+                <select asp-for="@Model.UserId" class="form-select" asp-items="@clients" style="width:400px;">
+                    <option value="" disabled selected hidden>Choose a client...</option>
+                </select>
+                <span asp-validation-for="UserId" class="text"></span>
+            </div>
+            <label class="col-sm-2 col-form-label">Service</label>
+            <div class="col-sm-10">
+                <select asp-for="@Model.ServiceId" class="form-select" asp-items="@services" style="width:400px;">
+                    <option value="" disabled selected hidden>Service...</option>
+                </select>
+                <span asp-validation-for="ServiceId" class="text"></span>
+            </div>
+            <label class="col-sm-2 col-form-label" >Time</label>
+            <div class="col-sm-10">
+                <input class="datepicker form-select" style="width:400px;" type="text">
+            </div>
+        </div>
+    </form>
+</main>
+
+@section Scripts {
+<script src="~/js/datetime.js" asp-append-version="true"></script>
+<script src="https://rawgit.com/AuspeXeu/bootstrap-datetimepicker/master/js/bootstrap-datetimepicker.js"></script>
+<partial name="_ValidationScriptsPartial" />
+    }
