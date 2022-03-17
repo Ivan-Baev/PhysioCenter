@@ -7,8 +7,9 @@
 
     using PhysioCenter.Areas.Administration.Controllers;
     using PhysioCenter.Core.Contracts;
+    using PhysioCenter.Infrastructure.Data.Models;
+    using PhysioCenter.Models;
     using PhysioCenter.Models.Appointments;
-    using PhysioCenter.Models.SelectLists;
 
     using System.Threading.Tasks;
 
@@ -47,19 +48,67 @@
         public async Task<IActionResult> CreateAppointment()
         {
             var clients = await _clientsService.GetAllAsync();
-            var clientsSelectList = mapper.Map<IEnumerable<ClientSelectListViewModel>>(clients);
-
             var therapists = await _therapistsService.GetAllAsync();
-            var therapistsSelectList = mapper.Map<IEnumerable<TherapistSelectListViewModel>>(therapists);
-
             var services = await _servicesService.GetAllAsync();
-            var servicesSelectList = mapper.Map<IEnumerable<ServiceSelectListViewModel>>(services);
 
-            ViewData["Clients"] = new SelectList(clientsSelectList, "Id", "FullName");
+            ViewData["Clients"] = new SelectList(clients, "Id", "FullName");
             ViewData["Therapists"] = new SelectList(therapists, "Id", "FullName");
             ViewData["Services"] = new SelectList(services, "Id", "Name");
 
             return this.View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateAppointment(AppointmentInputViewModel input)
+        {
+
+            if (!ModelState.IsValid)
+            {
+                return View(input);
+            }
+
+            var appointment = mapper.Map<Appointment>(input);
+            await _appointmentsService.AddAsync(appointment);
+
+            TempData["SuccessfullyAdded"] = "You have successfully created a new appointment!";
+
+            return this.RedirectToAction(nameof(Index));
+        }
+
+        public async Task<IActionResult> EditAppointment(string id)
+        {
+            var appointmentToEdit = await _appointmentsService.GetByIdAsync(id);
+
+            var viewModel = mapper.Map<AppointmentInputViewModel>(appointmentToEdit);
+
+
+            var clients = await _clientsService.GetAllAsync();
+            var therapists = await _therapistsService.GetAllAsync();
+            var services = await _servicesService.GetAllAsync();
+
+            ViewData["Clients"] = new SelectList(clients, "Id", "FullName");
+            ViewData["Therapists"] = new SelectList(therapists, "Id", "FullName");
+            ViewData["Services"] = new SelectList(services, "Id", "Name");
+
+            return this.View(viewModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditAppointment(AppointmentInputViewModel input, string id)
+        {
+
+            if (!ModelState.IsValid)
+            {
+                return View(input);
+            }
+
+            var appointment = mapper.Map<Appointment>(input);
+            appointment.Id = Guid.Parse(id);
+            await _appointmentsService.UpdateAsync(appointment);
+
+            TempData["SuccessfullyEdited"] = "You have successfully edited the appointment!";
+
+            return this.RedirectToAction(nameof(Index));
         }
 
         public async Task<IActionResult> DeleteConfirmation(string id)
@@ -75,6 +124,8 @@
         public async Task<IActionResult> Delete(string id)
         {
             await _appointmentsService.DeleteAsync(id);
+
+            TempData["SuccessfullyDeleted"] = "You have successfully deleted the appointment!";
 
             return RedirectToAction("Index");
         }
