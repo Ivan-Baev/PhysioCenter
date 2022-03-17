@@ -1,4 +1,8 @@
-﻿$(document).ready(function () {
+﻿var date = new Date();
+var startDate = new Date(date.setHours(date.getHours()+1));
+var endDate = new Date(date.setMonth(date.getMonth() + 2))
+
+$(document).ready(function () {
     var disabledtimes_mapping = ["03/16/2022:0", "03/30/2022:17", "03/30/2022:15"];
 
     function formatDate(datestr) {
@@ -10,7 +14,6 @@
 
     $(".datepicker").datetimepicker({
         format: 'dd/mm/yyyy hh:00',
-        datesDisabled: ['2022-03-20'],
         autoclose: true,
         onRenderHour: function (date) {
             if (disabledtimes_mapping.indexOf(formatDate(date) + ":" + date.getUTCHours()) > -1) {
@@ -21,6 +24,13 @@
         todayBtn: true,
         todayHighlight: true,
         minuteStep: 60,
-        minView: 1
+        minView: 1,
+        daysOfWeekDisabled: [0, 6],
+        todayHighlight: true,
+        weekStart: 1,
+        startDate: startDate,
+        endDate: endDate,
+        hoursDisabled: [0, 1, 2, 3, 4, 5, 6, 7, 8, 13, 20, 21, 22, 23, 24],
+        
     });
 });
