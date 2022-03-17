@@ -14,19 +14,16 @@ $(document).ready(function () {
 
     $(".datepicker").datetimepicker({
         format: 'dd/mm/yyyy hh:00',
-        autoclose: true,
         onRenderHour: function (date) {
             if (disabledtimes_mapping.indexOf(formatDate(date) + ":" + date.getUTCHours()) > -1) {
                 return ['disabled'];
             }
         },
+
         clearBtn: true,
-        todayBtn: true,
-        todayHighlight: true,
         minuteStep: 60,
         minView: 1,
         daysOfWeekDisabled: [0, 6],
-        todayHighlight: true,
         weekStart: 1,
         startDate: startDate,
         endDate: endDate,
