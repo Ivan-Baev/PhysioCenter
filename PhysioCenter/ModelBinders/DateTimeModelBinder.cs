@@ -35,6 +35,7 @@
                     try
                     {
                         actualValue = DateTime.Parse(dateValue, new CultureInfo("bg-bg"));
+                        success = true;
                     }
                     catch (Exception e)
                     {
