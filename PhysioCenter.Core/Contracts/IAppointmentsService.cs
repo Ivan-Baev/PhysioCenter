@@ -19,6 +19,8 @@
 
         Task AddAsync(Appointment input);
 
+        Task UpdateAsync(Appointment input);
+
         Task DeleteAsync(string id);
     }
 }

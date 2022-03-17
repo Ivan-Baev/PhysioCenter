@@ -72,16 +72,16 @@
 
         public async Task AddAsync(Appointment input)
         {
-            await _data.Appointments.AddAsync(new Appointment
-            {
-                Id = Guid.NewGuid(),
-                DateTime = input.DateTime,
-                ClientId = input.ClientId,
-                TherapistId = input.Therapist.Id,
-                ServiceId = input.Service.Id,
-            });
+            await _data.Appointments.AddAsync(input);
             await _data.SaveChangesAsync();
         }
+
+        public async Task UpdateAsync(Appointment input)
+        {
+            _data.Appointments.Update(input);
+            await _data.SaveChangesAsync();
+        }
+
 
         public async Task DeleteAsync(string id)
         {
