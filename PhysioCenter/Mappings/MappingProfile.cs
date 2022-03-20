@@ -5,6 +5,7 @@
     using PhysioCenter.Infrastructure.Data.Models;
     using PhysioCenter.Models;
     using PhysioCenter.Models.Appointments;
+    using PhysioCenter.Models.Therapists;
 
     public class MappingProfile : Profile
     {
@@ -12,6 +13,9 @@
         {
             CreateMap<Appointment, AppointmentViewModel>().ReverseMap();
             CreateMap<Appointment, AppointmentInputViewModel>().ReverseMap();
+
+            CreateMap<Therapist, TherapistViewModel>().ReverseMap();
+
         }
     }
 }

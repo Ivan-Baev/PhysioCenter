@@ -1,8 +1,8 @@
-﻿@using PhysioCenter.Models.Appointments
-@model AppointmentsListViewModel
+﻿@using PhysioCenter.Models.Therapists
+@model TherapistsListViewModel
 
 @{
-    this.ViewData["Title"] = "Appointments";
+    this.ViewData["Title"] = "Therapists";
 }
 
 @if (TempData.ContainsKey("SuccessfullyDeleted"))
@@ -28,36 +28,32 @@
     <main role="main" class="pb-3">
         <h2>All Appointments </h2>
         <span>
-            <a class="btn btn-info" asp-controller="Appointments" asp-action="CreateAppointment">Add New Appointment</a>
+            <a class="btn btn-info" asp-controller="Therapists" asp-action="CreateTherapist">Add New Therapist</a>
         </span>
         <table class="table table-bordered table-striped table-hover" id="adminTable">
             <thead class="table-dark">
                 <tr>
-                    <th scope="col">Appointment Date</th>
-                    <th scope="col">Client</th>
-                    <th scope="col">Therapist</th>
-                    <th scope="col">Service</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">User Id</th>
                     <th scope="col">Actions</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach (var appointment in this.Model.Appointments)
+                @foreach (var therapist in this.Model.Therapists)
                 {
                     <tr>
-                        <th scope="row">@appointment.DateTime.ToString("f")</th>
-                        <td>@appointment.ClientFullName</td>
-                        <td>@appointment.TherapistFullName</td>
-                        <td>@appointment.ServiceName</td>
+                        <th scope="row">@therapist.FullName</th>
+                        <td>@therapist.UserId</td>
                         <td>
-                                <a asp-controller="Appointments"
-                           asp-action="EditAppointment"
-                           asp-route-id="@appointment.Id"
+                                <a asp-controller="Therapists"
+                           asp-action="EditTherapist"
+                           asp-route-id="@therapist.Id"
                            class="btn btn-warning">
                                     Edit
                                 </a>
-                                <a asp-controller="Appointments"
+                                <a asp-controller="Therapists"
                            asp-action="DeleteConfirmation"
-                           asp-route-id="@appointment.Id"
+                           asp-route-id="@therapist.Id"
                            class="btn btn-danger">
                                     Delete
                                 </a>
@@ -68,4 +64,3 @@
         </table>
     </main>
 </div>
-

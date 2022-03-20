@@ -2,6 +2,7 @@
 {
     using Ganss.XSS;
 
+    using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore;
 
     using PhysioCenter.Core.Contracts;
@@ -12,11 +13,13 @@
     {
         private readonly ApplicationDbContext _data;
         private readonly IHtmlSanitizer _htmlSanitizer;
+        private readonly UserManager<IdentityUser> userManager;
 
-        public TherapistsService(ApplicationDbContext data, IHtmlSanitizer htmlSanitizer)
+        public TherapistsService(ApplicationDbContext data, IHtmlSanitizer htmlSanitizer, UserManager<IdentityUser> userManager)
         {
             _data = data;
             _htmlSanitizer = htmlSanitizer;
+            this.userManager = userManager;
         }
 
         public async Task<Therapist> GetByIdAsync(string id)
@@ -64,11 +67,15 @@
         {
             var therapist =
                await _data.Therapists
+               .Include(x => x.Services)
                 .Where(x => x.Id == Guid.Parse(id))
                 .FirstOrDefaultAsync();
 
+            var userToDelete = await userManager.FindByIdAsync(therapist.UserId);
+
             _data.Therapists.Remove(therapist);
+            await userManager.DeleteAsync(userToDelete);
             await _data.SaveChangesAsync();
         }
     }
-}
+};

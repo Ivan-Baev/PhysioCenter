@@ -30,18 +30,31 @@
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            var entityTypes = builder.Model.GetEntityTypes().ToList();
+
+            // Disable cascade delete
+            var foreignKeys = entityTypes
+                .SelectMany(e => e.GetForeignKeys().Where(f => f.DeleteBehavior == DeleteBehavior.Restrict));
+            foreach (var foreignKey in foreignKeys)
+            {
+                foreignKey.DeleteBehavior = DeleteBehavior.Cascade;
+            }
+
             builder
                .Entity<Therapist>()
                .HasOne<IdentityUser>()
                .WithOne()
-               .HasForeignKey<Therapist>(t => t.UserId);
+               .HasForeignKey<Therapist>(t => t.UserId)
+               .OnDelete(DeleteBehavior.Restrict);
 
             builder
                 .Entity<Client>()
                 .HasOne<IdentityUser>()
                 .WithOne()
-                .HasForeignKey<Client>(c => c.UserId);
+                .HasForeignKey<Client>(c => c.UserId)
+                .OnDelete(DeleteBehavior.Restrict);
 
+          
             builder
              .Entity<TherapistService>()
              .HasKey(x => new { x.ServiceId, x.TherapistId });
@@ -54,15 +67,8 @@
 
             // Needed for Identity models configuration
 
-            var entityTypes = builder.Model.GetEntityTypes().ToList();
+            
 
-            // Disable cascade delete
-            var foreignKeys = entityTypes
-                .SelectMany(e => e.GetForeignKeys().Where(f => f.DeleteBehavior == DeleteBehavior.Cascade));
-            foreach (var foreignKey in foreignKeys)
-            {
-                foreignKey.DeleteBehavior = DeleteBehavior.Restrict;
-            }
         }
     }
 }

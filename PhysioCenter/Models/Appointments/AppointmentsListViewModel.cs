@@ -1,5 +1,6 @@
 ﻿namespace PhysioCenter.Models.Appointments
 {
+
     using System.Collections.Generic;
 
     public class AppointmentsListViewModel

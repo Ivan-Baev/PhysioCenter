@@ -1,8 +1,8 @@
-﻿@using PhysioCenter.Models.Appointments
-@model AppointmentViewModel
+﻿@using PhysioCenter.Models.Therapists
+@model TherapistViewModel
 
 @{
-    ViewData["Title"] = "Delete Appointment";
+    ViewData["Title"] = "Delete Therapist";
 }
 
         <h4 class="text-danger text-center">
@@ -10,27 +10,15 @@
         </h4>
                 <form class="col-6 mt-5 text-center offset-md-3" style="font-weight: bold">
             <div class="form-group row ">
-                <label class="col-sm-4 col-form-label">Appointment:</label>
+                <label class="col-sm-4 col-form-label">Name</label>
                 <div class="col-sm-7">
-                    <div class="form-control">@Model.DateTime</div>
+                    <div class="form-control">@Model.FullName</div>
                 </div>
             </div>
             <div class="form-group row">
-                <label class="col-sm-4 col-form-label">Client name: </label>
+                <label class="col-sm-4 col-form-label">Therapist user id: </label>
                 <div class="col-sm-7">
-                    <div class="form-control">@Model.ClientFullName</div>
-                </div>
-            </div>
-            <div class="form-group row">
-                <label class="col-sm-4 col-form-label">Therapist name: </label>
-                <div class="col-sm-7">
-                    <div class="form-control">@Model.TherapistFullName</div>
-                </div>
-            </div>
-            <div class="form-group row">
-                <label class="col-sm-4 col-form-label">Service: </label>
-                <div class="col-sm-7">
-                    <div class="form-control">@Model.ServiceName</div>
+                    <div class="form-control">@Model.UserId</div>
                 </div>
             </div>
         </form>
@@ -39,14 +27,14 @@
             <div class="row ml-5">
                 <form method="post">
                     <button type="submit" class="btn btn-danger"
-                            asp-controller="Appointments"
+                            asp-controller="Therapists"
                             asp-action="Delete"
                             asp-route-id="@Model.Id">
                         Yes, Delete It!
                     </button>
                 </form>
                 <div class="ml-5" style="margin-top: 2px">
-                    <a class="btn btn-success" asp-controller="Appointments"
+                    <a class="btn btn-success" asp-controller="Therapists"
                        asp-action="Index">
                         No, Go Back
                     </a>

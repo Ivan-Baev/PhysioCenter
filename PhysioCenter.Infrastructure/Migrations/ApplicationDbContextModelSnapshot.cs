@@ -8,7 +8,7 @@ using PhysioCenter.Infrastructure.Data;
 
 #nullable disable
 
-namespace PhysioCenter.Infrastructure.Data.Migrations
+namespace PhysioCenter.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
     partial class ApplicationDbContextModelSnapshot : ModelSnapshot
@@ -474,7 +474,7 @@ namespace PhysioCenter.Infrastructure.Data.Migrations
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
@@ -483,7 +483,7 @@ namespace PhysioCenter.Infrastructure.Data.Migrations
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
@@ -492,7 +492,7 @@ namespace PhysioCenter.Infrastructure.Data.Migrations
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
@@ -501,13 +501,13 @@ namespace PhysioCenter.Infrastructure.Data.Migrations
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
@@ -516,7 +516,7 @@ namespace PhysioCenter.Infrastructure.Data.Migrations
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
@@ -525,19 +525,19 @@ namespace PhysioCenter.Infrastructure.Data.Migrations
                     b.HasOne("PhysioCenter.Infrastructure.Data.Models.Client", "Client")
                         .WithMany()
                         .HasForeignKey("ClientId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("PhysioCenter.Infrastructure.Data.Models.Service", "Service")
                         .WithMany("Appointments")
                         .HasForeignKey("ServiceId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("PhysioCenter.Infrastructure.Data.Models.Therapist", "Therapist")
                         .WithMany("Appointments")
                         .HasForeignKey("TherapistId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Client");
@@ -561,23 +561,27 @@ namespace PhysioCenter.Infrastructure.Data.Migrations
                     b.HasOne("PhysioCenter.Infrastructure.Data.Models.Therapist", null)
                         .WithMany("Notes")
                         .HasForeignKey("TherapistId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
             modelBuilder.Entity("PhysioCenter.Infrastructure.Data.Models.Review", b =>
                 {
-                    b.HasOne("PhysioCenter.Infrastructure.Data.Models.Client", null)
+                    b.HasOne("PhysioCenter.Infrastructure.Data.Models.Client", "Client")
                         .WithMany("Reviews")
                         .HasForeignKey("ClientId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("PhysioCenter.Infrastructure.Data.Models.Therapist", null)
+                    b.HasOne("PhysioCenter.Infrastructure.Data.Models.Therapist", "Therapist")
                         .WithMany("Reviews")
                         .HasForeignKey("TherapistId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Client");
+
+                    b.Navigation("Therapist");
                 });
 
             modelBuilder.Entity("PhysioCenter.Infrastructure.Data.Models.Service", b =>
@@ -585,7 +589,7 @@ namespace PhysioCenter.Infrastructure.Data.Migrations
                     b.HasOne("PhysioCenter.Infrastructure.Data.Models.Category", "Category")
                         .WithMany("Services")
                         .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Category");
@@ -605,13 +609,13 @@ namespace PhysioCenter.Infrastructure.Data.Migrations
                     b.HasOne("PhysioCenter.Infrastructure.Data.Models.Client", "Client")
                         .WithMany("Therapists")
                         .HasForeignKey("ClientId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("PhysioCenter.Infrastructure.Data.Models.Therapist", "Therapist")
                         .WithMany("Clients")
                         .HasForeignKey("TherapistId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Client");
@@ -624,13 +628,13 @@ namespace PhysioCenter.Infrastructure.Data.Migrations
                     b.HasOne("PhysioCenter.Infrastructure.Data.Models.Service", "Service")
                         .WithMany("Therapists")
                         .HasForeignKey("ServiceId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("PhysioCenter.Infrastructure.Data.Models.Therapist", "Therapist")
                         .WithMany("Services")
                         .HasForeignKey("TherapistId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Service");

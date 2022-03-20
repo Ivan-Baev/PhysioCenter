@@ -5,7 +5,6 @@
 
     public class TherapistService
     {
-        [Required]
         public Guid TherapistId { get; set; }
 
         public virtual Therapist Therapist { get; set; }
