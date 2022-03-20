@@ -21,7 +21,7 @@
         <div class="form-group">
             <label class="col-sm-2 col-form-label">Therapist</label>
             <div class="col-sm-10">
-                <select asp-for="@Model.TherapistId" class="form-select" asp-items="@therapists" style="width:400px;">
+                <select asp-for="@Model.TherapistId" id="therapistDropDown" class="form-select" asp-items="@therapists" style="width:400px;">
                     <option value="" disabled selected hidden>Choose a therapist...</option>
                 </select>
                 <span asp-validation-for="TherapistId" class="text-danger"></span>
@@ -36,13 +36,14 @@
             <label class="col-sm-2 col-form-label">Service</label>
             <div class="col-sm-10">
                 <select asp-for="@Model.ServiceId" class="form-select" asp-items="@services" style="width:400px;">
-                    <option value="" disabled selected hidden>Service...</option>
+                    <option value="" disabled selected hidden>Choose a Service...</option>
                 </select>
                 <span asp-validation-for="ServiceId" class="text-danger"></span>
             </div>
             <label class="col-sm-2 col-form-label">Time</label>
             <div class="col-sm-10">
-                <input asp-for="DateTime" class="datepicker form-select" style="width:400px;" type="text" readonly name="DateTime">
+                <input type="hidden" id="hoursToDisable" data-value = "@ViewData["hoursToDisable"]" />
+                <input asp-for="DateTime" class="datepicker form-select" style="width:400px;" type="text" readonly name="DateTime" id="picker">
                 <span asp-validation-for="DateTime" class="text-danger"></span>
 
             </div>
@@ -62,7 +63,8 @@
 </main>
 
 @section Scripts {
-<script src="~/js/datetime.js" asp-append-version="true"></script>
+<script src="~/js/therapist-schedule.js" asp-append-version="true"></script>
 <script src="~/js/bootstrap-datetimepicker.js" asp-append-version="true"></script>
+<script src="~/js/datetime.js" asp-append-version="true"></script>
 <partial name="_ValidationScriptsPartial" />
     }
