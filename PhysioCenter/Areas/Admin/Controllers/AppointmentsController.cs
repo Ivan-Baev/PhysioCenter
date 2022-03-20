@@ -5,6 +5,8 @@
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.Rendering;
 
+    using Newtonsoft.Json;
+
     using PhysioCenter.Areas.Administration.Controllers;
     using PhysioCenter.Core.Contracts;
     using PhysioCenter.Infrastructure.Data.Models;
@@ -78,7 +80,6 @@
         public async Task<IActionResult> EditAppointment(string id)
         {
             var appointmentToEdit = await _appointmentsService.GetByIdAsync(id);
-
             var viewModel = mapper.Map<AppointmentInputViewModel>(appointmentToEdit);
 
 
@@ -89,6 +90,9 @@
             ViewData["Clients"] = new SelectList(clients, "Id", "FullName");
             ViewData["Therapists"] = new SelectList(therapists, "Id", "FullName");
             ViewData["Services"] = new SelectList(services, "Id", "Name");
+
+            var hoursToDisable = await GetTherapistSchedule(appointmentToEdit.TherapistId.ToString());
+            ViewData["hoursToDisable"] = hoursToDisable.Value;
 
             return this.View(viewModel);
         }
@@ -128,6 +132,21 @@
             TempData["SuccessfullyDeleted"] = "You have successfully deleted the appointment!";
 
             return RedirectToAction("Index");
+        }
+
+        public async Task<JsonResult> GetTherapistSchedule(string id)
+        {
+           
+            var items = await _appointmentsService.GetUpcomingByTherapistIdAsync(id);
+
+            var schedule = new List<string>();
+            foreach (var appointment in items)
+            {
+                schedule.Add(appointment.DateTime.ToString("dd/MM/yyyy HH"));
+            }
+            var json = JsonConvert.SerializeObject(schedule);
+
+            return Json(json);
         }
     }
 }

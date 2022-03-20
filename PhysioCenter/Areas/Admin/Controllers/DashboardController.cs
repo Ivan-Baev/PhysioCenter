@@ -4,9 +4,12 @@
 
     public class DashboardController : AdminController
     {
+
+        //maybe add more navigation or something or delete if not used!
+
         public IActionResult Index()
         {
-            return this.View();
+            return View();
         }
     }
 }
