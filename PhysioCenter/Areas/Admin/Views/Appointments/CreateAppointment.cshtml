@@ -21,7 +21,7 @@
         <div class="form-group">
             <label class="col-sm-2 col-form-label">Therapist</label>
             <div class="col-sm-10">
-                <select asp-for="@Model.TherapistId" class="form-select" asp-items="@therapists" style="width:400px;">
+                <select asp-for="@Model.TherapistId" id="therapistDropDown" class="form-select" asp-items="@therapists" style="width:400px;">
                     <option value="" disabled selected hidden>Choose a therapist...</option>
                 </select>
                 <span asp-validation-for="TherapistId" class="text-danger"></span>
@@ -57,12 +57,13 @@
                     Cancel
                 </a>
             </div>
+
         </div>
     </form>
 </main>
 
 @section Scripts {
-<script src="~/js/datetime.js" asp-append-version="true"></script>
+<script src="~/js/therapist-schedule.js" asp-append-version="true"></script>
 <script src="~/js/bootstrap-datetimepicker.js" asp-append-version="true"></script>
 <partial name="_ValidationScriptsPartial" />
     }
