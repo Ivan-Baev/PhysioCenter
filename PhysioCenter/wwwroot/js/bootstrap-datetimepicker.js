@@ -1606,7 +1606,7 @@
                 return UTCDate(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(), date.getUTCHours(), date.getUTCMinutes(), date.getUTCSeconds(), 0);
             }
             var parts = date && date.toString().match(this.nonpunctuation) || [],
-                date = new Date('05/02/2022 12:00'),
+                date = new Date(),
                 parsed = {},
                 setters_order = ['hh', 'h', 'ii', 'i', 'ss', 's', 'yyyy', 'yy', 'M', 'MM', 'm', 'mm', 'D', 'DD', 'd', 'dd', 'H', 'HH', 'p', 'P', 'z', 'Z'],
                 setters_map = {
