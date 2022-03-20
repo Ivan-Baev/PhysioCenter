@@ -41,7 +41,7 @@
                 .ToListAsync();
         }
 
-        public async Task<IEnumerable<Appointment>> GetAllByTherapistAsync(string therapistId)
+        public async Task<IEnumerable<Appointment>> GetAllByTherapistIdAsync(string therapistId)
         {
             return
                  await _data.Appointments
@@ -50,12 +50,12 @@
                  .ToListAsync();
         }
 
-        public async Task<IEnumerable<Appointment>> GetUpcomingByUserAsync(string userId)
+        public async Task<IEnumerable<Appointment>> GetUpcomingByTherapistIdAsync(string therapistId)
         {
             return
                 await _data.Appointments
-                .Where(x => x.ClientId == Guid.Parse(userId)
-                        && x.DateTime.Date > DateTime.UtcNow.Date)
+                .Where(x => x.TherapistId == Guid.Parse(therapistId)
+                        && x.DateTime > DateTime.UtcNow)
                 .OrderBy(x => x.DateTime)
                 .ToListAsync();
         }

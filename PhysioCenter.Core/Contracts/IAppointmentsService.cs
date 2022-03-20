@@ -11,9 +11,9 @@
 
         Task<IEnumerable<Appointment>> GetAllAsync();
 
-        Task<IEnumerable<Appointment>> GetAllByTherapistAsync(string therapistId);
+        Task<IEnumerable<Appointment>> GetAllByTherapistIdAsync(string therapistId);
 
-        Task<IEnumerable<Appointment>> GetUpcomingByUserAsync(string userId);
+        Task<IEnumerable<Appointment>> GetUpcomingByTherapistIdAsync(string therapistId);
 
         Task<IEnumerable<Appointment>> GetPastByUserAsync(string userId);
 

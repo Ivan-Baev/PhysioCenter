@@ -23,6 +23,11 @@
         {
             return
                 await _data.Therapists
+                .Include(x => x.Services)
+                .Include(x => x.Appointments)
+                .Include(x => x.Clients)
+                .Include(x => x.Notes)
+                .Include(x => x.Reviews)
                 .Where(x => x.Id == Guid.Parse(id))
                .FirstOrDefaultAsync();
         }
@@ -32,6 +37,11 @@
             return
                 await _data.Therapists
                 .OrderByDescending(x => x.FullName)
+                .Include(x => x.Services)
+                .Include(x => x.Appointments)
+                .Include(x => x.Clients)
+                .Include(x => x.Notes)
+                .Include(x => x.Reviews)
                 .ToListAsync();
         }
 
