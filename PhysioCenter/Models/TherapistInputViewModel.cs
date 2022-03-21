@@ -1,7 +1,6 @@
-﻿namespace PhysioCenter.Core.InputModels
+﻿namespace PhysioCenter.Models
 {
     using System.ComponentModel.DataAnnotations;
-
     public class TherapistInputViewModel
     {
         [Required]
@@ -12,5 +11,7 @@
 
         [Required]
         public string Description { get; set; }
+
+        public string? UserId { get; set; }
     }
 }

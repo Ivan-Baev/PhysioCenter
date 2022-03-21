@@ -16,6 +16,10 @@
 
             CreateMap<Therapist, TherapistViewModel>().ReverseMap();
 
+            CreateMap<Therapist, TherapistInputViewModel>().ReverseMap();
+
+
+
         }
     }
 }

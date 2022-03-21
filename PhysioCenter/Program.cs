@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 using PhysioCenter.Core.Contracts;
+using PhysioCenter.Core.Services;
 using PhysioCenter.Core.Services.Appointments;
 using PhysioCenter.Core.Services.Clients;
 using PhysioCenter.Core.Services.Services;
@@ -63,6 +64,7 @@ builder.Services.AddTransient<IAppointmentsService, AppointmentsService>();
 builder.Services.AddTransient<IServicesService, ServicesService>();
 builder.Services.AddTransient<IClientsService, ClientsService>();
 builder.Services.AddTransient<ITherapistsService, TherapistsService>();
+builder.Services.AddTransient<ITherapistsServicesService, TherapistsServicesService>();
 var app = builder.Build();
 
 using (var serviceScope = app.Services.CreateScope())

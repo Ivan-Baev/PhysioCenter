@@ -14,12 +14,17 @@
         private readonly ApplicationDbContext _data;
         private readonly IHtmlSanitizer _htmlSanitizer;
         private readonly UserManager<IdentityUser> userManager;
+        private readonly RoleManager<IdentityRole> roleManager;
 
-        public TherapistsService(ApplicationDbContext data, IHtmlSanitizer htmlSanitizer, UserManager<IdentityUser> userManager)
+        public TherapistsService(ApplicationDbContext data,
+            IHtmlSanitizer htmlSanitizer,
+            UserManager<IdentityUser> userManager,
+            RoleManager<IdentityRole> roleManager)
         {
             _data = data;
             _htmlSanitizer = htmlSanitizer;
             this.userManager = userManager;
+            this.roleManager = roleManager;
         }
 
         public async Task<Therapist> GetByIdAsync(string id)
@@ -40,11 +45,11 @@
             return
                 await _data.Therapists
                 .OrderByDescending(x => x.FullName)
-                .Include(x => x.Services)
-                .Include(x => x.Appointments)
-                .Include(x => x.Clients)
-                .Include(x => x.Notes)
-                .Include(x => x.Reviews)
+                //.Include(x => x.Services)
+                //.Include(x => x.Appointments)
+                //.Include(x => x.Clients)
+                //.Include(x => x.Notes)
+                //.Include(x => x.Reviews)
                 .ToListAsync();
         }
 
@@ -53,15 +58,12 @@
             if (_data.Therapists.Any(c => c.FullName == input.FullName))
                 return;
 
-            await _data.Therapists.AddAsync(new Therapist
-            {
-                Id = Guid.NewGuid(),
-                FullName = _htmlSanitizer.Sanitize(input.FullName),
-                Description = _htmlSanitizer.Sanitize(input.Description),
-                ProfileImageUrl = input.ProfileImageUrl,
-            });
+            await _data.Therapists.AddAsync(input);
             await _data.SaveChangesAsync();
         }
+
+
+
 
         public async Task DeleteAsync(string id)
         {

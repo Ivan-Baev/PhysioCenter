@@ -1,4 +1,4 @@
-﻿namespace PhysioCenter.Core.InputModels
+﻿namespace PhysioCenter.Models
 {
     using System.ComponentModel.DataAnnotations;
 

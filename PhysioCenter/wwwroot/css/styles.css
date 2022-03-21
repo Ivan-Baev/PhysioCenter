@@ -401,7 +401,7 @@ button,
 }
 
 textarea {
-    resize: vertical;
+    resize: both;
 }
 
 fieldset {

@@ -12,7 +12,6 @@
     using PhysioCenter.Infrastructure.Data.Models;
     using PhysioCenter.Models;
     using PhysioCenter.Models.Appointments;
-    using PhysioCenter.Models.Therapists;
 
     using System.Threading.Tasks;
 
