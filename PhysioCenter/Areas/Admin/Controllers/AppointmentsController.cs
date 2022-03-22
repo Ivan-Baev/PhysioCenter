@@ -12,6 +12,7 @@
     using PhysioCenter.Infrastructure.Data.Models;
     using PhysioCenter.Models;
     using PhysioCenter.Models.Appointments;
+    using PhysioCenter.Models.Blogs;
 
     using System.Threading.Tasks;
 
@@ -38,10 +39,10 @@
 
         public async Task<IActionResult> Index()
         {
-            var results = await _appointmentsService.GetAllAsync();
+            var input = await _appointmentsService.GetAllAsync();
             var viewModel = new AppointmentsListViewModel
             {
-                Appointments = mapper.Map<IEnumerable<AppointmentViewModel>>(results)
+                Appointments = mapper.Map<IEnumerable<AppointmentViewModel>>(input)
             };
 
             return View(viewModel);
@@ -136,7 +137,7 @@
 
         public async Task<JsonResult> GetTherapistSchedule(string id)
         {
-           
+
             var items = await _appointmentsService.GetUpcomingByTherapistIdAsync(id);
 
             var schedule = new List<string>();

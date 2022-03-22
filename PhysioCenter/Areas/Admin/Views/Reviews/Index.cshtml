@@ -1,0 +1,61 @@
+﻿@using PhysioCenter.Models.Reviews
+@model ReviewsListViewModel
+
+@{
+    this.ViewData["Title"] = "Reviews";
+}
+
+@if (TempData.ContainsKey("SuccessfullyDeleted"))
+{
+    <div id="mainAlertMessage" class="alert alert-success text-center alert-dismissible" role="alert">
+        @TempData["SuccessfullyDeleted"]
+    </div>
+}
+@if (TempData.ContainsKey("SuccessfullyAdded"))
+{
+    <div id="mainAlertMessage" class="alert alert-success text-center alert-dismissible" role="alert">
+        @TempData["SuccessfullyAdded"]
+    </div>
+}
+@if (TempData.ContainsKey("SuccessfullyEdited"))
+{
+    <div id="mainAlertMessage" class="alert alert-success text-center alert-dismissible" role="alert">
+        @TempData["SuccessfullyEdited"]
+    </div>
+}
+
+<div class="container px-5">
+    <main role="main" class="pb-3">
+        <h2>All Reviews </h2>
+        <table class="table table-bordered table-striped table-hover" id="adminTable">
+            <thead class="table-dark text-nowrap">
+                <tr class="text-center text-nowrap ">
+                    <th scope="col">Created On</th>
+                    <th scope="col">Client name</th>
+                    <th scope="col">Therapist name</th>
+                    <th scope="col">Review</th>
+                    <th scope="col">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var review in this.Model.Reviews)
+                {
+                    <tr>
+                        <th scope="row">@review.CreatedOn</th>
+                        <td>@review.ClientFullName</td>
+                        <td>@review.TherapistFullName</td>
+                        <td>@review.Content</td>
+                        <td>
+                                <a asp-controller="Reviews"
+                           asp-action="DeleteConfirmation"
+                           asp-route-id="@review.Id"
+                           class="btn btn-danger">
+                                    Delete
+                                </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </main>
+</div>

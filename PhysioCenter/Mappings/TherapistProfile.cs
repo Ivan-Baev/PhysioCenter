@@ -4,22 +4,18 @@
 
     using PhysioCenter.Infrastructure.Data.Models;
     using PhysioCenter.Models;
-    using PhysioCenter.Models.Appointments;
     using PhysioCenter.Models.Therapists;
+    using PhysioCenter.Models.TherapistsServices;
 
-    public class MappingProfile : Profile
+    public class TherapistProfile : Profile
     {
-        public MappingProfile()
+        public TherapistProfile()
         {
-            CreateMap<Appointment, AppointmentViewModel>().ReverseMap();
-            CreateMap<Appointment, AppointmentInputViewModel>().ReverseMap();
-
             CreateMap<Therapist, TherapistViewModel>().ReverseMap();
 
             CreateMap<Therapist, TherapistInputViewModel>().ReverseMap();
 
-
-
+            CreateMap<Therapist, TherapistServicesViewModel>().ReverseMap();
         }
     }
 }

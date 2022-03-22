@@ -10,6 +10,7 @@
 
         Task AddAsync(Therapist input);
 
+        Task UpdateDetailsAsync(Therapist input);
         Task DeleteAsync(string id);
     }
 }

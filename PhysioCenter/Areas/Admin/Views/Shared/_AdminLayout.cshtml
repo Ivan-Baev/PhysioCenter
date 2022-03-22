@@ -17,7 +17,7 @@
 <body class="d-flex flex-column min-vh-100">
     <header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
         <div class="container px-5">
-            <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3" href="#">PhysioCenter</a>
+            <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3" href="/Admin/Dashboard">PhysioCenter</a>
             <a href="#menu-toggle" class="btn btn-dark" id="menu-toggle">Menu</a>
             <input class="form-control form-control-dark w-50" type="text" placeholder="Search" aria-label="Search" id="searchAdmin">
             <div class="navbar-nav">
@@ -64,6 +64,7 @@
     <script src="~/js/menu-toggle.js" asp-append-version="true"></script>
     <script src="~/js/search-admin.js" asp-append-version="true"></script>
     <script src="~/js/alert-hide.js" asp-append-version="true"></script>
+
 
     @await RenderSectionAsync("Scripts", required: false)
 </body>

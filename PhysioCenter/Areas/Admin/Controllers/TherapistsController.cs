@@ -11,6 +11,7 @@
     using PhysioCenter.Infrastructure.Data.Models;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc.Rendering;
+    using PhysioCenter.Models.TherapistsServices;
 
     public class TherapistsController : AdminController
     {
@@ -61,25 +62,12 @@
             await GenerateTherapistAccountAndPassword(input);
 
             var therapist = _mapper.Map<Therapist>(input);
+
             await _therapistsService.AddAsync(therapist);
-            var servicesIds = await _servicesService.GetAllAsync();
-            var therapistServices = new List<TherapistService>();
-            
-            foreach (var service in servicesIds)
-            {
-                TherapistService therapistService = new()
-                    {
-                     TherapistId = therapist.Id,
-                     ServiceId = service.Id,
-                     isProvided = true,
-                    };
 
-                therapistServices.Add(therapistService);
-            }
+            var services = await _servicesService.GetAllAsync();
 
-
-            await _therapistsServicesService.AddTherapistServiceAsync(therapistServices);
-
+            await _therapistsServicesService.AddAllServicesToTherapistId(services, therapist.Id);
 
             TempData["SuccessfullyAdded"] = "You have successfully added a new therapist!";
 
@@ -87,43 +75,48 @@
         }
 
 
-        //public async Task<IActionResult> EditTherapist(string id)
-        //{
-        //    var appointmentToEdit = await _appointmentsService.GetByIdAsync(id);
-        //    var viewModel = _mapper.Map<AppointmentInputViewModel>(appointmentToEdit);
+        public async Task<IActionResult> EditTherapist(string id)
+        {
+            var wtf = await _therapistsServicesService.GetTherapistServicesByIdAsync(id);
+            var therapistServices = _mapper.Map<IEnumerable<TherapistServiceViewModel>>(wtf);
+
+            ViewData["Services"] = therapistServices;
+
+            var therapistToEdit = await _therapistsService.GetByIdAsync(id);
+            var viewModel = _mapper.Map<TherapistServicesViewModel>(therapistToEdit);
 
 
-        //    var clients = await _clientsService.GetAllAsync();
-        //    var therapists = await _therapistsService.GetAllAsync();
-        //    var services = await _servicesService.GetAllAsync();
 
-        //    ViewData["Clients"] = new SelectList(clients, "Id", "FullName");
-        //    ViewData["Therapists"] = new SelectList(therapists, "Id", "FullName");
-        //    ViewData["Services"] = new SelectList(services, "Id", "Name");
+            return this.View(viewModel);
+        }
 
-        //    var hoursToDisable = await GetTherapistSchedule(appointmentToEdit.TherapistId.ToString());
-        //    ViewData["hoursToDisable"] = hoursToDisable.Value;
+        [HttpPost]
+        public async Task<IActionResult> EditTherapist(TherapistServicesViewModel input, string id)
+        {
 
-        //    return this.View(viewModel);
-        //}
+            if (!ModelState.IsValid)
+            {
+                return View(input);
+            }
 
-        //[HttpPost]
-        //public async Task<IActionResult> EditTherapist(AppointmentInputViewModel input, string id)
-        //{
+            var therapistToEdit = await _therapistsService.GetByIdAsync(id);
 
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return View(input);
-        //    }
+            var result = _mapper.Map(input, therapistToEdit);
 
-        //    var appointment = mapper.Map<Appointment>(input);
-        //    appointment.Id = Guid.Parse(id);
-        //    await _appointmentsService.UpdateAsync(appointment);
+            await _therapistsService.UpdateDetailsAsync(result);
 
-        //    TempData["SuccessfullyEdited"] = "You have successfully edited the appointment!";
+            TempData["SuccessfullyEdited"] = "You have successfully edited the therapist!";
 
-        //    return this.RedirectToAction(nameof(Index));
-        //}
+            return this.RedirectToAction(nameof(Index));
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditTherapistServiceProvidedStatus(string therapistId, string serviceId)
+        {
+            await this._therapistsServicesService.ChangeProvidedStatusAsync(therapistId, serviceId);
+
+            return this.RedirectToAction("EditTherapist", new { id = therapistId });
+        }
 
         public async Task<IActionResult> DeleteConfirmation(string id)
         {
@@ -152,7 +145,7 @@
             var user = await _usersManager.CreateAsync(identityUser, "randompassword");
             if (user.Succeeded)
             {
-                user = await _usersManager.AddToRoleAsync(identityUser, "Therapist");
+                await _usersManager.AddToRoleAsync(identityUser, "Therapist");
                 input.UserId = identityUser.Id;
             }
         }

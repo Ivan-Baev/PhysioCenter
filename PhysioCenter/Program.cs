@@ -64,7 +64,12 @@ builder.Services.AddTransient<IAppointmentsService, AppointmentsService>();
 builder.Services.AddTransient<IServicesService, ServicesService>();
 builder.Services.AddTransient<IClientsService, ClientsService>();
 builder.Services.AddTransient<ITherapistsService, TherapistsService>();
+builder.Services.AddTransient<ICategoriesService, CategoriesService>();
+builder.Services.AddTransient<IReviewsService, ReviewsService>();
+builder.Services.AddTransient<INotesService, NotesService>();
+builder.Services.AddTransient<IBlogsService, BlogsService>();
 builder.Services.AddTransient<ITherapistsServicesService, TherapistsServicesService>();
+
 var app = builder.Build();
 
 using (var serviceScope = app.Services.CreateScope())

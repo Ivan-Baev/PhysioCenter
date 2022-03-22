@@ -31,7 +31,9 @@
         {
             return
                 await _data.Services
-                .OrderByDescending(x => x.Name)
+                .Include(x => x.Appointments)
+                .Include(x => x.Category)
+                .OrderByDescending(x => x.Category.Name)
                 .ToListAsync();
         }
 

@@ -1,0 +1,66 @@
+﻿@using PhysioCenter.Models.Categories
+@model CategoriesListViewModel
+
+@{
+    this.ViewData["Title"] = "Categories";
+}
+
+@if (TempData.ContainsKey("SuccessfullyDeleted"))
+{
+    <div id="mainAlertMessage" class="alert alert-success text-center alert-dismissible" role="alert">
+        @TempData["SuccessfullyDeleted"]
+    </div>
+}
+@if (TempData.ContainsKey("SuccessfullyAdded"))
+{
+    <div id="mainAlertMessage" class="alert alert-success text-center alert-dismissible" role="alert">
+        @TempData["SuccessfullyAdded"]
+    </div>
+}
+@if (TempData.ContainsKey("SuccessfullyEdited"))
+{
+    <div id="mainAlertMessage" class="alert alert-success text-center alert-dismissible" role="alert">
+        @TempData["SuccessfullyEdited"]
+    </div>
+}
+
+<div class="container px-5">
+    <main role="main" class="pb-3">
+        <h2>All Categories </h2>
+        <span>
+            <a class="btn btn-info" asp-controller="Categories" asp-action="CreateCategory">Add New Category</a>
+        </span>
+        <table class="table table-bordered table-striped table-hover" id="adminTable">
+            <thead class="table-dark">
+                <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">Services count</th>
+                    <th scope="col">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var category in this.Model.Categories)
+                {
+                    <tr>
+                        <th scope="row">@category.Name</th>
+                        <td>@category.Services.Count</td>
+                        <td>
+                                <a asp-controller="Categories"
+                           asp-action="EditTherapist"
+                           asp-route-id="@category.Id"
+                           class="btn btn-warning">
+                                    Edit
+                                </a>
+                                <a asp-controller="Categories"
+                           asp-action="DeleteConfirmation"
+                           asp-route-id="@category.Id"
+                           class="btn btn-danger">
+                                    Delete
+                                </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </main>
+</div>

@@ -31,12 +31,12 @@
         {
             return
                 await _data.Therapists
-                .Include(x => x.Services)
+                .Where(x => x.Id == Guid.Parse(id))
+                .Include(x => x.Services).ThenInclude(x => x.Service)
                 .Include(x => x.Appointments)
                 .Include(x => x.Clients)
                 .Include(x => x.Notes)
                 .Include(x => x.Reviews)
-                .Where(x => x.Id == Guid.Parse(id))
                .FirstOrDefaultAsync();
         }
 
@@ -62,7 +62,11 @@
             await _data.SaveChangesAsync();
         }
 
-
+        public async Task UpdateDetailsAsync(Therapist input)
+        {
+            _data.Therapists.Update(input);
+            await _data.SaveChangesAsync();
+        }
 
 
         public async Task DeleteAsync(string id)

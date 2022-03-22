@@ -1,0 +1,100 @@
+﻿@using PhysioCenter.Infrastructure.Data.Models
+@using PhysioCenter.Models.TherapistsServices
+@model TherapistServicesViewModel
+
+@{
+    ViewData["Title"] = "Edit an Therapist";
+    var services = ViewData["Services"] as List<TherapistServiceViewModel>;
+}
+
+@section Styles {
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/solid.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/fontawesome.css">
+<script defer src="https://use.fontawesome.com/releases/v5.15.4/js/all.js" integrity="sha384-rOA1PnstxnOBLzCLMcre8ybwbTmemjzdNlILg8O7z1lUkLXozs4DHonlDtnE7fpc" crossorigin="anonymous"></script>
+}
+
+<main role="main" class="pb-3">
+    <h2>Edit Therapist</h2>
+    <form method="post" enctype="multipart/form-data" class="pt-4">
+        <div class="form-group">
+            <div class="form-floating mb-3 w-25">
+                <input asp-for="FullName" class="form-control" id="floatingInput" placeholder="Leave a comment here">
+                <label asp-for="FullName" for="floatingInput">Full Name</label>
+                <span asp-validation-for="FullName" class="small text-danger"></span>
+            </div>
+            <div class="form-floating mb-3 w-25">
+                <input asp-for="ProfileImageUrl" class="form-control" id="floatingProfile" placeholder="Leave a comment here">
+                <label asp-for="ProfileImageUrl" for="floatingProfile">Profile Picture</label>
+                <span asp-validation-for="ProfileImageUrl" class="small text-danger"></span>
+            </div>
+            <div class="form-floating col-sm-10 mt-2 col-lg-7">
+                <textarea asp-for="Description" class="form-control" placeholder="Leave a comment here" id="floatingTextarea" style="height: 100px"></textarea>
+                <label asp-for="Description" for="floatingTextarea">Description....</label>
+                <span asp-validation-for="Description" class="small text-danger"></span>
+            </div>
+            <input type="hidden" asp-for="UserId"/>
+
+
+            <h1 class="mt-2">Edit Services:</h1>
+            <table class="table table-bordered">
+                <thead class="thead-light">
+                    <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">Change</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var service in services)
+                    {
+                        <tr>
+                            <th scope="row">
+                                @service.ServiceName
+                                @if (service.IsProvided == true)
+                                {
+                                    <i class="bi bi-check-circle-fill" style="color: green;"></i>
+                                }
+                                else
+                                {
+                                    <i class="bi bi-x-circle-fill" style="color: red;"></i>
+                                }
+                            </th>
+                            <td>
+                                <form method="post">
+                                    <button type="submit" class="btn btn-dark btn-sm"
+                                        asp-area="Admin" asp-controller="Therapists" asp-action="EditTherapistServiceProvidedStatus"
+                                        asp-route-therapistId="@Model.Id" asp-route-serviceId="@service.ServiceId">
+                                        @if (service.IsProvided == true)
+                                        {
+                                            <text>Remove service</text>
+                                        }
+                                        else
+                                        {
+                                            <text>Add service</text>
+                                        }
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <div class="col-sm-12" style="margin-top: 20px;">
+            <button type="submit" class="btn btn-success"
+                    asp-controller="Therapists"
+                    asp-action="EditTherapist">
+                Edit Therapist!
+            </button>
+            <a class="btn btn-danger" asp-controller="Therapists"
+               asp-action="Index">
+                Cancel
+            </a>
+        </div>
+
+    </form>
+</main>
+
+@section Scripts {
+<partial name="_ValidationScriptsPartial" />
+    }

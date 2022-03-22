@@ -25,17 +25,44 @@
 
         }
 
-        public Task ChangeIsProvidedAsync(string id)
+        public async Task AddAllServicesToTherapistId(IEnumerable<Service> services, Guid therapistId)
         {
-            throw new NotImplementedException();
+            var therapistServices = new List<TherapistService>();
+
+            foreach (var service in services)
+            {
+                TherapistService therapistService = new()
+                {
+                    TherapistId = therapistId,
+                    ServiceId = service.Id,
+                    isProvided = true,
+                };
+
+                therapistServices.Add(therapistService);
+            }
+            await _data.TherapistsServices.AddRangeAsync(therapistServices);
+            await _data.SaveChangesAsync();
+
         }
 
-        public async Task<TherapistService> GetTherapistServiceById(string therapistId, string serviceId)
+        public async Task<IEnumerable<TherapistService>> GetTherapistServicesByIdAsync(string therapistId)
         {
-           return await _data.TherapistsServices
+            return await _data.TherapistsServices
+                .Include(x => x.Service)
+                .Where(x => x.TherapistId.ToString() == therapistId)
+                .ToListAsync();
+        }
+
+        public async Task ChangeProvidedStatusAsync(string therapistId, string serviceId)
+        {
+            var therapistService = await _data.TherapistsServices
                                 .FirstOrDefaultAsync(
                                 x => x.ServiceId.ToString() == serviceId
                                 && x.TherapistId.ToString() == therapistId);
+
+            therapistService.isProvided = !therapistService.isProvided;
+
+            await _data.SaveChangesAsync();
         }
     }
 }
