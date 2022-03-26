@@ -1,0 +1,60 @@
+﻿@using PhysioCenter.Models.Services
+@model ServiceInputViewModel
+
+@{
+    ViewData["Title"] = "Create a Service";
+    var categories = ViewData["Categories"] as SelectList;
+
+}
+
+<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+<main role="main" class="pb-3">
+    <h2>Create New Service</h2>
+    <form method="post" enctype="multipart/form-data" class="pt-4">
+        <div class="form-group">
+            <div class="form-floating mb-3 w-25">
+                <input asp-for="Name" class="form-control" id="floatingInput" placeholder="Leave a comment here">
+                <label asp-for="Name" for="floatingInput">Service name</label>
+                <span asp-validation-for="Name" class="small text-danger"></span>
+            </div>
+            <div class="form-floating mb-3 w-25">
+                <select asp-for="CategoryId" class="form-select" id="floatingInput" placeholder="Leave a comment here" asp-items="@categories" style="width:400px;">
+                </select>
+                <label asp-for="CategoryId" for="floatingInput">Choose category name</label>
+                <span asp-validation-for="CategoryId" class="text-danger"></span>
+            </div>
+            <div class="form-floating mb-3 w-25">
+                <input asp-for="Price" class="form-control" id="floatingInput" placeholder="Leave a comment here">
+                <label asp-for="Price" for="floatingInput">Service price</label>
+                <span asp-validation-for="Price" class="small text-danger"></span>
+            </div>
+            <div class="form-floating col-sm-10 mt-2 w-25">
+                <textarea asp-for="Description" class="form-control" placeholder="Leave a comment here" id="floatingTextarea" style="height: 100px"></textarea>
+                <label asp-for="Description" for="floatingTextarea">Description....</label>
+                <span asp-validation-for="Description" class="small text-danger"></span>
+            </div>
+            <div class="form-floating mb-3 w-25">
+                <input asp-for="Image" class="form-control" id="floatingImage" placeholder="Leave a comment here">
+                <label asp-for="Image" for="floatingImage">Upload image</label>
+                <span asp-validation-for="Image" class="small text-danger"></span>
+            </div>
+            <div class="col-sm-12" style="margin-top: 20px;">
+                <button type="submit" class="btn btn-success"
+                        asp-controller="Services"
+                        asp-action="CreateService">
+                    Create Category!
+                </button>
+                <a class="btn btn-danger" asp-controller="Services"
+                   asp-action="Index">
+                    Cancel
+                </a>
+            </div>
+
+        </div>
+    </form>
+</main>
+
+@section Scripts {
+<partial name="_ValidationScriptsPartial" />
+    }

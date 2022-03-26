@@ -1,0 +1,53 @@
+﻿@using PhysioCenter.Models.Categories
+@model CategoryEditViewModel
+
+@{
+    ViewData["Title"] = "Edit Category";
+}
+
+<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+<main role="main" class="pb-3">
+    <h2>Edit Category</h2>
+    <form method="post" enctype="multipart/form-data" class="pt-4">
+        <div class="form-group">
+            <div class="form-floating mb-3 w-25">
+                <input asp-for="Name" class="form-control" id="floatingInput" placeholder="Leave a comment here">
+                <label asp-for="Name" for="floatingInput">Category name</label>
+                <span asp-validation-for="Name" class="small text-danger"></span>
+            </div>
+            <div class="form-floating mb-3 w-25">
+                <input hidden asp-for="ImageUrl">
+                <label asp-for="ImageUrl" for="floatingImage">Image</label>
+                <span asp-validation-for="ImageUrl" class="small text-danger"></span>
+                </div>
+                <img asp-for="ImageUrl" src="@Model.ImageUrl"  class="form-control w-25" id="floatingImage" placeholder="Leave a comment here" asp-append-version="true">
+            <div class="form-floating col-sm-10 mt-2 w-25">
+                <textarea asp-for="Description" class="form-control" placeholder="Leave a comment here" id="floatingTextarea" style="height: 150px"></textarea>
+                <label asp-for="Description" for="floatingTextarea">Description....</label>
+                <span asp-validation-for="Description" class="small text-danger"></span>
+            </div>
+            <div class="form-floating mb-3 w-25 mt-2 h-100">
+                <input asp-for="Image" class="form-control" id="floatingImage" placeholder="Leave a comment here">
+                <label asp-for="Image" for="floatingImage">Upload a new image if you want to update</label>
+                <span asp-validation-for="Image" class="small text-danger"></span>
+            </div>
+            <div class="col-sm-12" style="margin-top: 20px;">
+            <button type="submit" class="btn btn-success"
+                    asp-controller="Categories"
+                    asp-action="EditCategory">
+                Edit Category!
+            </button>
+            <a class="btn btn-danger" asp-controller="Categories"
+               asp-action="Index">
+                Cancel
+            </a>
+        </div>
+
+        </div>
+    </form>
+</main>
+
+@section Scripts {
+<partial name="_ValidationScriptsPartial" />
+    }

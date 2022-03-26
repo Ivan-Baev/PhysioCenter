@@ -61,7 +61,7 @@
                             <td>
                                 <form method="post">
                                     <button type="submit" class="btn btn-dark btn-sm"
-                                        asp-area="Admin" asp-controller="Therapists" asp-action="EditTherapistServiceProvidedStatus"
+                                        asp-area="Admin" asp-controller="TherapistsServices" asp-action="EditTherapistServiceProvidedStatus"
                                         asp-route-therapistId="@Model.Id" asp-route-serviceId="@service.ServiceId">
                                         @if (service.IsProvided == true)
                                         {
