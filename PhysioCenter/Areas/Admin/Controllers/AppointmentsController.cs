@@ -10,9 +10,7 @@
     using PhysioCenter.Areas.Administration.Controllers;
     using PhysioCenter.Core.Contracts;
     using PhysioCenter.Infrastructure.Data.Models;
-    using PhysioCenter.Models;
     using PhysioCenter.Models.Appointments;
-    using PhysioCenter.Models.Blogs;
 
     using System.Threading.Tasks;
 
@@ -64,7 +62,6 @@
         [HttpPost]
         public async Task<IActionResult> CreateAppointment(AppointmentInputViewModel input)
         {
-
             if (!ModelState.IsValid)
             {
                 return View(input);
@@ -83,7 +80,6 @@
             var appointmentToEdit = await _appointmentsService.GetByIdAsync(id);
             var viewModel = mapper.Map<AppointmentInputViewModel>(appointmentToEdit);
 
-
             var clients = await _clientsService.GetAllAsync();
             var therapists = await _therapistsService.GetAllAsync();
             var services = await _servicesService.GetAllAsync();
@@ -101,7 +97,6 @@
         [HttpPost]
         public async Task<IActionResult> EditAppointment(AppointmentInputViewModel input, string id)
         {
-
             if (!ModelState.IsValid)
             {
                 return View(input);
@@ -137,7 +132,6 @@
 
         public async Task<JsonResult> GetTherapistSchedule(string id)
         {
-
             var items = await _appointmentsService.GetUpcomingByTherapistIdAsync(id);
 
             var schedule = new List<string>();

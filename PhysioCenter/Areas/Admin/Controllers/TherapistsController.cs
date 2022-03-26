@@ -2,15 +2,13 @@
 {
     using AutoMapper;
 
+    using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
 
     using PhysioCenter.Areas.Administration.Controllers;
     using PhysioCenter.Core.Contracts;
-    using PhysioCenter.Models;
-    using PhysioCenter.Models.Therapists;
     using PhysioCenter.Infrastructure.Data.Models;
-    using Microsoft.AspNetCore.Identity;
-    using Microsoft.AspNetCore.Mvc.Rendering;
+    using PhysioCenter.Models.Therapists;
     using PhysioCenter.Models.TherapistsServices;
 
     public class TherapistsController : AdminController
@@ -25,7 +23,8 @@
             ITherapistsService therapistsService,
             IServicesService servicesService,
             IMapper mapper,
-            UserManager<IdentityUser> usersManager, ITherapistsServicesService therapistsServicesService)
+            UserManager<IdentityUser> usersManager,
+            ITherapistsServicesService therapistsServicesService)
         {
             _therapistsService = therapistsService;
             _servicesService = servicesService;
@@ -53,7 +52,6 @@
         [HttpPost]
         public async Task<IActionResult> CreateTherapist(TherapistInputViewModel input)
         {
-
             if (!ModelState.IsValid)
             {
                 return View(input);
@@ -74,18 +72,15 @@
             return this.RedirectToAction(nameof(Index));
         }
 
-
         public async Task<IActionResult> EditTherapist(string id)
         {
-            var wtf = await _therapistsServicesService.GetTherapistServicesByIdAsync(id);
-            var therapistServices = _mapper.Map<IEnumerable<TherapistServiceViewModel>>(wtf);
+            var services = await _therapistsServicesService.GetTherapistServicesByIdAsync(id);
+            var therapistServices = _mapper.Map<IEnumerable<TherapistServiceViewModel>>(services);
 
             ViewData["Services"] = therapistServices;
 
             var therapistToEdit = await _therapistsService.GetByIdAsync(id);
             var viewModel = _mapper.Map<TherapistServicesViewModel>(therapistToEdit);
-
-
 
             return this.View(viewModel);
         }
@@ -93,7 +88,6 @@
         [HttpPost]
         public async Task<IActionResult> EditTherapist(TherapistServicesViewModel input, string id)
         {
-
             if (!ModelState.IsValid)
             {
                 return View(input);
@@ -108,14 +102,6 @@
             TempData["SuccessfullyEdited"] = "You have successfully edited the therapist!";
 
             return this.RedirectToAction(nameof(Index));
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> EditTherapistServiceProvidedStatus(string therapistId, string serviceId)
-        {
-            await this._therapistsServicesService.ChangeProvidedStatusAsync(therapistId, serviceId);
-
-            return this.RedirectToAction("EditTherapist", new { id = therapistId });
         }
 
         public async Task<IActionResult> DeleteConfirmation(string id)
@@ -136,6 +122,7 @@
 
             return RedirectToAction("Index");
         }
+
         private async Task GenerateTherapistAccountAndPassword(TherapistInputViewModel input)
         {
             IdentityUser identityUser = new($"{input.FullName}@physiocenter.com")
