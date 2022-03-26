@@ -1,6 +1,7 @@
-﻿namespace PhysioCenter.Models
+﻿namespace PhysioCenter.Models.Therapists
 {
     using System.ComponentModel.DataAnnotations;
+
     public class TherapistInputViewModel
     {
         [Required]

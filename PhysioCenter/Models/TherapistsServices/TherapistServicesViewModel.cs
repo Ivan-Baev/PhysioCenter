@@ -11,7 +11,5 @@
         public string ProfileImageUrl { get; set; }
 
         public string Description { get; set; }
-
-        //public ICollection<TherapistServiceViewModel> Services { get; set; }
     }
 }

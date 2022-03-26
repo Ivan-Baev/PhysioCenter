@@ -1,7 +1,5 @@
 ﻿namespace PhysioCenter.Models.Appointments
 {
-    using PhysioCenter.Infrastructure.Data.Models;
-
     using System;
 
     public class AppointmentViewModel

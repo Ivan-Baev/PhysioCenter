@@ -1,4 +1,4 @@
-﻿namespace PhysioCenter.Models
+﻿namespace PhysioCenter.Models.Appointments
 {
     using System.ComponentModel.DataAnnotations;
 
@@ -10,12 +10,10 @@
 
         [Required]
         [Display(Name = "Therapist")]
-
         public string TherapistId { get; set; }
 
         [Required]
         [Display(Name = "Service")]
-
         public string ServiceId { get; set; }
 
         [Required]
