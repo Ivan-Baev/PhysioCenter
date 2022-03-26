@@ -3,7 +3,6 @@
     using AutoMapper;
 
     using PhysioCenter.Infrastructure.Data.Models;
-    using PhysioCenter.Models;
     using PhysioCenter.Models.Appointments;
 
     public class AppointmentProfile : Profile

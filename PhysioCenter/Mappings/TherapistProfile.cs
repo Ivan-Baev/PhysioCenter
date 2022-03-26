@@ -3,7 +3,6 @@
     using AutoMapper;
 
     using PhysioCenter.Infrastructure.Data.Models;
-    using PhysioCenter.Models;
     using PhysioCenter.Models.Therapists;
     using PhysioCenter.Models.TherapistsServices;
 
@@ -16,6 +15,8 @@
             CreateMap<Therapist, TherapistInputViewModel>().ReverseMap();
 
             CreateMap<Therapist, TherapistServicesViewModel>().ReverseMap();
+
+            CreateMap<Therapist, TherapistServiceViewModel>().ReverseMap();
         }
     }
 }

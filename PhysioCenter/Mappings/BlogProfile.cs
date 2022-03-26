@@ -10,6 +10,13 @@
         public BlogProfile()
         {
             CreateMap<Blog, BlogViewModel>().ReverseMap();
+
+            CreateMap<Blog, BlogInputViewModel>()
+                .ForSourceMember(x => x.ImageUrl, opt => opt.DoNotValidate())
+                .ReverseMap();
+
+            CreateMap<Blog, BlogEditViewModel>()
+                .ReverseMap();
         }
     }
 }
