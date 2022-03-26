@@ -14,6 +14,12 @@
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
             var file = value as IFormFile;
+
+            if (file == null)
+            {
+                return ValidationResult.Success;
+            }
+
             var extension = Path.GetExtension(file.FileName);
             if (file != null)
             {
