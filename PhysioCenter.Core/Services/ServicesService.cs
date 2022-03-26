@@ -23,6 +23,7 @@
         {
             return
                 await _data.Services
+                .Include(x => x.Category)
                 .Where(x => x.Id == Guid.Parse(id))
                .FirstOrDefaultAsync();
         }
@@ -42,17 +43,7 @@
             if (_data.Services.Any(c => c.Name == input.Name))
                 return;
 
-            Service service = new Service
-            {
-                Id = Guid.NewGuid(),
-                Description = _htmlSanitizer.Sanitize(input.Description),
-                ImageUrl = _htmlSanitizer.Sanitize(input.ImageUrl),
-                Name = _htmlSanitizer.Sanitize(input.Name),
-                Price = input.Price,
-                CategoryId = input.Category.Id,
-            };
-
-            await _data.Services.AddAsync(service);
+            await _data.Services.AddAsync(input);
             await _data.SaveChangesAsync();
         }
 
@@ -64,6 +55,12 @@
                 .FirstOrDefaultAsync();
 
             _data.Services.Remove(service);
+            await _data.SaveChangesAsync();
+        }
+
+        public async Task UpdateDetailsAsync(Service input)
+        {
+            _data.Services.Update(input);
             await _data.SaveChangesAsync();
         }
     }

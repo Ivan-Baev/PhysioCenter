@@ -45,11 +45,6 @@
             return
                 await _data.Therapists
                 .OrderByDescending(x => x.FullName)
-                //.Include(x => x.Services)
-                //.Include(x => x.Appointments)
-                //.Include(x => x.Clients)
-                //.Include(x => x.Notes)
-                //.Include(x => x.Reviews)
                 .ToListAsync();
         }
 
@@ -67,7 +62,6 @@
             _data.Therapists.Update(input);
             await _data.SaveChangesAsync();
         }
-
 
         public async Task DeleteAsync(string id)
         {

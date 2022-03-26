@@ -11,5 +11,7 @@
         Task AddAsync(Service input);
 
         Task DeleteAsync(string id);
+
+        Task UpdateDetailsAsync(Service input);
     }
 }

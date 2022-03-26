@@ -19,10 +19,8 @@
 
         public async Task AddTherapistServiceAsync(IEnumerable<TherapistService> input)
         {
-
             await _data.TherapistsServices.AddRangeAsync(input);
             await _data.SaveChangesAsync();
-
         }
 
         public async Task AddAllServicesToTherapistId(IEnumerable<Service> services, Guid therapistId)
@@ -42,7 +40,25 @@
             }
             await _data.TherapistsServices.AddRangeAsync(therapistServices);
             await _data.SaveChangesAsync();
+        }
 
+        public async Task AddAllTherapistsToServiceId(IEnumerable<Therapist> therapists, Guid serviceId)
+        {
+            var serviceTherapists = new List<TherapistService>();
+
+            foreach (var therapist in therapists)
+            {
+                TherapistService therapistService = new()
+                {
+                    TherapistId = therapist.Id,
+                    ServiceId = serviceId,
+                    isProvided = true,
+                };
+
+                serviceTherapists.Add(therapistService);
+            }
+            await _data.TherapistsServices.AddRangeAsync(serviceTherapists);
+            await _data.SaveChangesAsync();
         }
 
         public async Task<IEnumerable<TherapistService>> GetTherapistServicesByIdAsync(string therapistId)
@@ -54,6 +70,18 @@
         }
 
         public async Task ChangeProvidedStatusAsync(string therapistId, string serviceId)
+        {
+            var therapistService = await _data.TherapistsServices
+                                .FirstOrDefaultAsync(
+                                x => x.ServiceId.ToString() == serviceId
+                                && x.TherapistId.ToString() == therapistId);
+
+            therapistService.isProvided = !therapistService.isProvided;
+
+            await _data.SaveChangesAsync();
+        }
+
+        public async Task AddTherapistToServiceAsync(string therapistId, string serviceId)
         {
             var therapistService = await _data.TherapistsServices
                                 .FirstOrDefaultAsync(
