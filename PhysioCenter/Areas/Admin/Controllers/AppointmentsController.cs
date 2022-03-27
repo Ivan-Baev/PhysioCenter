@@ -20,19 +20,22 @@
         private readonly IServicesService _servicesService;
         private readonly IClientsService _clientsService;
         private readonly ITherapistsService _therapistsService;
+        private readonly ITherapistsServicesService _therapistsServicesService;
         private readonly IMapper mapper;
 
         public AppointmentsController(IAppointmentsService appointmentsService,
             IServicesService servicesService,
             IClientsService clientsService,
             ITherapistsService therapistsService,
-            IMapper mapper)
+            IMapper mapper,
+            ITherapistsServicesService therapistsServicesService)
         {
             _appointmentsService = appointmentsService;
             _servicesService = servicesService;
             _clientsService = clientsService;
             _therapistsService = therapistsService;
             this.mapper = mapper;
+            _therapistsServicesService = therapistsServicesService;
         }
 
         public async Task<IActionResult> Index()
@@ -142,6 +145,14 @@
             var json = JsonConvert.SerializeObject(schedule);
 
             return Json(json);
+        }
+
+        public async Task<ActionResult> GetTherapistServices(string id)
+        {
+            var services = await _therapistsServicesService.GetProvidedTherapistServicesByIdAsync(id);
+            var providedServices = new SelectList(services, "ServiceId", "Service.Name");
+
+            return Json(providedServices);
         }
     }
 }

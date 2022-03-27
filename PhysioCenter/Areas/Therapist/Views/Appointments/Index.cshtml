@@ -1,0 +1,43 @@
+﻿@using PhysioCenter.Models.Appointments
+@model AppointmentsListViewModel
+
+@{
+    this.ViewData["Title"] = "Appointments";
+}
+
+<div class="container px-5">
+    <main role="main" class="pb-3">
+        <h2>All Appointments </h2>
+        <table class="table table-bordered table-striped table-hover" id="adminTable">
+            <thead class="table-dark">
+                <tr>
+                    <th scope="col">Appointment Date</th>
+                    <th scope="col">Client</th>
+                    <th scope="col">Therapist</th>
+                    <th scope="col">Service</th>
+                    <th scope="col">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var appointment in this.Model.Appointments)
+                {
+                    <tr>
+                        <th scope="row">@appointment.DateTime.ToString("f")</th>
+                        <td>@appointment.ClientFullName</td>
+                        <td>@appointment.TherapistFullName</td>
+                        <td>@appointment.ServiceName</td>
+                        <td>
+                            <a asp-controller="Notes"
+                           asp-action="Index"
+                           asp-route-clientId="@appointment.ClientId"
+                           class="btn btn-warning">
+                                Notes
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </main>
+</div>
+

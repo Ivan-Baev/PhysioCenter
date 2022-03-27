@@ -48,34 +48,6 @@
                 <label asp-for="Image" for="floatingImage">Upload a new image if you want to update</label>
                 <span asp-validation-for="Image" class="small text-danger"></span>
             </div>
-            <h1 class="mt-2">Add Therapists to Service:</h1>
-            <table class="table table-bordered">
-                <thead class="thead-light">
-                    <tr>
-                        <th scope="col">Name</th>
-                        <th scope="col">Therapist</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var therapist in therapists)
-                    {
-                        <tr>
-                            <th scope="row">
-                                @therapist.FullName
-                            </th>
-                            <td>
-                                <form method="post">
-                                    <button type="submit" class="btn btn-dark btn-sm"
-                                        asp-area="Admin" asp-controller="TherapistsServices" asp-action="AddTherapistService"
-                                        asp-route-serviceId="@Model.Id" asp-route-therapistId="@therapist.Id">
-                                            <text>Add to service</text>
-                                    </button>
-                                </form>
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
             <div class="col-sm-12" style="margin-top: 20px;">
                 <button type="submit" class="btn btn-success"
                         asp-controller="Services"

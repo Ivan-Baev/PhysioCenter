@@ -1,0 +1,66 @@
+﻿@using PhysioCenter.Models.Notes
+@model NotesListViewModel
+
+@{
+    this.ViewData["Title"] = "Notes";
+}
+
+@if (TempData.ContainsKey("SuccessfullyDeleted"))
+{
+    <div id="mainAlertMessage" class="alert alert-success text-center alert-dismissible" role="alert">
+        @TempData["SuccessfullyDeleted"]
+    </div>
+}
+@if (TempData.ContainsKey("SuccessfullyAdded"))
+{
+    <div id="mainAlertMessage" class="alert alert-success text-center alert-dismissible" role="alert">
+        @TempData["SuccessfullyAdded"]
+    </div>
+}
+@if (TempData.ContainsKey("SuccessfullyEdited"))
+{
+    <div id="mainAlertMessage" class="alert alert-success text-center alert-dismissible" role="alert">
+        @TempData["SuccessfullyEdited"]
+    </div>
+}
+
+<div class="container px-5">
+    <main role="main" class="pb-3">
+        <h2>Notes </h2>
+        <span>
+            <a class="btn btn-info" asp-controller="Blogs" asp-action="CreateBlog">Add New Note</a>
+        </span>
+        <table class="table table-bordered table-striped table-hover" id="adminTable">
+            <thead class="table-dark">
+                <tr>
+                    <th scope="col">Created On</th>
+                    <th scope="col">Content</th>
+                    <th scope="col">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var note in this.Model.Notes)
+                {
+                    <tr>
+                        <th scope="row">@note.CreatedOn</th>
+                        <td>@note.Content</td>
+                        <td>
+                                <a asp-controller="Notes"
+                           asp-action="EditNote"
+                           asp-route-id="@note.Id"
+                           class="btn btn-warning">
+                                    Edit
+                                </a>
+                                <a asp-controller="Notes"
+                           asp-action="DeleteConfirmation"
+                           asp-route-id="@note.Id"
+                           class="btn btn-danger">
+                                    Delete
+                                </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </main>
+</div>

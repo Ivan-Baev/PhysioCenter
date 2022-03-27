@@ -1,9 +1,8 @@
 ﻿var date = new Date();
-var startDate = new Date(date.setHours(date.getHours()+1));
+var startDate = new Date(date.setHours(date.getHours() + 1));
 var endDate = new Date(date.setMonth(date.getMonth() + 2))
 
 function getTherapistSchedule(e) {
-
     $(".datepicker").datetimepicker('remove');
 
     e.preventDefault();
@@ -13,8 +12,6 @@ function getTherapistSchedule(e) {
         method: "GET",
         data: { 'id': select },
         success: function (data) {
-            console.log(data);
-
             var disabledtimes_mapping = data;
 
             function formatDate(datestr) {

@@ -18,19 +18,22 @@
         private readonly ITherapistsServicesService _therapistsServicesService;
         private readonly IMapper _mapper;
         private readonly UserManager<IdentityUser> _usersManager;
+        private readonly ICloudinaryService _cloudinaryService;
 
         public TherapistsController(
             ITherapistsService therapistsService,
             IServicesService servicesService,
             IMapper mapper,
             UserManager<IdentityUser> usersManager,
-            ITherapistsServicesService therapistsServicesService)
+            ITherapistsServicesService therapistsServicesService,
+            ICloudinaryService cloudinaryService)
         {
             _therapistsService = therapistsService;
             _servicesService = servicesService;
             _mapper = mapper;
             _usersManager = usersManager;
             _therapistsServicesService = therapistsServicesService;
+            _cloudinaryService = cloudinaryService;
         }
 
         public async Task<IActionResult> Index()
@@ -59,7 +62,10 @@
 
             await GenerateTherapistAccountAndPassword(input);
 
+            string imageUrlCloudinary = await _cloudinaryService.UploadFileAsync(input.Image, input.FullName);
+
             var therapist = _mapper.Map<Therapist>(input);
+            therapist.ProfileImageUrl = imageUrlCloudinary;
 
             await _therapistsService.AddAsync(therapist);
 
@@ -80,17 +86,23 @@
             ViewData["Services"] = therapistServices;
 
             var therapistToEdit = await _therapistsService.GetByIdAsync(id);
-            var viewModel = _mapper.Map<TherapistServicesViewModel>(therapistToEdit);
+            var viewModel = _mapper.Map<TherapistEditViewModel>(therapistToEdit);
 
             return this.View(viewModel);
         }
 
         [HttpPost]
-        public async Task<IActionResult> EditTherapist(TherapistServicesViewModel input, string id)
+        public async Task<IActionResult> EditTherapist(TherapistEditViewModel input, string id)
         {
             if (!ModelState.IsValid)
             {
                 return View(input);
+            }
+
+            if (input.Image != null)
+            {
+                await _cloudinaryService.DeleteFileAsync(input.ProfileImageUrl);
+                input.ProfileImageUrl = await _cloudinaryService.UploadFileAsync(input.Image, input.FullName);
             }
 
             var therapistToEdit = await _therapistsService.GetByIdAsync(id);

@@ -4,20 +4,25 @@
 
     using System.ComponentModel.DataAnnotations;
 
-    public class TherapistInputViewModel
+    public class TherapistEditViewModel
     {
         [Required]
+        public string Id { get; set; }
+
+        [Required]
         public string FullName { get; set; }
+
+        [Required]
+        public string ProfileImageUrl { get; set; }
 
         [DataType(DataType.Upload)]
         [AllowedExtensions(new string[] { ".jpg", ".jpeg", ".png" })]
         [MaxFileSize(3 * 1024 * 1024)]
-        [Required(ErrorMessage = "Please upload an image")]
-        public IFormFile Image { get; set; }
+        public IFormFile? Image { get; set; }
 
         [Required]
         public string Description { get; set; }
 
-        public string? UserId { get; set; }
+        public string UserId { get; set; }
     }
 }

@@ -8,6 +8,8 @@
 
         Task<IEnumerable<Service>> GetAllAsync();
 
+        Task<IEnumerable<Service>> GetAllByTherapistIdAsync(Guid id);
+
         Task AddAsync(Service input);
 
         Task DeleteAsync(string id);

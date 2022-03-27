@@ -1,14 +1,14 @@
 ﻿@using PhysioCenter
 @{
-    ViewData["Title"] = "Admin Area!";
+    ViewData["Title"] = "Employee area!";
 }
 
 <div class="container px-5">
         <main role="main" class="pb-3">
-<h1>Welcome to the @ViewData["Title"]</h1>
+<h1>Welcome to your work area!</h1>
 <p>Please use the navigation menu on the left. You can toggle it and off from the menu button at the top.</p>
         <span>
-            <a class="btn btn-info" asp-area="Admin" asp-controller="Dashboard" asp-action="LeaveAdminArea">Leave admin area</a>
+            <a class="btn btn-info" asp-area="Therapist" asp-controller="Dashboard" asp-action="LeaveTherapistArea">Leave work area</a>
         </span>
 </main>
 </div>

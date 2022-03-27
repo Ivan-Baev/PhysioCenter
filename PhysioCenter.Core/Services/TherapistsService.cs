@@ -40,6 +40,19 @@
                .FirstOrDefaultAsync();
         }
 
+        public async Task<Therapist> GetByUserIdAsync(string id)
+        {
+            return
+                await _data.Therapists
+                .Where(x => x.UserId == id)
+                .Include(x => x.Services).ThenInclude(x => x.Service)
+                .Include(x => x.Appointments)
+                .Include(x => x.Clients)
+                .Include(x => x.Notes)
+                .Include(x => x.Reviews)
+               .FirstOrDefaultAsync();
+        }
+
         public async Task<IEnumerable<Therapist>> GetAllAsync()
         {
             return

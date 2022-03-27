@@ -12,11 +12,14 @@
         {
             CreateMap<Therapist, TherapistViewModel>().ReverseMap();
 
-            CreateMap<Therapist, TherapistInputViewModel>().ReverseMap();
-
             CreateMap<Therapist, TherapistServicesViewModel>().ReverseMap();
 
-            CreateMap<Therapist, TherapistServiceViewModel>().ReverseMap();
+            CreateMap<Therapist, TherapistInputViewModel>()
+               .ForSourceMember(x => x.ProfileImageUrl, opt => opt.DoNotValidate())
+               .ReverseMap();
+
+            CreateMap<Therapist, TherapistEditViewModel>()
+                .ReverseMap();
         }
     }
 }

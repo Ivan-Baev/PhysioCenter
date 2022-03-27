@@ -46,6 +46,7 @@
             return
                  await _data.Appointments
                  .Where(x => x.TherapistId == Guid.Parse(therapistId))
+                 .Include(c => c.Client)
                  .OrderByDescending(x => x.DateTime)
                  .ToListAsync();
         }

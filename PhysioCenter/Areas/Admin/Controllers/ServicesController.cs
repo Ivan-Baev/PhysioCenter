@@ -10,7 +10,6 @@
     using PhysioCenter.Infrastructure.Data.Models;
     using PhysioCenter.Models.Services;
     using PhysioCenter.Models.Therapists;
-    using PhysioCenter.Models.TherapistsServices;
 
     public class ServicesController : AdminController
     {

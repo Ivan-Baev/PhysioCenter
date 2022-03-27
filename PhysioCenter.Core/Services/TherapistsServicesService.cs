@@ -69,6 +69,14 @@
                 .ToListAsync();
         }
 
+        public async Task<IEnumerable<TherapistService>> GetProvidedTherapistServicesByIdAsync(string therapistId)
+        {
+            return await _data.TherapistsServices
+                .Include(x => x.Service)
+                .Where(x => x.TherapistId.ToString() == therapistId && x.isProvided)
+                .ToListAsync();
+        }
+
         public async Task ChangeProvidedStatusAsync(string therapistId, string serviceId)
         {
             var therapistService = await _data.TherapistsServices
