@@ -73,7 +73,7 @@
         }
 
         [HttpPost]
-        public async Task<IActionResult> EditCategory(CategoryEditViewModel input, string id)
+        public async Task<IActionResult> EditCategory(CategoryEditViewModel input)
 
         {
             if (!ModelState.IsValid)
@@ -87,7 +87,7 @@
                 input.ImageUrl = await _cloudinaryService.UploadFileAsync(input.Image, input.Name);
             }
 
-            var categoryToEdit = await _categoriesService.GetByIdAsync(id);
+            var categoryToEdit = await _categoriesService.GetByIdAsync(input.Id);
 
             var result = _mapper.Map(input, categoryToEdit);
 

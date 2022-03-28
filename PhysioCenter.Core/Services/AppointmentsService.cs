@@ -5,6 +5,7 @@
     using PhysioCenter.Core.Contracts;
     using PhysioCenter.Infrastructure.Data;
     using PhysioCenter.Infrastructure.Data.Models;
+    using PhysioCenter.Infrastructure.Data.Repository;
 
     using System;
     using System.Collections.Generic;
@@ -13,17 +14,17 @@
 
     public class AppointmentsService : IAppointmentsService
     {
-        private readonly ApplicationDbContext _data;
+        private readonly IApplicationDbRepository repo;
 
-        public AppointmentsService(ApplicationDbContext data)
+        public AppointmentsService(IApplicationDbRepository _repo)
         {
-            _data = data;
+            repo = _repo;
         }
 
         public async Task<Appointment> GetByIdAsync(string id)
         {
             return
-                await _data.Appointments
+                await repo.All<Appointment>()
                 .Where(x => x.Id == Guid.Parse(id))
                 .Include(c => c.Client)
                 .Include(c => c.Therapist)
@@ -33,7 +34,7 @@
 
         public async Task<IEnumerable<Appointment>> GetAllAsync()
         {
-            return await _data.Appointments
+            return await repo.All<Appointment>()
                 .Include(c => c.Client)
                 .Include(c => c.Therapist)
                 .Include(c => c.Service)
@@ -44,7 +45,7 @@
         public async Task<IEnumerable<Appointment>> GetAllByTherapistIdAsync(string therapistId)
         {
             return
-                 await _data.Appointments
+                 await repo.All<Appointment>()
                  .Where(x => x.TherapistId == Guid.Parse(therapistId))
                  .Include(c => c.Client)
                  .OrderByDescending(x => x.DateTime)
@@ -54,7 +55,7 @@
         public async Task<IEnumerable<Appointment>> GetUpcomingByTherapistIdAsync(string therapistId)
         {
             return
-                await _data.Appointments
+                await repo.All<Appointment>()
                 .Where(x => x.TherapistId == Guid.Parse(therapistId)
                         && x.DateTime > DateTime.UtcNow)
                 .OrderBy(x => x.DateTime)
@@ -64,7 +65,7 @@
         public async Task<IEnumerable<Appointment>> GetPastByUserAsync(string userId)
         {
             return
-                     await _data.Appointments
+                     await repo.All<Appointment>()
                      .Where(x => x.ClientId == Guid.Parse(userId)
                              && x.DateTime.Date < DateTime.UtcNow.Date)
                      .OrderBy(x => x.DateTime)
@@ -73,26 +74,25 @@
 
         public async Task AddAsync(Appointment input)
         {
-            await _data.Appointments.AddAsync(input);
-            await _data.SaveChangesAsync();
+            await repo.AddAsync(input);
+            await repo.SaveChangesAsync();
         }
 
         public async Task UpdateAsync(Appointment input)
         {
-            _data.Appointments.Update(input);
-            await _data.SaveChangesAsync();
+            repo.Update(input);
+            await repo.SaveChangesAsync();
         }
-
 
         public async Task DeleteAsync(string id)
         {
             var appointment =
-               await _data.Appointments
+               await repo.All<Appointment>()
                 .Where(x => x.Id == Guid.Parse(id))
                 .FirstOrDefaultAsync();
 
-            _data.Appointments.Remove(appointment);
-            await _data.SaveChangesAsync();
+            repo.Delete<Appointment>(appointment);
+            await repo.SaveChangesAsync();
         }
     }
 }

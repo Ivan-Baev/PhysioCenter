@@ -7,58 +7,58 @@
     using PhysioCenter.Core.Contracts;
     using PhysioCenter.Infrastructure.Data;
     using PhysioCenter.Infrastructure.Data.Models;
+    using PhysioCenter.Infrastructure.Data.Repository;
 
     public class ClientsService : IClientsService
     {
-        private readonly ApplicationDbContext _data;
+        private readonly IApplicationDbRepository repo;
         private readonly IHtmlSanitizer _htmlSanitizer;
 
-        public ClientsService(ApplicationDbContext data, IHtmlSanitizer htmlSanitizer)
+        public ClientsService(ApplicationDbContext data, IHtmlSanitizer htmlSanitizer,
+            IApplicationDbRepository _repo)
         {
-            _data = data;
             _htmlSanitizer = htmlSanitizer;
+            repo = _repo;
         }
 
         public async Task<Client> GetByIdAsync(string id)
         {
-            var client =
-                await _data.Clients
+            return
+                await repo.All<Client>()
                 .Where(x => x.Id == Guid.Parse(id))
                .FirstOrDefaultAsync();
-            return client;
         }
 
         public async Task<IEnumerable<Client>> GetAllAsync()
         {
-            var clients =
-                await _data.Clients
+            return
+                await repo.All<Client>()
                 .OrderByDescending(x => x.FullName)
                 .ToListAsync();
-            return clients;
         }
 
         public async Task AddAsync(Client input)
         {
-            if (_data.Clients.Any(c => c.FullName == input.FullName))
+            if (repo.All<Client>().Any(c => c.FullName == input.FullName))
                 return;
 
-            await _data.Clients.AddAsync(new Client
+            await repo.AddAsync(new Client
             {
                 Id = Guid.NewGuid(),
                 FullName = _htmlSanitizer.Sanitize(input.FullName),
             });
-            await _data.SaveChangesAsync();
+            await repo.SaveChangesAsync();
         }
 
         public async Task DeleteAsync(string id)
         {
             var client =
-               await _data.Clients
+               await repo.All<Client>()
                 .Where(x => x.Id == Guid.Parse(id))
                 .FirstOrDefaultAsync();
 
-            _data.Clients.Remove(client);
-            await _data.SaveChangesAsync();
+            repo.Delete<Client>(client);
+            await repo.SaveChangesAsync();
         }
     }
 }

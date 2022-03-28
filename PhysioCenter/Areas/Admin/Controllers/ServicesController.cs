@@ -99,7 +99,7 @@
         }
 
         [HttpPost]
-        public async Task<IActionResult> EditService(ServiceEditViewModel input, string id)
+        public async Task<IActionResult> EditService(ServiceEditViewModel input)
 
         {
             if (!ModelState.IsValid)
@@ -113,7 +113,7 @@
                 input.ImageUrl = await _cloudinaryService.UploadFileAsync(input.Image, input.Name);
             }
 
-            var serviceToEdit = await _servicesService.GetByIdAsync(id);
+            var serviceToEdit = await _servicesService.GetByIdAsync(input.Id);
 
             var result = _mapper.Map(input, serviceToEdit);
 

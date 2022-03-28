@@ -38,15 +38,25 @@
             _therapistsServicesService = therapistsServicesService;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int page = 1)
         {
+            var pageSize = 10;
             var input = await _appointmentsService.GetAllAsync();
             var viewModel = new AppointmentsListViewModel
             {
-                Appointments = mapper.Map<IEnumerable<AppointmentViewModel>>(input)
+                Appointments = mapper.Map<IEnumerable<AppointmentViewModel>>(input).Skip((page - 1) * pageSize).Take(pageSize)
             };
+            var count = input.Count();
+            viewModel.CurrentPage = page;
+            viewModel.PageCount = (int)Math.Ceiling((double)count / pageSize) != 0
+                ? (int)Math.Ceiling((double)count / pageSize) : 1;
 
-            return View(viewModel);
+            if (viewModel == null)
+            {
+                return this.NotFound();
+            }
+
+            return this.View(viewModel);
         }
 
         public async Task<IActionResult> CreateAppointment()
@@ -81,7 +91,7 @@
         public async Task<IActionResult> EditAppointment(string id)
         {
             var appointmentToEdit = await _appointmentsService.GetByIdAsync(id);
-            var viewModel = mapper.Map<AppointmentInputViewModel>(appointmentToEdit);
+            var viewModel = mapper.Map<AppointmentEditViewModel>(appointmentToEdit);
 
             var clients = await _clientsService.GetAllAsync();
             var therapists = await _therapistsService.GetAllAsync();
@@ -98,7 +108,7 @@
         }
 
         [HttpPost]
-        public async Task<IActionResult> EditAppointment(AppointmentInputViewModel input, string id)
+        public async Task<IActionResult> EditAppointment(AppointmentEditViewModel input)
         {
             if (!ModelState.IsValid)
             {
@@ -106,7 +116,6 @@
             }
 
             var appointment = mapper.Map<Appointment>(input);
-            appointment.Id = Guid.Parse(id);
             await _appointmentsService.UpdateAsync(appointment);
 
             TempData["SuccessfullyEdited"] = "You have successfully edited the appointment!";

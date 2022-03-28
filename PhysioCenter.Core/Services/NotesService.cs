@@ -4,43 +4,44 @@
 
     using PhysioCenter.Infrastructure.Data;
     using PhysioCenter.Infrastructure.Data.Models;
+    using PhysioCenter.Infrastructure.Data.Repository;
 
     public class NotesService : INotesService
     {
-        private readonly ApplicationDbContext _data;
+        private readonly IApplicationDbRepository repo;
 
-        public NotesService(ApplicationDbContext data)
+        public NotesService(IApplicationDbRepository _repo)
         {
-            _data = data;
+            repo = _repo;
         }
 
         public async Task AddAsync(Note input)
         {
-            await _data.Notes.AddAsync(input);
-            await _data.SaveChangesAsync();
+            await repo.AddAsync(input);
+            await repo.SaveChangesAsync();
         }
 
         public async Task DeleteAsync(string id)
         {
-            var blog =
-               await _data.Notes
+            var note =
+               await repo.All<Note>()
                 .Where(x => x.Id == Guid.Parse(id))
                 .FirstOrDefaultAsync();
 
-            _data.Notes.Remove(blog);
-            await _data.SaveChangesAsync();
+            repo.Delete<Note>(note);
+            await repo.SaveChangesAsync();
         }
 
         public async Task<IEnumerable<Note>> GetAllAsync()
         {
-            return await _data.Notes
+            return await repo.All<Note>()
                 .ToListAsync();
         }
 
         public async Task<IEnumerable<Note>> GetAllByClientIdAsync(string clientId)
         {
             return
-                 await _data.Notes
+                 await repo.All<Note>()
                  .Where(x => x.ClientId == Guid.Parse(clientId))
                 .ToListAsync();
         }
@@ -48,15 +49,15 @@
         public async Task<Note> GetByIdAsync(string id)
         {
             return
-                await _data.Notes
+                await repo.All<Note>()
                 .Where(x => x.Id == Guid.Parse(id))
                .FirstOrDefaultAsync();
         }
 
         public async Task UpdateDetailsAsync(Note input)
         {
-            _data.Notes.Update(input);
-            await _data.SaveChangesAsync();
+            repo.Update(input);
+            await repo.SaveChangesAsync();
         }
     }
 }

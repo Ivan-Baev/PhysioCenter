@@ -7,6 +7,9 @@
     public class BlogEditViewModel
     {
         [Required]
+        public string Id { get; set; }
+
+        [Required]
         public string Title { get; set; }
 
         [Required]

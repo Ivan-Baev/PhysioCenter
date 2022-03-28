@@ -11,6 +11,7 @@
         {
             CreateMap<Appointment, AppointmentViewModel>().ReverseMap();
             CreateMap<Appointment, AppointmentInputViewModel>().ReverseMap();
+            CreateMap<Appointment, AppointmentEditViewModel>().ReverseMap();
         }
     }
 }

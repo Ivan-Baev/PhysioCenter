@@ -5,22 +5,23 @@
     using PhysioCenter.Core.Contracts;
     using PhysioCenter.Infrastructure.Data;
     using PhysioCenter.Infrastructure.Data.Models;
+    using PhysioCenter.Infrastructure.Data.Repository;
 
     using System.Threading.Tasks;
 
     public class TherapistsServicesService : ITherapistsServicesService
     {
-        private readonly ApplicationDbContext _data;
+        private readonly IApplicationDbRepository repo;
 
-        public TherapistsServicesService(ApplicationDbContext data)
+        public TherapistsServicesService(IApplicationDbRepository _repo)
         {
-            _data = data;
+            repo = _repo;
         }
 
         public async Task AddTherapistServiceAsync(IEnumerable<TherapistService> input)
         {
-            await _data.TherapistsServices.AddRangeAsync(input);
-            await _data.SaveChangesAsync();
+            await repo.AddRangeAsync(input);
+            await repo.SaveChangesAsync();
         }
 
         public async Task AddAllServicesToTherapistId(IEnumerable<Service> services, Guid therapistId)
@@ -38,8 +39,8 @@
 
                 therapistServices.Add(therapistService);
             }
-            await _data.TherapistsServices.AddRangeAsync(therapistServices);
-            await _data.SaveChangesAsync();
+            await repo.AddRangeAsync(therapistServices);
+            await repo.SaveChangesAsync();
         }
 
         public async Task AddAllTherapistsToServiceId(IEnumerable<Therapist> therapists, Guid serviceId)
@@ -57,13 +58,13 @@
 
                 serviceTherapists.Add(therapistService);
             }
-            await _data.TherapistsServices.AddRangeAsync(serviceTherapists);
-            await _data.SaveChangesAsync();
+            await repo.AddRangeAsync(serviceTherapists);
+            await repo.SaveChangesAsync();
         }
 
         public async Task<IEnumerable<TherapistService>> GetTherapistServicesByIdAsync(string therapistId)
         {
-            return await _data.TherapistsServices
+            return await repo.All<TherapistService>()
                 .Include(x => x.Service)
                 .Where(x => x.TherapistId.ToString() == therapistId)
                 .ToListAsync();
@@ -71,7 +72,7 @@
 
         public async Task<IEnumerable<TherapistService>> GetProvidedTherapistServicesByIdAsync(string therapistId)
         {
-            return await _data.TherapistsServices
+            return await repo.All<TherapistService>()
                 .Include(x => x.Service)
                 .Where(x => x.TherapistId.ToString() == therapistId && x.isProvided)
                 .ToListAsync();
@@ -79,26 +80,26 @@
 
         public async Task ChangeProvidedStatusAsync(string therapistId, string serviceId)
         {
-            var therapistService = await _data.TherapistsServices
+            var therapistService = await repo.All<TherapistService>()
                                 .FirstOrDefaultAsync(
                                 x => x.ServiceId.ToString() == serviceId
                                 && x.TherapistId.ToString() == therapistId);
 
             therapistService.isProvided = !therapistService.isProvided;
 
-            await _data.SaveChangesAsync();
+            await repo.SaveChangesAsync();
         }
 
         public async Task AddTherapistToServiceAsync(string therapistId, string serviceId)
         {
-            var therapistService = await _data.TherapistsServices
+            var therapistService = await repo.All<TherapistService>()
                                 .FirstOrDefaultAsync(
                                 x => x.ServiceId.ToString() == serviceId
                                 && x.TherapistId.ToString() == therapistId);
 
             therapistService.isProvided = !therapistService.isProvided;
 
-            await _data.SaveChangesAsync();
+            await repo.SaveChangesAsync();
         }
     }
 }

@@ -7,22 +7,23 @@
     using PhysioCenter.Core.Contracts;
     using PhysioCenter.Infrastructure.Data;
     using PhysioCenter.Infrastructure.Data.Models;
+    using PhysioCenter.Infrastructure.Data.Repository;
 
     public class ServicesService : IServicesService
     {
-        private readonly ApplicationDbContext _data;
-        private readonly IHtmlSanitizer _htmlSanitizer;
+        private readonly IHtmlSanitizer htmlSanitizer;
+        private readonly IApplicationDbRepository repo;
 
-        public ServicesService(ApplicationDbContext data, IHtmlSanitizer htmlSanitizer)
+        public ServicesService(IApplicationDbRepository _repo, IHtmlSanitizer _htmlSanitizer)
         {
-            _data = data;
-            _htmlSanitizer = htmlSanitizer;
+            repo = _repo;
+            htmlSanitizer = _htmlSanitizer;
         }
 
         public async Task<Service> GetByIdAsync(string id)
         {
             return
-                await _data.Services
+                await repo.All<Service>()
                 .Include(x => x.Category)
                 .Where(x => x.Id == Guid.Parse(id))
                .FirstOrDefaultAsync();
@@ -31,7 +32,7 @@
         public async Task<IEnumerable<Service>> GetAllAsync()
         {
             return
-                await _data.Services
+                await repo.All<Service>()
                 .Include(x => x.Appointments)
                 .Include(x => x.Category)
                 .OrderByDescending(x => x.Category.Name)
@@ -41,7 +42,7 @@
         public async Task<IEnumerable<Service>> GetAllByTherapistIdAsync(Guid id)
         {
             return
-                await _data.Services
+                await repo.All<Service>()
                 .Include(x => x.Therapists)
                 .OrderByDescending(x => x.Name)
                 .ToListAsync();
@@ -49,28 +50,28 @@
 
         public async Task AddAsync(Service input)
         {
-            if (_data.Services.Any(c => c.Name == input.Name))
+            if (repo.All<Service>().Any(c => c.Name == input.Name))
                 return;
 
-            await _data.Services.AddAsync(input);
-            await _data.SaveChangesAsync();
+            await repo.AddAsync(input);
+            await repo.SaveChangesAsync();
         }
 
         public async Task DeleteAsync(string id)
         {
             var service =
-               await _data.Services
+               await repo.All<Service>()
                 .Where(x => x.Id == Guid.Parse(id))
                 .FirstOrDefaultAsync();
 
-            _data.Services.Remove(service);
-            await _data.SaveChangesAsync();
+            repo.Delete<Service>(service);
+            await repo.SaveChangesAsync();
         }
 
         public async Task UpdateDetailsAsync(Service input)
         {
-            _data.Services.Update(input);
-            await _data.SaveChangesAsync();
+            repo.Update(input);
+            await repo.SaveChangesAsync();
         }
     }
 }

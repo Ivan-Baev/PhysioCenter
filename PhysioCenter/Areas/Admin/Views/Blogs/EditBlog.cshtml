@@ -32,6 +32,7 @@
                 <label asp-for="Image" for="floatingImage">Upload a new image if you want to update</label>
                 <span asp-validation-for="Image" class="small text-danger"></span>
             </div>
+            <input hidden asp-for="Id" />
             <div class="col-sm-12" style="margin-top: 20px;">
             <button type="submit" class="btn btn-success"
                     asp-controller="Blogs"

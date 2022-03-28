@@ -29,10 +29,10 @@
                           {
                               new RolesSeeder(),
                               new AccountsSeeder(),
+                              new TherapistsSeeder(),
                               new BlogsSeeder(),
                               new CategoriesSeeder(),
                               new ServicesSeeder(),
-                              new TherapistsSeeder(),
                               new ClientsSeeder(),
                               new TherapistsServices(),
                               new TherapistsClients(),

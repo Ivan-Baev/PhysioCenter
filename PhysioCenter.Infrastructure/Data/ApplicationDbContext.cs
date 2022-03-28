@@ -54,7 +54,6 @@
                 .HasForeignKey<Client>(c => c.UserId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-          
             builder
              .Entity<TherapistService>()
              .HasKey(x => new { x.ServiceId, x.TherapistId });
@@ -64,11 +63,6 @@
              .HasKey(x => new { x.TherapistId, x.ClientId });
 
             base.OnModelCreating(builder);
-
-            // Needed for Identity models configuration
-
-            
-
         }
     }
 }

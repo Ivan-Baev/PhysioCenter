@@ -1,5 +1,5 @@
 ﻿@using PhysioCenter.Models.Appointments
-@model AppointmentInputViewModel
+@model AppointmentEditViewModel
 
 @{
     ViewData["Title"] = "Edit an Appointment";
@@ -47,6 +47,7 @@
                 <span asp-validation-for="DateTime" class="text-danger"></span>
 
             </div>
+            <input hidden asp-for="Id" />
             <div class="col-sm-12" style="margin-top: 20px;">
                 <button type="submit" class="btn btn-success"
                         asp-controller="Appointments"

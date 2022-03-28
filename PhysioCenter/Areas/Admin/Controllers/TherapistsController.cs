@@ -92,7 +92,7 @@
         }
 
         [HttpPost]
-        public async Task<IActionResult> EditTherapist(TherapistEditViewModel input, string id)
+        public async Task<IActionResult> EditTherapist(TherapistEditViewModel input)
         {
             if (!ModelState.IsValid)
             {
@@ -105,7 +105,7 @@
                 input.ProfileImageUrl = await _cloudinaryService.UploadFileAsync(input.Image, input.FullName);
             }
 
-            var therapistToEdit = await _therapistsService.GetByIdAsync(id);
+            var therapistToEdit = await _therapistsService.GetByIdAsync(input.Id);
 
             var result = _mapper.Map(input, therapistToEdit);
 
@@ -147,6 +147,14 @@
                 await _usersManager.AddToRoleAsync(identityUser, "Therapist");
                 input.UserId = identityUser.Id;
             }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditTherapistServiceProvidedStatus(string therapistId, string serviceId)
+        {
+            await this._therapistsServicesService.ChangeProvidedStatusAsync(therapistId, serviceId);
+
+            return this.RedirectToAction("EditTherapist", "Therapists", new { id = therapistId });
         }
     }
 }

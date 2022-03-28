@@ -2,56 +2,56 @@
 {
     using Microsoft.EntityFrameworkCore;
 
-    using PhysioCenter.Infrastructure.Data;
     using PhysioCenter.Infrastructure.Data.Models;
+    using PhysioCenter.Infrastructure.Data.Repository;
 
     public class BlogsService : IBlogsService
     {
-        private readonly ApplicationDbContext _data;
+        private readonly IApplicationDbRepository repo;
 
-        public BlogsService(ApplicationDbContext data)
+        public BlogsService(IApplicationDbRepository _repo)
         {
-            _data = data;
+            repo = _repo;
         }
 
         public async Task AddAsync(Blog input)
         {
-            if (_data.Blog.Any(c => c.Title == input.Title))
+            if (repo.All<Blog>().Any(c => c.Title == input.Title))
                 return;
 
-            await _data.Blog.AddAsync(input);
-            await _data.SaveChangesAsync();
+            await repo.AddAsync(input);
+            await repo.SaveChangesAsync();
         }
 
         public async Task DeleteAsync(string id)
         {
             var blog =
-               await _data.Blog
+               await repo.All<Blog>()
                 .Where(x => x.Id == Guid.Parse(id))
                 .FirstOrDefaultAsync();
 
-            _data.Blog.Remove(blog);
-            await _data.SaveChangesAsync();
+            repo.Delete<Blog>(blog);
+            await repo.SaveChangesAsync();
         }
 
         public async Task<IEnumerable<Blog>> GetAllAsync()
         {
-            return await _data.Blog
+            return await repo.All<Blog>()
                 .ToListAsync();
         }
 
         public async Task<Blog> GetByIdAsync(string id)
         {
             return
-                await _data.Blog
+                await repo.All<Blog>()
                 .Where(x => x.Id == Guid.Parse(id))
                .FirstOrDefaultAsync();
         }
 
         public async Task UpdateDetailsAsync(Blog input)
         {
-            _data.Blog.Update(input);
-            await _data.SaveChangesAsync();
+            repo.Update(input);
+            await repo.SaveChangesAsync();
         }
     }
 }

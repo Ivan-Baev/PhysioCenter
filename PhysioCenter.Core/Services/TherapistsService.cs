@@ -8,20 +8,21 @@
     using PhysioCenter.Core.Contracts;
     using PhysioCenter.Infrastructure.Data;
     using PhysioCenter.Infrastructure.Data.Models;
+    using PhysioCenter.Infrastructure.Data.Repository;
 
     public class TherapistsService : ITherapistsService
     {
-        private readonly ApplicationDbContext _data;
+        private readonly IApplicationDbRepository repo;
         private readonly IHtmlSanitizer _htmlSanitizer;
         private readonly UserManager<IdentityUser> userManager;
         private readonly RoleManager<IdentityRole> roleManager;
 
-        public TherapistsService(ApplicationDbContext data,
+        public TherapistsService(IApplicationDbRepository _repo,
             IHtmlSanitizer htmlSanitizer,
             UserManager<IdentityUser> userManager,
             RoleManager<IdentityRole> roleManager)
         {
-            _data = data;
+            repo = _repo;
             _htmlSanitizer = htmlSanitizer;
             this.userManager = userManager;
             this.roleManager = roleManager;
@@ -30,7 +31,7 @@
         public async Task<Therapist> GetByIdAsync(string id)
         {
             return
-                await _data.Therapists
+                await repo.All<Therapist>()
                 .Where(x => x.Id == Guid.Parse(id))
                 .Include(x => x.Services).ThenInclude(x => x.Service)
                 .Include(x => x.Appointments)
@@ -43,7 +44,7 @@
         public async Task<Therapist> GetByUserIdAsync(string id)
         {
             return
-                await _data.Therapists
+                await repo.All<Therapist>()
                 .Where(x => x.UserId == id)
                 .Include(x => x.Services).ThenInclude(x => x.Service)
                 .Include(x => x.Appointments)
@@ -56,39 +57,39 @@
         public async Task<IEnumerable<Therapist>> GetAllAsync()
         {
             return
-                await _data.Therapists
+                await repo.All<Therapist>()
                 .OrderByDescending(x => x.FullName)
                 .ToListAsync();
         }
 
         public async Task AddAsync(Therapist input)
         {
-            if (_data.Therapists.Any(c => c.FullName == input.FullName))
+            if (repo.All<Therapist>().Any(c => c.FullName == input.FullName))
                 return;
 
-            await _data.Therapists.AddAsync(input);
-            await _data.SaveChangesAsync();
+            await repo.AddAsync(input);
+            await repo.SaveChangesAsync();
         }
 
         public async Task UpdateDetailsAsync(Therapist input)
         {
-            _data.Therapists.Update(input);
-            await _data.SaveChangesAsync();
+            repo.Update(input);
+            await repo.SaveChangesAsync();
         }
 
         public async Task DeleteAsync(string id)
         {
             var therapist =
-               await _data.Therapists
+               await repo.All<Therapist>()
                .Include(x => x.Services)
                 .Where(x => x.Id == Guid.Parse(id))
                 .FirstOrDefaultAsync();
 
             var userToDelete = await userManager.FindByIdAsync(therapist.UserId);
 
-            _data.Therapists.Remove(therapist);
+            repo.Delete<Therapist>(therapist);
             await userManager.DeleteAsync(userToDelete);
-            await _data.SaveChangesAsync();
+            await repo.SaveChangesAsync();
         }
     }
 };

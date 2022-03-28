@@ -40,6 +40,7 @@
                 <span asp-validation-for="Image" class="small text-danger"></span>
             </div>
             <input type="hidden" asp-for="UserId"/>
+            <input type="hidden" asp-for="Id"/>
 
 
             <h2 class="mt-2">Edit Services:</h2>
@@ -68,7 +69,7 @@
                             <td>
                                 <form method="post">
                                     <button type="submit" class="btn btn-dark btn-sm"
-                                        asp-area="Admin" asp-controller="TherapistsServices" asp-action="EditTherapistServiceProvidedStatus"
+                                        asp-area="Admin" asp-controller="Therapists" asp-action="EditTherapistServiceProvidedStatus"
                                         asp-route-therapistId="@Model.Id" asp-route-serviceId="@service.ServiceId">
                                         @if (service.IsProvided == true)
                                         {

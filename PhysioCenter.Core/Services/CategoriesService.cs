@@ -2,30 +2,30 @@
 {
     using Microsoft.EntityFrameworkCore;
 
-    using PhysioCenter.Infrastructure.Data;
     using PhysioCenter.Infrastructure.Data.Models;
+    using PhysioCenter.Infrastructure.Data.Repository;
 
     public class CategoriesService : ICategoriesService
     {
-        private readonly ApplicationDbContext _data;
+        private readonly IApplicationDbRepository repo;
 
-        public CategoriesService(ApplicationDbContext data)
+        public CategoriesService(IApplicationDbRepository _repo)
         {
-            _data = data;
+            repo = _repo;
         }
 
         public async Task AddAsync(Category input)
         {
-            if (_data.Categories.Any(c => c.Name == input.Name))
+            if (repo.All<Category>().Any(c => c.Name == input.Name))
                 return;
 
-            await _data.Categories.AddAsync(input);
-            await _data.SaveChangesAsync();
+            await repo.AddAsync(input);
+            await repo.SaveChangesAsync();
         }
 
         public async Task<IEnumerable<Category>> GetAllAsync()
         {
-            return await _data.Categories
+            return await repo.All<Category>()
                 .Include(x => x.Services)
                 .ToListAsync();
         }
@@ -33,7 +33,7 @@
         public async Task<Category> GetByIdAsync(string id)
         {
             return
-                await _data.Categories
+                await repo.All<Category>()
                 .Where(x => x.Id == Guid.Parse(id))
                 .Include(x => x.Services)
                .FirstOrDefaultAsync();
@@ -41,19 +41,19 @@
 
         public async Task UpdateDetailsAsync(Category input)
         {
-            _data.Categories.Update(input);
-            await _data.SaveChangesAsync();
+            repo.Update(input);
+            await repo.SaveChangesAsync();
         }
 
         public async Task DeleteAsync(string id)
         {
             var category =
-               await _data.Categories
+               await repo.All<Category>()
                 .Where(x => x.Id == Guid.Parse(id))
                 .FirstOrDefaultAsync();
 
-            _data.Categories.Remove(category);
-            await _data.SaveChangesAsync();
+            repo.Delete<Category>(category);
+            await repo.SaveChangesAsync();
         }
     }
 }

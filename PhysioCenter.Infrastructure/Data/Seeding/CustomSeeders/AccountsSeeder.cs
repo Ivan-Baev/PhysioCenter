@@ -113,6 +113,11 @@
                     if (usersAssignedToRole.Count() != 0)
                     {
                         var result = await userManager.CreateAsync(user, password);
+
+                        if (result.Succeeded)
+                        {
+                            await userManager.AddToRoleAsync(user, roleName);
+                        }
                     }
                 }
             }
