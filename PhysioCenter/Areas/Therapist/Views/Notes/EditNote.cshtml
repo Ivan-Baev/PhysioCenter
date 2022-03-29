@@ -1,0 +1,44 @@
+﻿@using PhysioCenter.Models.Notes
+@model NoteEditViewModel
+
+@{
+    ViewData["Title"] = "Edit Note";
+}
+
+<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+<main role="main" class="pb-3">
+    <h2>Edit Note</h2>
+    <form method="post" enctype="multipart/form-data" class="pt-4">
+        <div class="form-group">
+            <div class="form-floating col-sm-10 mt-2 w-25">
+                <textarea asp-for="Content" class="form-control" placeholder="Leave a comment here" id="floatingTextarea" style="height: 150px"></textarea>
+                <label asp-for="Content" for="floatingTextarea">Content....</label>
+                <span asp-validation-for="Content" class="small text-danger"></span>
+            </div>
+            <input hidden asp-for="Id" />
+            <input hidden asp-for="TherapistId" />
+            <input hidden asp-for="ClientId" />
+            <div class="col-sm-12" style="margin-top: 20px;">
+            <button type="submit" class="btn btn-success"
+                    asp-controller="Notes"
+                    asp-action="EditNote"
+                    asp-route-clientId="@Model.ClientId"
+                    asp-route-therapistId="@Model.TherapistId">
+                Edit Note!
+            </button>
+            <a class="btn btn-danger" asp-controller="Notes"
+               asp-action="Index"
+                asp-route-clientId="@Model.ClientId"
+                asp-route-therapistId="@Model.TherapistId">
+                Cancel
+            </a>
+        </div>
+
+        </div>
+    </form>
+</main>
+
+@section Scripts {
+<partial name="_ValidationScriptsPartial" />
+    }

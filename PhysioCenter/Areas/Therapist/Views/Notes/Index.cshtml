@@ -28,7 +28,7 @@
     <main role="main" class="pb-3">
         <h2>Notes </h2>
         <span>
-            <a class="btn btn-info" asp-controller="Blogs" asp-action="CreateBlog">Add New Note</a>
+            <a class="btn btn-info" asp-controller="Notes" asp-action="CreateNote" asp-route-clientId="@ViewBag.ClientId" asp-route-therapistId="@ViewBag.TherapistId">Add New Note</a>
         </span>
         <table class="table table-bordered table-striped table-hover" id="adminTable">
             <thead class="table-dark">

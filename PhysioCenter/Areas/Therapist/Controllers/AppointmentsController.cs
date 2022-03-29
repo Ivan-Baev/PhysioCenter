@@ -42,6 +42,7 @@
         {
             var userId = _userManager.GetUserId(User);
             var therapist = await _therapistsService.GetByUserIdAsync(userId);
+
             var input = await _appointmentsService.GetAllByTherapistIdAsync(therapist.Id.ToString());
             var viewModel = new AppointmentsListViewModel
             {
@@ -50,6 +51,5 @@
 
             return View(viewModel);
         }
-
     }
 }

@@ -1,3 +1,5 @@
+using CloudinaryDotNet;
+
 using Ganss.XSS;
 
 using Microsoft.AspNetCore.Identity;
@@ -11,6 +13,8 @@ using PhysioCenter.Core.Services.Services;
 using PhysioCenter.Core.Services.Therapists;
 using PhysioCenter.Core.Utilities.Constants;
 using PhysioCenter.Infrastructure.Data;
+using PhysioCenter.Infrastructure.Data.Common;
+using PhysioCenter.Infrastructure.Data.Repository;
 using PhysioCenter.Infrastructure.Data.Seeding;
 using PhysioCenter.ModelBinders;
 
@@ -18,7 +22,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-
+var test = builder.Configuration.GetValue(typeof(string), "TestProperty");
+;
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 
@@ -58,8 +63,16 @@ builder.Services.AddAutoMapper(typeof(Program));
 // HTML sanitizer - check if it works like this?
 builder.Services.AddSingleton<IHtmlSanitizer, HtmlSanitizer>();
 
+Cloudinary cloudinary = new(new Account
+{
+});
+
+builder.Services.AddSingleton(cloudinary);
+
 // Application services
 
+builder.Services.AddTransient<IApplicationDbRepository, ApplicationDbRepository>();
+builder.Services.AddTransient<ICloudinaryService, CloudinaryService>();
 builder.Services.AddTransient<IAppointmentsService, AppointmentsService>();
 builder.Services.AddTransient<IServicesService, ServicesService>();
 builder.Services.AddTransient<IClientsService, ClientsService>();
@@ -69,6 +82,7 @@ builder.Services.AddTransient<IReviewsService, ReviewsService>();
 builder.Services.AddTransient<INotesService, NotesService>();
 builder.Services.AddTransient<IBlogsService, BlogsService>();
 builder.Services.AddTransient<ITherapistsServicesService, TherapistsServicesService>();
+builder.Services.AddTransient<ITherapistsClientsService, TherapistsClientsService>();
 
 var app = builder.Build();
 
@@ -102,6 +116,7 @@ app.UseAuthorization();
 app.UseEndpoints(
                 endpoints =>
                 {
+                    endpoints.MapControllerRoute("paging", "{area:exists}/{controller}/{action}");
                     endpoints.MapControllerRoute("areaRoute", "{area:exists}/{controller=Home}/{action=Index}/{id?}");
                     endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
                     endpoints.MapRazorPages();

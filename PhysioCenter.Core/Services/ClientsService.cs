@@ -14,19 +14,20 @@
         private readonly IApplicationDbRepository repo;
         private readonly IHtmlSanitizer _htmlSanitizer;
 
-        public ClientsService(ApplicationDbContext data, IHtmlSanitizer htmlSanitizer,
+        public ClientsService(IHtmlSanitizer htmlSanitizer,
             IApplicationDbRepository _repo)
         {
             _htmlSanitizer = htmlSanitizer;
             repo = _repo;
         }
 
-        public async Task<Client> GetByIdAsync(string id)
+        public async Task<IEnumerable<Client>> GetAllByIdAsync(string id)
         {
             return
                 await repo.All<Client>()
-                .Where(x => x.Id == Guid.Parse(id))
-               .FirstOrDefaultAsync();
+                .Include(x => x.Therapists
+                                    .Where(x => x.TherapistId == Guid.Parse(id)))
+                .ToListAsync();
         }
 
         public async Task<IEnumerable<Client>> GetAllAsync()

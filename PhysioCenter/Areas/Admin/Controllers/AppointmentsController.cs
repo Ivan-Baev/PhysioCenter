@@ -16,32 +16,36 @@
 
     public class AppointmentsController : AdminController
     {
-        private readonly IAppointmentsService _appointmentsService;
-        private readonly IServicesService _servicesService;
-        private readonly IClientsService _clientsService;
-        private readonly ITherapistsService _therapistsService;
-        private readonly ITherapistsServicesService _therapistsServicesService;
+        private readonly IAppointmentsService appointmentsService;
+        private readonly IServicesService servicesService;
+        private readonly IClientsService clientsService;
+        private readonly ITherapistsService therapistsService;
+        private readonly ITherapistsServicesService therapistsServicesService;
+        private readonly ITherapistsClientsService therapistsClientsService;
         private readonly IMapper mapper;
 
-        public AppointmentsController(IAppointmentsService appointmentsService,
-            IServicesService servicesService,
-            IClientsService clientsService,
-            ITherapistsService therapistsService,
-            IMapper mapper,
-            ITherapistsServicesService therapistsServicesService)
+        public AppointmentsController(
+            IAppointmentsService _appointmentsService,
+            IServicesService _servicesService,
+            IClientsService _clientsService,
+            ITherapistsService _therapistsService,
+            IMapper _mapper,
+            ITherapistsServicesService _therapistsServicesService,
+            ITherapistsClientsService _therapistsClientsService)
         {
-            _appointmentsService = appointmentsService;
-            _servicesService = servicesService;
-            _clientsService = clientsService;
-            _therapistsService = therapistsService;
-            this.mapper = mapper;
-            _therapistsServicesService = therapistsServicesService;
+            appointmentsService = _appointmentsService;
+            servicesService = _servicesService;
+            clientsService = _clientsService;
+            therapistsService = _therapistsService;
+            mapper = _mapper;
+            therapistsServicesService = _therapistsServicesService;
+            therapistsClientsService = _therapistsClientsService;
         }
 
         public async Task<IActionResult> Index(int page = 1)
         {
             var pageSize = 10;
-            var input = await _appointmentsService.GetAllAsync();
+            var input = await appointmentsService.GetAllAsync();
             var viewModel = new AppointmentsListViewModel
             {
                 Appointments = mapper.Map<IEnumerable<AppointmentViewModel>>(input).Skip((page - 1) * pageSize).Take(pageSize)
@@ -61,9 +65,9 @@
 
         public async Task<IActionResult> CreateAppointment()
         {
-            var clients = await _clientsService.GetAllAsync();
-            var therapists = await _therapistsService.GetAllAsync();
-            var services = await _servicesService.GetAllAsync();
+            var clients = await clientsService.GetAllAsync();
+            var therapists = await therapistsService.GetAllAsync();
+            var services = await servicesService.GetAllAsync();
 
             ViewData["Clients"] = new SelectList(clients, "Id", "FullName");
             ViewData["Therapists"] = new SelectList(therapists, "Id", "FullName");
@@ -81,7 +85,10 @@
             }
 
             var appointment = mapper.Map<Appointment>(input);
-            await _appointmentsService.AddAsync(appointment);
+            await appointmentsService.AddAsync(appointment);
+
+            var therapistClient = mapper.Map<TherapistClient>(appointment);
+            await therapistsClientsService.AddTherapistClientAsync(therapistClient);
 
             TempData["SuccessfullyAdded"] = "You have successfully created a new appointment!";
 
@@ -90,12 +97,12 @@
 
         public async Task<IActionResult> EditAppointment(string id)
         {
-            var appointmentToEdit = await _appointmentsService.GetByIdAsync(id);
+            var appointmentToEdit = await appointmentsService.GetByIdAsync(id);
             var viewModel = mapper.Map<AppointmentEditViewModel>(appointmentToEdit);
 
-            var clients = await _clientsService.GetAllAsync();
-            var therapists = await _therapistsService.GetAllAsync();
-            var services = await _servicesService.GetAllAsync();
+            var clients = await clientsService.GetAllAsync();
+            var therapists = await therapistsService.GetAllAsync();
+            var services = await servicesService.GetAllAsync();
 
             ViewData["Clients"] = new SelectList(clients, "Id", "FullName");
             ViewData["Therapists"] = new SelectList(therapists, "Id", "FullName");
@@ -116,7 +123,7 @@
             }
 
             var appointment = mapper.Map<Appointment>(input);
-            await _appointmentsService.UpdateAsync(appointment);
+            await appointmentsService.UpdateAsync(appointment);
 
             TempData["SuccessfullyEdited"] = "You have successfully edited the appointment!";
 
@@ -125,7 +132,7 @@
 
         public async Task<IActionResult> DeleteConfirmation(string id)
         {
-            var appointmentToDelete = await _appointmentsService.GetByIdAsync(id);
+            var appointmentToDelete = await appointmentsService.GetByIdAsync(id);
 
             var viewModel = mapper.Map<AppointmentViewModel>(appointmentToDelete);
 
@@ -135,7 +142,7 @@
         [HttpPost]
         public async Task<IActionResult> Delete(string id)
         {
-            await _appointmentsService.DeleteAsync(id);
+            await appointmentsService.DeleteAsync(id);
 
             TempData["SuccessfullyDeleted"] = "You have successfully deleted the appointment!";
 
@@ -144,7 +151,7 @@
 
         public async Task<JsonResult> GetTherapistSchedule(string id)
         {
-            var items = await _appointmentsService.GetUpcomingByTherapistIdAsync(id);
+            var items = await appointmentsService.GetUpcomingByTherapistIdAsync(id);
 
             var schedule = new List<string>();
             foreach (var appointment in items)
@@ -158,7 +165,7 @@
 
         public async Task<ActionResult> GetTherapistServices(string id)
         {
-            var services = await _therapistsServicesService.GetProvidedTherapistServicesByIdAsync(id);
+            var services = await therapistsServicesService.GetProvidedTherapistServicesByIdAsync(id);
             var providedServices = new SelectList(services, "ServiceId", "Service.Name");
 
             return Json(providedServices);

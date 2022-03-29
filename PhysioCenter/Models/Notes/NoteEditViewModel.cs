@@ -1,13 +1,18 @@
 ﻿namespace PhysioCenter.Models.Notes
 {
-    using System;
+    using System.ComponentModel.DataAnnotations;
 
-    public class NoteViewModel
+    public class NoteEditViewModel
     {
-        public Guid Id { get; set; }
+        public string Id { get; set; }
+
+        [Required]
         public string Content { get; set; }
+
+        [Required]
         public virtual Guid ClientId { get; set; }
+
+        [Required]
         public virtual Guid TherapistId { get; set; }
-        public DateTime CreatedOn { get; set; }
     }
 }

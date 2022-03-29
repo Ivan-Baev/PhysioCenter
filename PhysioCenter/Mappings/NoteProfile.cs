@@ -10,6 +10,8 @@
         public NoteProfile()
         {
             CreateMap<Note, NoteViewModel>().ReverseMap();
+            CreateMap<Note, NoteInputViewModel>().ReverseMap();
+            CreateMap<Note, NoteEditViewModel>().ReverseMap();
         }
     }
 }

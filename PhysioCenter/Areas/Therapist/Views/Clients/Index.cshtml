@@ -1,34 +1,30 @@
-﻿@using PhysioCenter.Models.Appointments
-@model AppointmentsListViewModel
+﻿@using PhysioCenter.Models.Clients
+@model ClientsListViewModel
 
 @{
-    this.ViewData["Title"] = "Appointments";
+    this.ViewData["Title"] = "Clients";
 }
 
 <div class="container px-5">
     <main role="main" class="pb-3">
-        <h2>All Appointments </h2>
+        <h2>Your Clients</h2>
         <table class="table table-bordered table-striped table-hover" id="adminTable">
             <thead class="table-dark">
                 <tr>
-                    <th scope="col">Appointment Date</th>
                     <th scope="col">Client</th>
-                    <th scope="col">Service</th>
                     <th scope="col">Check notes for client</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach (var appointment in this.Model.Appointments)
+                @foreach (var client in Model.Clients)
                 {
                     <tr>
-                        <th scope="row">@appointment.DateTime.ToString("f")</th>
-                        <td>@appointment.ClientFullName</td>
-                        <td>@appointment.ServiceName</td>
+                        <td>@client.FullName</td>
                         <td>
                             <a asp-controller="Notes"
                            asp-action="Index"
-                           asp-route-clientId="@appointment.ClientId"
-                           asp-route-therapistId="@appointment.TherapistId"
+                           asp-route-clientId="@client.Id"
+                           asp-route-therapistId="@ViewBag.TherapistId"
                            class="btn btn-warning">
                                 Notes
                             </a>

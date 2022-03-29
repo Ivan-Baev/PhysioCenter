@@ -43,6 +43,7 @@
             return
                  await repo.All<Note>()
                  .Where(x => x.ClientId == Guid.Parse(clientId))
+                 .OrderByDescending(x => x.CreatedOn)
                 .ToListAsync();
         }
 

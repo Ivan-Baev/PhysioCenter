@@ -4,7 +4,7 @@
 
     public interface IClientsService
     {
-        Task<Client> GetByIdAsync(string id);
+        Task<IEnumerable<Client>> GetAllByIdAsync(string id);
 
         Task<IEnumerable<Client>> GetAllAsync();
 
