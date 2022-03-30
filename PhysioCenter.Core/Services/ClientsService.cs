@@ -43,11 +43,7 @@
             if (repo.All<Client>().Any(c => c.FullName == input.FullName))
                 return;
 
-            await repo.AddAsync(new Client
-            {
-                Id = Guid.NewGuid(),
-                FullName = _htmlSanitizer.Sanitize(input.FullName),
-            });
+            await repo.AddAsync(input);
             await repo.SaveChangesAsync();
         }
 
