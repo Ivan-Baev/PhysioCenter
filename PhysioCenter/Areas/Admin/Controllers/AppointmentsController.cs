@@ -108,8 +108,8 @@
             ViewData["Therapists"] = new SelectList(therapists, "Id", "FullName");
             ViewData["Services"] = new SelectList(services, "Id", "Name");
 
-            var hoursToDisable = await GetTherapistSchedule(appointmentToEdit.TherapistId.ToString());
-            ViewData["hoursToDisable"] = hoursToDisable.Value;
+            //var hoursToDisable = await GetTherapistSchedule(appointmentToEdit.TherapistId.ToString());
+            //ViewData["hoursToDisable"] = hoursToDisable.Value;
 
             return this.View(viewModel);
         }
@@ -147,28 +147,6 @@
             TempData["SuccessfullyDeleted"] = "You have successfully deleted the appointment!";
 
             return RedirectToAction("Index");
-        }
-
-        public async Task<JsonResult> GetTherapistSchedule(string id)
-        {
-            var items = await appointmentsService.GetUpcomingByTherapistIdAsync(id);
-
-            var schedule = new List<string>();
-            foreach (var appointment in items)
-            {
-                schedule.Add(appointment.DateTime.ToString("dd/MM/yyyy HH"));
-            }
-            var json = JsonConvert.SerializeObject(schedule);
-
-            return Json(json);
-        }
-
-        public async Task<ActionResult> GetTherapistServices(string id)
-        {
-            var services = await therapistsServicesService.GetProvidedTherapistServicesByIdAsync(id);
-            var providedServices = new SelectList(services, "ServiceId", "Service.Name");
-
-            return Json(providedServices);
         }
     }
 }
