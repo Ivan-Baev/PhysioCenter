@@ -2,11 +2,17 @@
     ViewData["Title"] = "Home Page";
 }
 
+@if (TempData.ContainsKey("SuccessfullyAdded"))
+{
+    <div id="mainAlertMessage" class="alert alert-success text-center alert-dismissible" role="alert">
+        @TempData["SuccessfullyAdded"]
+    </div>
+}
 
 <body class="d-flex flex-column h-100">
     <div>
         <main>
-            <header class="bg-dark py-5">
+            <header class="py-5">
                 <div class="container px-5">
                     <div class="row gx-5 align-items-center justify-content-center">
                         <div class="col-lg-8 col-xl-7 col-xxl-6">
@@ -19,13 +25,14 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-xl-5 col-xxl-6 d-none d-xl-block text-center"><img class="img-fluid rounded-3 my-5" src="https://miro.medium.com/max/1200/1*kSoM90L6mstp2fNPut4d0g.jpeg" alt="..." /></div>
+                        <div class="col-xl-5 col-xxl-6 d-none d-xl-block text-center"><img class="img-fluid rounded-3 my-5" src="https://res.cloudinary.com/physiocenter/image/upload/v1648640572/PhysioCenter%20Images/physiotherapy_zeel9v.jpg" alt="..." /></div>
                     </div>
                 </div>
             </header>
             <!-- Features section-->
-            <section class="py-5" id="features">
+            <section class="py-5" id="features" style="color:white;">
                 <div class="container px-5 my-5">
+                        <canvas id=c></canvas>
                     <div class="row gx-5">
                         <div class="col-lg-4 mb-5 mb-lg-0"><h2 class="fw-bolder mb-0">A better way to start healing.</h2></div>
                         <div class="col-lg-8">
@@ -78,7 +85,7 @@
             <!-- Blog preview section-->
             <section class="py-5">
                 <div class="container px-5 my-5">
-                    <div class="row gx-5 justify-content-center">
+                    <div class="row gx-5 justify-content-center" style="color: white;">
                         <div class="col-lg-8 col-xl-6">
                             <div class="text-center">
                                 <h2 class="fw-bolder">From our blog</h2>
@@ -152,16 +159,15 @@
                         </div>
                     </div>
                     <!-- Call to action-->
-                    <aside class="bg-primary bg-gradient rounded-3 p-4 p-sm-5 mt-5">
+                    <aside class="bg-gradient rounded-3 p-4 p-sm-5 mt-5" style="color:transparent;">
                         <div class="d-flex align-items-center justify-content-between flex-column flex-xl-row text-center text-xl-start">
                             <div class="mb-4 mb-xl-0">
-                                <div class="fs-3 fw-bold text-white">New products, delivered to you.</div>
-                                <div class="text-white-50">Sign up for our newsletter for the latest updates.</div>
+                                <div class="fs-3 fw-bold text-white"><a class="nav-link" asp-controller="Appointments" asp-action="Index">Book your appointment now!</a></div>
+                                <div class="text-white-50">Register for our services and get access to the booking system.</div>
                             </div>
                             <div class="ms-xl-4">
                                 <div class="input-group mb-2">
-                                    <input class="form-control" type="text" placeholder="Email address..." aria-label="Email address..." aria-describedby="button-newsletter" />
-                                    <button class="btn btn-outline-light" id="button-newsletter" type="button">Sign up</button>
+                                    <a class="btn btn-outline-light" id="button-newsletter" type="button" href="/Identity/Account/Register">Register an account</a>
                                 </div>
                                 <div class="small text-white-50">We care about privacy, and will never share your data.</div>
                             </div>
