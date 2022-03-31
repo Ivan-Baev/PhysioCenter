@@ -28,8 +28,12 @@
 
         public async Task AddTherapistClientAsync(TherapistClient input)
         {
-            await repo.AddAsync(input);
-            await repo.SaveChangesAsync();
+            if (repo.All<TherapistClient>()
+                .FirstOrDefaultAsync(x => x.ClientId == input.ClientId) == null)
+            {
+                await repo.AddAsync(input);
+                await repo.SaveChangesAsync();
+            }
         }
     }
 }

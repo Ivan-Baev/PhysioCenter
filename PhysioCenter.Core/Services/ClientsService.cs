@@ -57,5 +57,12 @@
             repo.Delete<Client>(client);
             await repo.SaveChangesAsync();
         }
+
+        public async Task<Client> GetClientByUserId(string id)
+        {
+            return await repo.All<Client>()
+                .Where(x => x.UserId == id)
+                .FirstOrDefaultAsync();
+        }
     }
 }
