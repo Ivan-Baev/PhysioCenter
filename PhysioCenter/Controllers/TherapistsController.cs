@@ -1,6 +1,12 @@
 ﻿namespace PhysioCenter.Controllers
 {
-    public class TherapistsController
+    using Microsoft.AspNetCore.Mvc;
+
+    public class TherapistsController : BaseController
     {
+        public IActionResult Index()
+        {
+            return View();
+        }
     }
 }
