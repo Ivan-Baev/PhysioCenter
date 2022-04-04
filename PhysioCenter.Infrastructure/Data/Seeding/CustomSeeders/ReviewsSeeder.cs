@@ -36,6 +36,14 @@
                         ClientId = clientId,
                         TherapistId = therapistId,
                     },
+                    new Review
+                    {
+                        Id = Guid.NewGuid(),
+                        Content = "Test 2I had a traumatic brain injury and my progress has been outstanding thanks to the knowledge and encouragement of the staff in the clinic. Everyone is so friendly and welcoming, you can really tell they take pride in their work. I would definitely recommend this location because they produce results!",
+                        CreatedOn = DateTime.UtcNow,
+                        ClientId = clientId,
+                        TherapistId = therapistId,
+                    },
                 };
 
             await dbContext.AddRangeAsync(reviews);

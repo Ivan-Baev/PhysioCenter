@@ -2,18 +2,23 @@
 {
     using System.ComponentModel.DataAnnotations;
 
+    using static PhysioCenter.Infrastructure.Data.Constants.DataValidations;
+
     public class Therapist
     {
         [Key]
         public Guid Id { get; set; } = Guid.NewGuid();
 
         [Required]
+        [MaxLength(TherapistNameMaxLength)]
         public string FullName { get; set; }
 
         [Required]
+        [Url]
         public string ProfileImageUrl { get; set; }
 
         [Required]
+        [MaxLength(TherapistDescriptionMaxLength)]
         public string Description { get; set; }
 
         public virtual string UserId { get; set; }
