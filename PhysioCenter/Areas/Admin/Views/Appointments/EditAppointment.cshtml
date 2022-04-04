@@ -5,7 +5,7 @@
     ViewData["Title"] = "Edit an Appointment";
     var therapists = ViewData["Therapists"] as SelectList;
     var clients = ViewData["Clients"] as SelectList;
-    var services = ViewData["Services"] as SelectList;
+    var services = ViewData["ServicesTest"] as SelectList;
 }
 
 
@@ -35,8 +35,7 @@
             </div>
             <label class="col-sm-2 col-form-label">Service</label>
             <div class="col-sm-10">
-                <select asp-for="@Model.ServiceId" class="form-select" asp-items="@services" style="width:400px;">
-                    <option value="" disabled selected hidden>Choose a Service...</option>
+                <select asp-for="ServiceId" class="form-select" id="servicesDropDown" asp-items="@services" style="width:400px;">
                 </select>
                 <span asp-validation-for="ServiceId" class="text-danger"></span>
             </div>
@@ -63,8 +62,8 @@
 </main>
 
 @section Scripts {
+<script src="~/js/therapist-services.js" asp-append-version="true"></script>
 <script src="~/js/therapist-schedule.js" asp-append-version="true"></script>
 <script src="~/js/bootstrap-datetimepicker.js" asp-append-version="true"></script>
-<script src="~/js/datetime.js" asp-append-version="true"></script>
 <partial name="_ValidationScriptsPartial" />
     }

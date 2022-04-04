@@ -20,6 +20,7 @@
             _mapper = mapper;
             _reviewsService = reviewsService;
         }
+
         public async Task<IActionResult> Index()
         {
             var input = await _reviewsService.GetAllAsync();
@@ -28,6 +29,25 @@
                 Reviews = _mapper.Map<IEnumerable<ReviewViewModel>>(input)
             };
             return View(viewModel);
+        }
+
+        public async Task<IActionResult> DeleteConfirmation(string id)
+        {
+            var reviewToDelete = await _reviewsService.GetByIdAsync(id);
+
+            var viewModel = _mapper.Map<ReviewViewModel>(reviewToDelete);
+
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(string id)
+        {
+            await _reviewsService.DeleteAsync(id);
+
+            TempData["SuccessfullyDeleted"] = "You have successfully deleted the category!";
+
+            return RedirectToAction("Index");
         }
     }
 }

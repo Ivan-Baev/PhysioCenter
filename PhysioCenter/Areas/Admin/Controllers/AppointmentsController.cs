@@ -67,11 +67,9 @@
         {
             var clients = await clientsService.GetAllAsync();
             var therapists = await therapistsService.GetAllAsync();
-            var services = await servicesService.GetAllAsync();
 
             ViewData["Clients"] = new SelectList(clients, "Id", "FullName");
             ViewData["Therapists"] = new SelectList(therapists, "Id", "FullName");
-            ViewData["Services"] = new SelectList(services, "Id", "Name");
 
             return this.View();
         }
@@ -81,7 +79,16 @@
         {
             if (!ModelState.IsValid)
             {
-                return View(input);
+                var clients = await clientsService.GetAllAsync();
+                var therapists = await therapistsService.GetAllAsync();
+                var services = await therapistsServicesService.GetProvidedTherapistServicesByIdAsync(input.TherapistId);
+
+                ViewData["Clients"] = new SelectList(clients, "Id", "FullName");
+                ViewData["Therapists"] = new SelectList(therapists, "Id", "FullName");
+                ViewData["Services"] = new SelectList(services, "ServiceId", "Service.Name");
+
+
+                return View();
             }
 
             var appointment = mapper.Map<Appointment>(input);
@@ -102,11 +109,11 @@
 
             var clients = await clientsService.GetAllAsync();
             var therapists = await therapistsService.GetAllAsync();
-            var services = await servicesService.GetAllAsync();
+            var services = await therapistsServicesService.GetProvidedTherapistServicesByIdAsync(appointmentToEdit.TherapistId.ToString());
 
             ViewData["Clients"] = new SelectList(clients, "Id", "FullName");
             ViewData["Therapists"] = new SelectList(therapists, "Id", "FullName");
-            ViewData["Services"] = new SelectList(services, "Id", "Name");
+            ViewData["ServicesTest"] = new SelectList(services, "ServiceId", "Service.Name");
 
             return this.View(viewModel);
         }
@@ -116,7 +123,14 @@
         {
             if (!ModelState.IsValid)
             {
-                return View(input);
+                var clients = await clientsService.GetAllAsync();
+                var therapists = await therapistsService.GetAllAsync();
+                var services = await therapistsServicesService.GetProvidedTherapistServicesByIdAsync(input.TherapistId);
+
+                ViewData["Clients"] = new SelectList(clients, "Id", "FullName");
+                ViewData["Therapists"] = new SelectList(therapists, "Id", "FullName");
+                ViewData["Services"] = new SelectList(services, "ServiceId", "Service.Name");
+                return View();
             }
 
             var appointment = mapper.Map<Appointment>(input);

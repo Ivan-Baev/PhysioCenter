@@ -5,6 +5,7 @@
     ViewData["Title"] = "Create an Appointment";
     var therapists = ViewData["Therapists"] as SelectList;
     var clients = ViewData["Clients"] as SelectList;
+    var services = ViewData["Services"] as SelectList;
 }
 
 
@@ -34,7 +35,7 @@
             </div>
             <label class="col-sm-2 col-form-label">Service</label>
             <div class="col-sm-10">
-                <select asp-for="@Model.ServiceId" class="form-select" id="servicesDropDown" style="width:400px;">
+                <select asp-for="@Model.ServiceId" class="form-select" id="servicesDropDown" asp-items="@services" style="width:400px;">
                     <option value="" disabled selected hidden>Please choose a therapist first!..</option>
                 </select>
                 <span asp-validation-for="ServiceId" class="text-danger"></span>

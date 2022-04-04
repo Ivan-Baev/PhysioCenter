@@ -2,6 +2,8 @@
 {
     using AutoMapper;
 
+    using Ganss.XSS;
+
     using Microsoft.AspNetCore.Mvc;
 
     using PhysioCenter.Areas.Administration.Controllers;
@@ -14,15 +16,18 @@
         private readonly IBlogsService _blogsService;
         private readonly IMapper _mapper;
         private readonly ICloudinaryService _cloudinaryService;
+        private readonly IHtmlSanitizer _htmlSanitizer;
 
         public BlogsController(
             IMapper mapper,
             IBlogsService blogsService,
-            ICloudinaryService cloudinaryService)
+            ICloudinaryService cloudinaryService,
+            IHtmlSanitizer htmlSanitizer)
         {
             _mapper = mapper;
             _blogsService = blogsService;
             _cloudinaryService = cloudinaryService;
+            _htmlSanitizer = htmlSanitizer;
         }
 
         public async Task<IActionResult> Index()
@@ -48,6 +53,7 @@
                 return View(input);
             }
 
+            var test = _htmlSanitizer.Sanitize(input.ToString());
             string imageUrlCloudinary = await _cloudinaryService.UploadFileAsync(input.Image, input.Title);
             var blogToAdd = _mapper.Map<Blog>(input);
             blogToAdd.ImageUrl = imageUrlCloudinary;
