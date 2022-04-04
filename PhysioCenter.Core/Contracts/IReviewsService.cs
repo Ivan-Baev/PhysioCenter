@@ -5,5 +5,9 @@
     public interface IReviewsService
     {
         Task<IEnumerable<Review>> GetAllAsync();
+
+        Task AddAsync(Review input);
+
+        Task DeleteAsync(string id);
     }
 }

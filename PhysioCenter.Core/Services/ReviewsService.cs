@@ -22,5 +22,22 @@
                 .Include(x => x.Therapist)
                 .ToListAsync();
         }
+
+        public async Task AddAsync(Review input)
+        {
+            await repo.AddAsync(input);
+            await repo.SaveChangesAsync();
+        }
+
+        public async Task DeleteAsync(string id)
+        {
+            var review =
+               await repo.All<Review>()
+                .Where(x => x.Id == Guid.Parse(id))
+                .FirstOrDefaultAsync();
+
+            repo.Delete<Review>(review);
+            await repo.SaveChangesAsync();
+        }
     }
 }

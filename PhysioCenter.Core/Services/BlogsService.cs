@@ -40,6 +40,13 @@
                 .ToListAsync();
         }
 
+        public async Task<IEnumerable<Blog>> GetFeatured()
+        {
+            return await repo.All<Blog>()
+                .Take(3)
+                .ToListAsync();
+        }
+
         public async Task<Blog> GetByIdAsync(string id)
         {
             return
