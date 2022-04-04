@@ -1,6 +1,7 @@
 ﻿function getTherapistServices(e) {
     e.preventDefault();
     var select = $("#therapistDropDown").val();
+    /*if (select !== null) {*/
     $.ajax({
         url: "/api/GetTherapistServices",
         method: "GET",
@@ -19,6 +20,8 @@
             console.log(err);
         }
     })
+    //}
 }
 
 document.querySelector('#therapistDropDown').addEventListener('change', getTherapistServices, false);
+//document.addEventListener('DOMContentLoaded', getTherapistServices, false);

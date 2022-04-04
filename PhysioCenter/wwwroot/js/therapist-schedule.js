@@ -7,6 +7,8 @@ function getTherapistSchedule(e) {
 
     e.preventDefault();
     var select = $("#therapistDropDown").val();
+    if (select !== null) {
+
     $.ajax({
         url: "/api/GetTherapistSchedule",
         method: "GET",
@@ -44,6 +46,8 @@ function getTherapistSchedule(e) {
             console.log(err);
         }
     })
+    }
 }
 
 document.querySelector('#therapistDropDown').addEventListener('change', getTherapistSchedule, false);
+document.addEventListener('DOMContentLoaded', getTherapistSchedule, false);
