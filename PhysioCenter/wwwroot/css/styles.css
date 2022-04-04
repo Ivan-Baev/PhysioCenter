@@ -4233,6 +4233,7 @@ textarea.form-control-lg {
     color: #0d6efd;
     text-decoration: none;
     transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out;
+    margin: 3px;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -12031,5 +12032,14 @@ canvas {
     position: fixed;
     top: 0;
     left: 0;
-    z-index:-1;
+    z-index: -1;
 }
+
+.zoom-box {
+    transition: transform .2s; /* Animation */
+}
+
+    .zoom-box:hover {
+        transform: scale(1.2);
+        z-index: 99 !important;
+    }

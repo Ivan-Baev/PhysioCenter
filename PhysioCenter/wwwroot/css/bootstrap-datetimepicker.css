@@ -166,7 +166,7 @@
 }
 
 .datetimepicker table tr td.day {
-    background: green;
+    background: #beffbe96;
 }
 
     .datetimepicker table tr td.day:hover {
@@ -177,7 +177,7 @@
 .datetimepicker table tr td.old,
 .datetimepicker table tr td.new {
     color: black;
-    background: green;
+    background: #beffbe96;
 }
 
 .datetimepicker table tr td.disabled,
@@ -304,7 +304,7 @@
     -webkit-border-radius: 20px;
     -moz-border-radius: 20px;
     border-radius: 20px;
-    background: green;
+    background: #beffbe96;
 }
 
 .datetimepicker .datetimepicker-hours span {
