@@ -8,7 +8,7 @@ function getTherapistSchedule(e) {
     e.preventDefault();
     var select = $("#therapistDropDown").val();
     $.ajax({
-        url: "https://localhost:7124/api/Therapist/GetTherapistSchedule",
+        url: "/api/GetTherapistSchedule",
         method: "GET",
         data: { 'id': select },
         success: function (data) {

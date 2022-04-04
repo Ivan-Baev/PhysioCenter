@@ -1,4 +1,4 @@
 ﻿$(function () {
-    var duration = 4000; // 4 seconds
-    setTimeout(function () { $('#mainAlertMessage').hide(); }, duration);
+    var duration = 3 * 1000; // 
+    setTimeout(function () { $('#mainAlertMessage').fadeOut(2000); }, duration);
 });

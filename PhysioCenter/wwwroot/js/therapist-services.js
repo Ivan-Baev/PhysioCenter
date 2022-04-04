@@ -2,7 +2,7 @@
     e.preventDefault();
     var select = $("#therapistDropDown").val();
     $.ajax({
-        url: "https://localhost:7124/api/Therapist/GetTherapistServices",
+        url: "/api/GetTherapistServices",
         method: "GET",
         data: { 'id': select },
         success: function (data) {
