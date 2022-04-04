@@ -1,12 +1,15 @@
 ﻿namespace PhysioCenter.Models.Notes
 {
-    using PhysioCenter.CustomAttributes.Images;
+    using PhysioCenter.Constants;
 
     using System.ComponentModel.DataAnnotations;
+
+    using static PhysioCenter.Infrastructure.Data.Constants.DataValidations;
 
     public class NoteInputViewModel
     {
         [Required]
+        [StringLength(NoteContentMaxLength, MinimumLength = NoteContentMinLength, ErrorMessage = ErrorMessages.NoteContentLength)]
         public string Content { get; set; }
 
         [Required]

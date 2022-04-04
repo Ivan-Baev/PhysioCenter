@@ -1,28 +1,32 @@
 ﻿namespace PhysioCenter.Models.Services
 {
+    using PhysioCenter.Constants;
     using PhysioCenter.CustomAttributes.Images;
 
     using System.ComponentModel.DataAnnotations;
+
+    using static PhysioCenter.Infrastructure.Data.Constants.DataValidations;
 
     public class ServiceEditViewModel
     {
         public string Id { get; set; }
 
         [Required]
-        [StringLength(1000, MinimumLength = 50, ErrorMessage = "The description must be between {2} and {1} characters long!")]
+        [StringLength(ServiceDescriptionMaxLength, MinimumLength = ServiceDescriptionMinLength, ErrorMessage = ErrorMessages.ServiceDescriptionLength)]
         public string Description { get; set; }
 
         [Required]
         public string CategoryId { get; set; }
 
         [Required]
-        [StringLength(100, MinimumLength = 5, ErrorMessage = "The description must be between {2} and {1} characters long!")]
+        [StringLength(ServiceNameMaxLength, MinimumLength = ServiceNameMinLength, ErrorMessage = ErrorMessages.ServiceNameLength)]
         public string Name { get; set; }
 
         [Required]
-        [Range(10, 100, ErrorMessage = "Price must be between {2} and {1}!")]
+        [Range(ServiceMinPrice, ServiceMaxPrice, ErrorMessage = ErrorMessages.ServicePriceRange)]
         public double Price { get; set; }
 
+        [Url]
         public string ImageUrl { get; set; }
 
         [DataType(DataType.Upload)]
