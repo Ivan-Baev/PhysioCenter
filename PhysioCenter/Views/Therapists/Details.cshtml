@@ -1,0 +1,43 @@
+﻿@using PhysioCenter.Models.Therapists
+@model TherapistCardViewModel
+
+@{
+    this.ViewData["Title"] = "Therapist Details";
+}
+
+<body class="d-flex flex-column" style="background-color: black">
+    <main class="flex-shrink-0">
+        <!-- Page Content-->
+        <section class="py-5 text-white">
+            <canvas id=c hidden></canvas>
+            <div class="container px-5 my-5">
+                <div class="row gx-5">
+                    <div class="col-lg-3">
+                        <div class="d-flex align-items-center mt-lg-5 mb-4">
+                            <img class="img-fluid rounded-circle" src="@Model.ProfileImageUrl" alt="..." />
+                        </div>
+                    </div>
+                    <div class="col-lg-9">
+                        <!-- Post content-->
+                        <article>
+                            <!-- Post header-->
+                            <header class="mb-4">
+                                <!-- Post title-->
+                                <h1 class="fw-bolder mb-1">@Model.FullName</h1>
+                                <!-- Post meta content-->
+                                <div class="text-muted fst-italic mb-2">January 1, 2021</div>
+                            </header>
+                            <!-- Post content-->
+                            <section class="mb-5">
+                                <p class="fs-5 mb-4" style="white-space:break-spaces">@Model.Description</p>
+                            </section>
+                        </article>
+                    </div>
+                </div>
+                    <a class="btn btn-light" asp-controller="Appointments" asp-action="BookAppointment">Book appointment</a>
+                    <a class="btn btn-danger " asp-controller="Services" asp-action="Index">Back to services</a>
+            </div>
+        </section>
+    </main>
+
+</body>

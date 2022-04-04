@@ -1,0 +1,23 @@
+﻿@using PhysioCenter.Models.Blogs
+@model BlogsListViewModel
+@{
+    this.ViewData["Title"] = "All posts";
+}
+
+<link rel="stylesheet" href="~/css/cards.css" asp-append-version="true" />
+<canvas id=c></canvas>
+<div class="container mt-5 mb-5">
+    <div class="row g-2">
+        @foreach (var post in Model.Blogs)
+        {
+            <div class="col-md-12 zoom-box" style="display:flex; flex-direction: column;">
+                <div title="Click for details!" class="card p-3 py-3 text-center" onclick=location.href="@Url.Action("Details", new { blogId = @post.Id })">
+                    <div class="img mb-10"> <img src="@post.ImageUrl" width="20%" class="rounded-circle"> </div>
+                    <h5 class="mb-0">@post.Title</h5>
+                    <div class="mt-4 apointment"> <a class="btn btn-dark text-uppercase" asp-controller="Blogs" asp-action="Details" asp-route-blogId="@post.Id">Read More</a> </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+

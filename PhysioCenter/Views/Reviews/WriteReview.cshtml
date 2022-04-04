@@ -1,0 +1,39 @@
+﻿@using PhysioCenter.Models.Reviews
+@model ReviewInputViewModel
+
+@{
+    ViewData["Title"] = "Write a review";
+}
+
+<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+<main role="main" class="pb-3">
+    <h2>Write your review below:</h2>
+    <form method="post" enctype="multipart/form-data" class="pt-4">
+        <div class="form-group">
+            <div class="form-floating mb-3 w-25">
+                <input asp-for="Content" class="form-control" id="floatingInput" placeholder="Leave a comment here">
+                <label asp-for="Content" for="floatingInput">Review text</label>
+                <span asp-validation-for="Content" class="small text-danger"></span>
+            </div>
+            <input hidden value="@TempData["ClientId"]" asp-for="ClientId"/>
+            <input hidden asp-for=TherapistId/>
+            <div class="col-sm-12" style="margin-top: 20px;">
+                <button type="submit" class="btn btn-success"
+                        asp-controller="Reviews"
+                        asp-action="WriteReview">
+                    Post the review!
+                </button>
+                <a class="btn btn-danger" asp-controller="Reviews"
+                   asp-action="Index">
+                    Cancel
+                </a>
+            </div>
+
+        </div>
+    </form>
+</main>
+
+@section Scripts {
+<partial name="_ValidationScriptsPartial" />
+    }

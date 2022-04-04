@@ -1,0 +1,22 @@
+﻿@using PhysioCenter.Models.Therapists
+@model List<TherapistCardViewModel>
+@{
+    this.ViewData["Title"] = "Your therapists";
+}
+
+<link rel="stylesheet" href="~/css/cards.css" asp-append-version="true" />
+<canvas id=c></canvas>
+<div class="container mt-5 mb-5">
+    <div class="row g-2">
+        @foreach (var therapist in Model)
+        {
+            <div class="col-md-4 zoom-box">
+                <div class="mt-4 apointment">Leave a Review</div>
+                <div title="Click to leave a review!" class="card p-3 py-3 text-center" onclick="location.href='@Url.Action("WriteReview", "Reviews", new {therapistId = @therapist.Id})'">
+                    <div class="img mb-2"> <img src="@therapist.ProfileImageUrl" width="100" class="rounded-circle"> </div>
+                    <h5 class="mb-0">@therapist.FullName</h5>
+                </div>
+            </div>
+        }
+    </div>
+</div>

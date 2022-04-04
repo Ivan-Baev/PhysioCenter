@@ -1,0 +1,45 @@
+﻿@using PhysioCenter.Models.Services
+@model ServiceViewModel
+
+@{
+    this.ViewData["Title"] = "Service details";
+}
+
+<body class="d-flex flex-column" style="background-color: black">
+    <main class="flex-shrink-0">
+        <!-- Page Content-->
+        <section class="py-5 text-white">
+            <canvas id=c hidden></canvas>
+            <div class="container px-5 my-5">
+                <div class="row gx-5">
+                    <div class="col-lg-3">
+                        <div class="d-flex align-items-center mt-lg-5 mb-4">
+                            <img class="img-fluid rounded-circle" src="@Model.ImageUrl" alt="..." />
+                        </div>
+                    </div>
+                    <div class="col-lg-9">
+                        <!-- Post content-->
+                        <article>
+                            <!-- Post header-->
+                            <header class="mb-4">
+                                <!-- Post title-->
+                                <h1 class="fw-bolder mb-1">@Model.Name</h1>
+                                <!-- Post categories-->
+                                <a class="badge bg-secondary text-decoration-none link-light">Category: @Model.CategoryName</a>
+                                <a class="badge bg-secondary text-decoration-none link-light">Current price: @Model.Price$</a>
+                            </header>
+                            <!-- Post content-->
+                            <section class="mb-5">
+                                <p class="fs-5 mb-4" style="white-space:break-spaces">@Model.Description</p>
+                            </section>  
+                        </article>
+                    </div>
+                </div>
+                                <a class="btn btn-light" asp-controller="Appointments" asp-action="BookAppointment" >Book appointment</a>
+                                <a class="btn btn-danger " asp-controller="Services" asp-action="Index" >Back to services</a>
+            </div>
+        </section>
+    </main>
+
+</body>
+

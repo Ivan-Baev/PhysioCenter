@@ -1,0 +1,31 @@
+﻿@using PhysioCenter.Models.Categories
+@model CategoriesListViewModel
+
+@{
+    this.ViewData["Title"] = "Services";
+}
+
+<link rel="stylesheet" href="~/css/cards.css" asp-append-version="true" />
+<canvas id=c></canvas>
+@foreach (var category in Model.Categories)
+{
+    <div class="container mt-5 mb-5">
+        <div class="d-flex text-white justify-content-between mb-3"> <h2>@category.Name</h2></div>
+        <div class="row g-2">
+            @foreach (var service in category.Services)
+            {
+                <div class="col-md-2 card p-3 py-3 text-center zoom-box" style="display: block; margin:3px;">
+                <div title="Click for additional details!"  onclick="location.href='@Url.Action("Details", "Services", new { serviceId = @service.Id})'">
+                    <div class="card p-3 py-3 text-center">
+                        <div class="img mb-2"> <img src="@service.ImageUrl" width="100%" class="rounded-circle"> </div>
+                        <h5 class="mb-0">@service.Name</h5> <small>Price: @service.Price</small>
+                        <div class="mt-4 apointment">
+                            <button class="btn btn-success text-uppercase" >View Details</button>
+                        </div>
+                    </div>
+                </div>
+                </div>
+            }
+        </div>
+    </div>
+}

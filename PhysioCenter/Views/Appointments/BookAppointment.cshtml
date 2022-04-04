@@ -14,9 +14,9 @@
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/fontawesome.css">
 }
 
-<main role="main" class="pb-3">
+<main role="main" class="pb-3 text-light">
     <canvas id=c></canvas>
-    <h2>Create New Appointment</h2>
+    <h2>Book an Appointment</h2>
     <form method="post" enctype="multipart/form-data" class="pt-4">
         <div class="form-group">
             <label class="col-sm-2 col-form-label">Therapist</label>
@@ -38,7 +38,6 @@
             <div class="col-sm-10">
                 <input asp-for="DateTime" class="datepicker form-select" style="width:400px;" type="text" readonly name="DateTime">
                 <span asp-validation-for="DateTime" class="text-danger"></span>
-
             </div>
             <div class="col-sm-12" style="margin-top: 20px;">
                 <button type="submit" class="btn btn-success"

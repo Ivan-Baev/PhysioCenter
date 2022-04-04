@@ -1,0 +1,44 @@
+﻿@using PhysioCenter.Models.Blogs
+@model BlogViewModel
+
+@{
+    this.ViewData["Title"] = "Blog";
+}
+
+<body class="d-flex flex-column" style="background-color: black">
+    <main class="flex-shrink-0">
+        <!-- Page Content-->
+        <section class="py-5 text-white">
+            <canvas id=c hidden></canvas>
+            <div class="container px-5 my-5">
+                <div class="row gx-5">
+                    <div class="col-lg-3">
+                        <div class="d-flex align-items-center mt-lg-5 mb-4">
+                            <img class="img-fluid rounded-circle" src="@Model.ImageUrl" alt="..." />
+                        </div>
+                    </div>
+                    <div class="col-lg-9">
+                        <!-- Post content-->
+                        <article>
+                            <!-- Post header-->
+                            <header class="mb-4">
+                                <!-- Post title-->
+                                <h1 class="fw-bolder mb-1">@Model.Title</h1>
+                                <!-- Post meta content-->
+                                <div class="text-muted fst-italic mb-2">January 1, 2021</div>
+                                <!-- Post categories-->
+                                <a class="badge bg-secondary text-decoration-none link-light">Category</a>
+                                <a class="badge bg-secondary text-decoration-none link-light">Random</a>
+                            </header>
+                            <!-- Post content-->
+                            <section class="mb-5">
+                                <p class="fs-5 mb-4" style="white-space:break-spaces">@Model.Content</p>
+                            </section>
+                        </article>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+</body>
