@@ -10,6 +10,7 @@
         public ReviewProfile()
         {
             CreateMap<Review, ReviewViewModel>().ReverseMap();
+            CreateMap<Review, ReviewInputViewModel>().ReverseMap();
         }
     }
 }

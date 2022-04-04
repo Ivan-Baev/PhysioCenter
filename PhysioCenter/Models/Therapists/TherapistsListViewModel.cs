@@ -1,6 +1,5 @@
 ﻿namespace PhysioCenter.Models.Therapists
 {
-
     using System.Collections.Generic;
 
     public class TherapistsListViewModel

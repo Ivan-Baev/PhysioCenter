@@ -3,22 +3,37 @@
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
 
+    using PhysioCenter.Adapters;
+    using PhysioCenter.Core.Contracts;
     using PhysioCenter.Models;
 
     using System.Diagnostics;
 
     public class HomeController : BaseController
     {
-        public HomeController()
+        private readonly IBlogsService _blogsService;
+        private readonly IReviewsService _reviewsService;
+        private readonly IHomeViewModelAdapter _homeViewModelAdapter;
+
+        public HomeController(IBlogsService blogsService,
+            IReviewsService reviewsService,
+            IHomeViewModelAdapter homeViewModelAdapter)
         {
+            _blogsService = blogsService;
+            _reviewsService = reviewsService;
+            _homeViewModelAdapter = homeViewModelAdapter;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var blogs = await _blogsService.GetAllAsync();
+            var reviews = await _reviewsService.GetAllAsync();
+
+            var viewModel = _homeViewModelAdapter.CreateHomeViewModel(blogs, reviews);
+            return View(viewModel);
         }
 
-        public IActionResult Privacy()
+        public IActionResult About()
         {
             return View();
         }
@@ -29,12 +44,6 @@
         }
 
         public IActionResult FAQ()
-        {
-            return View();
-        }
-
-        [Authorize(Roles = "Standard User")]
-        public IActionResult BookAppointment()
         {
             return View();
         }

@@ -19,7 +19,6 @@
         private readonly IServicesService servicesService;
         private readonly IClientsService clientsService;
         private readonly ITherapistsService therapistsService;
-        private readonly ITherapistsServicesService therapistsServicesService;
         private readonly ITherapistsClientsService therapistsClientsService;
         private readonly UserManager<IdentityUser> _usersManager;
         private readonly IMapper mapper;
@@ -30,7 +29,6 @@
             IClientsService _clientsService,
             ITherapistsService _therapistsService,
             IMapper _mapper,
-            ITherapistsServicesService _therapistsServicesService,
             ITherapistsClientsService _therapistsClientsService,
             UserManager<IdentityUser> usersManager)
         {
@@ -39,7 +37,6 @@
             clientsService = _clientsService;
             therapistsService = _therapistsService;
             mapper = _mapper;
-            therapistsServicesService = _therapistsServicesService;
             therapistsClientsService = _therapistsClientsService;
             _usersManager = usersManager;
         }

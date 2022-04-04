@@ -108,9 +108,6 @@
             ViewData["Therapists"] = new SelectList(therapists, "Id", "FullName");
             ViewData["Services"] = new SelectList(services, "Id", "Name");
 
-            //var hoursToDisable = await GetTherapistSchedule(appointmentToEdit.TherapistId.ToString());
-            //ViewData["hoursToDisable"] = hoursToDisable.Value;
-
             return this.View(viewModel);
         }
 
