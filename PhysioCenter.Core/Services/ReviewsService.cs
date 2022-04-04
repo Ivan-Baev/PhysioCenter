@@ -39,5 +39,14 @@
             repo.Delete<Review>(review);
             await repo.SaveChangesAsync();
         }
+
+        public async Task<Review> GetByIdAsync(string id)
+        {
+            return
+                await repo.All<Review>()
+                .Where(x => x.Id == Guid.Parse(id))
+                .Include(x => x.Client)
+               .FirstOrDefaultAsync();
+        }
     }
 }

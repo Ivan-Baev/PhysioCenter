@@ -44,6 +44,7 @@
             return
                 await repo.All<Service>()
                 .Include(x => x.Therapists)
+                .ThenInclude(x => x.TherapistId == id)
                 .OrderByDescending(x => x.Name)
                 .ToListAsync();
         }

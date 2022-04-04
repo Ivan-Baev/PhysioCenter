@@ -9,5 +9,7 @@
         Task AddAsync(Review input);
 
         Task DeleteAsync(string id);
+
+        Task<Review> GetByIdAsync(string id);
     }
 }
