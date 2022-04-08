@@ -3,6 +3,7 @@
     using AutoMapper;
 
     using PhysioCenter.Infrastructure.Data.Models;
+    using PhysioCenter.Models.Clients;
     using PhysioCenter.Models.Therapists;
 
     public class TherapistsClientsProfile : Profile
@@ -17,6 +18,11 @@
                 .ForMember(dest => dest.FullName, opt => opt.MapFrom(src => src.Therapist.FullName))
                 .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Therapist.Description));
             CreateMap<Therapist, TherapistClient>().ReverseMap();
+
+            CreateMap<TherapistClient, ClientViewModel>()
+                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.TherapistId))
+                .ForMember(dest => dest.FullName, opt => opt.MapFrom(src => src.Therapist.FullName))
+                .ReverseMap();
         }
     }
 }
