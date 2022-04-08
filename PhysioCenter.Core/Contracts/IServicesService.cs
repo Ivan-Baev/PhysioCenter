@@ -4,13 +4,13 @@
 
     public interface IServicesService
     {
-        Task<Service> GetByIdAsync(string id);
+        Task<Service> GetByIdAsync(Guid id);
 
         Task<IEnumerable<Service>> GetAllAsync();
 
         Task AddAsync(Service input);
 
-        Task DeleteAsync(string id);
+        Task DeleteAsync(Guid id);
 
         Task UpdateDetailsAsync(Service input);
     }

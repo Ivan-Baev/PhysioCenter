@@ -22,11 +22,11 @@
             this.userManager = userManager;
         }
 
-        public async Task<Therapist> GetByIdAsync(string id)
+        public async Task<Therapist> GetByIdAsync(Guid id)
         {
             return
                 await repo.All<Therapist>()
-                .Where(x => x.Id == Guid.Parse(id))
+                .Where(x => x.Id == id)
                 .Include(x => x.Services).ThenInclude(x => x.Service)
                 .Include(x => x.Appointments)
                 .Include(x => x.Clients)
@@ -36,17 +36,31 @@
                .FirstOrDefaultAsync();
         }
 
-        public Guid FindTherapistId(string id)
+        public async Task<Therapist> FindTherapistById(string userId)
         {
-            var therapist = repo.All<Therapist>()
-               .FirstOrDefault(x => x.UserId == id);
+            var therapist = await repo.All<Therapist>()
+               .FirstOrDefaultAsync(x => x.UserId == userId);
+
+            if (therapist == null)
+            {
+                throw new ArgumentException("This therapist does not exist!");
+            }
+
+            return therapist;
+        }
+
+        public async Task<Therapist> FindTherapistById(Guid id)
+        {
+            var therapist = await repo.All<Therapist>()
+               .FirstOrDefaultAsync(x => x.Id == id)
+               ;
 
             if (therapist == null)
             {
                 throw new ArgumentNullException(nameof(id), "This therapist does not exist!");
             }
 
-            return therapist.Id;
+            return therapist;
         }
 
         public async Task<IEnumerable<Therapist>> GetAllAsync()
@@ -72,13 +86,9 @@
             await repo.SaveChangesAsync();
         }
 
-        public async Task DeleteAsync(string id)
+        public async Task DeleteAsync(Guid id)
         {
-            var therapist =
-               await repo.All<Therapist>()
-               .Include(x => x.Services)
-                .Where(x => x.Id == Guid.Parse(id))
-                .FirstOrDefaultAsync();
+            var therapist = await FindTherapistById(id);
 
             var userToDelete = await userManager.FindByIdAsync(therapist.UserId);
 

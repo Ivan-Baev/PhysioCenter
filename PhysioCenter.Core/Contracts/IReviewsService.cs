@@ -8,8 +8,8 @@
 
         Task AddAsync(Review input);
 
-        Task DeleteAsync(string id);
+        Task DeleteAsync(Guid id);
 
-        Task<Review> GetByIdAsync(string id);
+        Task<Review> GetByIdAsync(Guid id);
     }
 }

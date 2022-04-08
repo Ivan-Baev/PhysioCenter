@@ -26,10 +26,10 @@
                 .ToListAsync();
         }
 
-        public async Task<IEnumerable<TherapistClient>> GetProvidedClientTherapistsByIdAsync(string clientId)
+        public async Task<IEnumerable<TherapistClient>> GetProvidedClientTherapistsByIdAsync(Guid clientId)
         {
             return await repo.All<TherapistClient>()
-                .Where(x => x.ClientId.ToString() == clientId)
+                .Where(x => x.ClientId == clientId)
                 .Include(x => x.Therapist).ThenInclude(x => x.Appointments)
                 .ToListAsync();
         }

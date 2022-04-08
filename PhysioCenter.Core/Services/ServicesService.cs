@@ -18,13 +18,19 @@
             repo = _repo;
         }
 
-        public async Task<Service> GetByIdAsync(string id)
+        public async Task<Service> GetByIdAsync(Guid id)
         {
-            return
-                await repo.All<Service>()
+            var service = await repo.All<Service>()
                 .Include(x => x.Category)
-                .Where(x => x.Id == Guid.Parse(id))
+                .Where(x => x.Id == id)
                .FirstOrDefaultAsync();
+
+            if (service == null)
+            {
+                throw new ArgumentException("This service does not exist!");
+            }
+
+            return service;
         }
 
         public async Task<IEnumerable<Service>> GetAllAsync()
@@ -46,12 +52,9 @@
             await repo.SaveChangesAsync();
         }
 
-        public async Task DeleteAsync(string id)
+        public async Task DeleteAsync(Guid id)
         {
-            var service =
-               await repo.All<Service>()
-                .Where(x => x.Id == Guid.Parse(id))
-                .FirstOrDefaultAsync();
+            var service = await GetByIdAsync(id);
 
             repo.Delete<Service>(service);
             await repo.SaveChangesAsync();

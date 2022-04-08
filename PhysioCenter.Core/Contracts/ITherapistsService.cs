@@ -4,16 +4,18 @@
 
     public interface ITherapistsService
     {
-        Task<Therapist> GetByIdAsync(string id);
+        Task<Therapist> GetByIdAsync(Guid id);
 
         Task<IEnumerable<Therapist>> GetAllAsync();
 
-        Guid FindTherapistId(string id);
+        Task<Therapist> FindTherapistById(Guid id);
+
+        Task<Therapist> FindTherapistById(string id);
 
         Task AddAsync(Therapist input);
 
         Task UpdateDetailsAsync(Therapist input);
 
-        Task DeleteAsync(string id);
+        Task DeleteAsync(Guid id);
     }
 }

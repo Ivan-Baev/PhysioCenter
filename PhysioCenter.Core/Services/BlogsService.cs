@@ -14,6 +14,26 @@
             repo = _repo;
         }
 
+        public async Task<IEnumerable<Blog>> GetAllAsync()
+        {
+            return await repo.All<Blog>()
+                .ToListAsync();
+        }
+
+        public async Task<Blog> GetByIdAsync(Guid id)
+        {
+            var blog = await repo.All<Blog>()
+                .Where(x => x.Id == id)
+               .FirstOrDefaultAsync();
+
+            if (blog == null)
+            {
+                throw new ArgumentException("This blog does not exist");
+            }
+
+            return blog;
+        }
+
         public async Task AddAsync(Blog input)
         {
             if (repo.All<Blog>().Any(c => c.Title == input.Title))
@@ -23,34 +43,19 @@
             await repo.SaveChangesAsync();
         }
 
-        public async Task DeleteAsync(string id)
+        public async Task UpdateDetailsAsync(Blog input)
         {
-            var blog =
-               await repo.All<Blog>()
-                .Where(x => x.Id == Guid.Parse(id))
-                .FirstOrDefaultAsync();
+            var blog = await GetByIdAsync(input.Id);
 
-            repo.Delete<Blog>(blog);
+            repo.Update(blog);
             await repo.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<Blog>> GetAllAsync()
+        public async Task DeleteAsync(Guid id)
         {
-            return await repo.All<Blog>()
-                .ToListAsync();
-        }
+            var blog = await GetByIdAsync(id);
 
-        public async Task<Blog> GetByIdAsync(string id)
-        {
-            return
-                await repo.All<Blog>()
-                .Where(x => x.Id == Guid.Parse(id))
-               .FirstOrDefaultAsync();
-        }
-
-        public async Task UpdateDetailsAsync(Blog input)
-        {
-            repo.Update(input);
+            repo.Delete(blog);
             await repo.SaveChangesAsync();
         }
     }

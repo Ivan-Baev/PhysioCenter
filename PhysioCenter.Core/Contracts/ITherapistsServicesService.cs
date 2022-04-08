@@ -6,14 +6,16 @@
 
     public interface ITherapistsServicesService
     {
-        Task<IEnumerable<TherapistService>> GetTherapistServicesByIdAsync(string therapistId);
+        Task<IEnumerable<TherapistService>> GetTherapistServicesByIdAsync(Guid therapistId);
 
-        Task<IEnumerable<TherapistService>> GetProvidedTherapistServicesByIdAsync(string therapistId);
+        Task<IEnumerable<TherapistService>> GetProvidedTherapistServicesByIdAsync(Guid therapistId);
 
         Task AddAllServicesToTherapistId(IEnumerable<Service> services, Guid therapistId);
 
         Task AddAllTherapistsToServiceId(IEnumerable<Therapist> therapists, Guid serviceId);
 
-        Task ChangeProvidedStatusAsync(string therapistId, string serviceId);
+        Task FindTherapistServiceById(Guid therapistId, Guid serviceId);
+
+        Task ChangeProvidedStatusAsync(Guid therapistId, Guid serviceId);
     }
 }

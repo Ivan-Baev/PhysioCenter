@@ -40,5 +40,18 @@
                 .Where(x => x.UserId == id)
                 .FirstOrDefaultAsync();
         }
+
+        public async Task<Client> FindClientById(Guid id)
+        {
+            var client = await repo.All<Client>()
+               .FirstOrDefaultAsync(x => x.Id == id);
+
+            if (client == null)
+            {
+                throw new ArgumentException("This client does not exist!");
+            }
+
+            return client;
+        }
     }
 }

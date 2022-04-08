@@ -8,6 +8,8 @@
 
         Task<Client> GetClientByUserId(string id);
 
+        Task<Client> FindClientById(Guid id);
+
         Task AddAsync(Client input);
     }
 }

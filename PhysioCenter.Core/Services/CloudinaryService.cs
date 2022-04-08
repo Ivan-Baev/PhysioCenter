@@ -48,7 +48,7 @@
             await _cloudinary.DestroyAsync(deletionParams);
         }
 
-        private string GetShortenedUrl(string url)
+        private static string GetShortenedUrl(string url)
         {
             var startIndex = url.LastIndexOf('/') + 1;
             var length = url.LastIndexOf('.') - startIndex;

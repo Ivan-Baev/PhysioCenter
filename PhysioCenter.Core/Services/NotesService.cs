@@ -15,21 +15,18 @@
             repo = _repo;
         }
 
-        public async Task AddAsync(Note input)
+        public async Task<Note> GetByIdAsync(Guid id)
         {
-            await repo.AddAsync(input);
-            await repo.SaveChangesAsync();
-        }
+            var note = await repo.All<Note>()
+                .Where(x => x.Id == id)
+               .FirstOrDefaultAsync();
 
-        public async Task DeleteAsync(string id)
-        {
-            var note =
-               await repo.All<Note>()
-                .Where(x => x.Id == Guid.Parse(id))
-                .FirstOrDefaultAsync();
+            if (note == null)
+            {
+                throw new ArgumentException("This note does not exist");
+            }
 
-            repo.Delete<Note>(note);
-            await repo.SaveChangesAsync();
+            return note;
         }
 
         public async Task<IEnumerable<Note>> GetAllByClientIdAsync(string clientId)
@@ -41,17 +38,23 @@
                 .ToListAsync();
         }
 
-        public async Task<Note> GetByIdAsync(string id)
+        public async Task AddAsync(Note input)
         {
-            return
-                await repo.All<Note>()
-                .Where(x => x.Id == Guid.Parse(id))
-               .FirstOrDefaultAsync();
+            await repo.AddAsync(input);
+            await repo.SaveChangesAsync();
         }
 
         public async Task UpdateDetailsAsync(Note input)
         {
             repo.Update(input);
+            await repo.SaveChangesAsync();
+        }
+
+        public async Task DeleteAsync(Guid id)
+        {
+            var note = await GetByIdAsync(id);
+
+            repo.Delete(note);
             await repo.SaveChangesAsync();
         }
     }

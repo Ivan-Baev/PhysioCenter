@@ -3,7 +3,6 @@
     using Microsoft.EntityFrameworkCore;
 
     using PhysioCenter.Core.Contracts;
-    using PhysioCenter.Infrastructure.Data;
     using PhysioCenter.Infrastructure.Data.Models;
     using PhysioCenter.Infrastructure.Data.Repository;
 
@@ -15,21 +14,36 @@
     public class AppointmentsService : IAppointmentsService
     {
         private readonly IApplicationDbRepository repo;
+        private readonly ITherapistsService _therapistsService;
+        private readonly IClientsService _clientsService;
+        private readonly ITherapistsServicesService _therapistsServicesService;
 
-        public AppointmentsService(IApplicationDbRepository _repo)
+        public AppointmentsService(IApplicationDbRepository _repo,
+            ITherapistsService therapistsService,
+            IClientsService clientsService,
+            ITherapistsServicesService therapistsServicesService)
         {
             repo = _repo;
+            _therapistsService = therapistsService;
+            _clientsService = clientsService;
+            _therapistsServicesService = therapistsServicesService;
         }
 
-        public async Task<Appointment> GetByIdAsync(string id)
+        public async Task<Appointment> GetByIdAsync(Guid id)
         {
-            return
-                await repo.All<Appointment>()
-                .Where(x => x.Id == Guid.Parse(id))
+            var appointment = await repo.All<Appointment>()
+                .Where(x => x.Id == id)
                 .Include(c => c.Client)
                 .Include(c => c.Therapist)
                 .Include(c => c.Service)
                .FirstOrDefaultAsync();
+
+            if (appointment == null)
+            {
+                throw new ArgumentException("The provided id does not exist");
+            }
+
+            return appointment;
         }
 
         public async Task<IEnumerable<Appointment>> GetAllAsync(int page, int itemsPerPage, string? clientName = null)
@@ -46,62 +60,78 @@
                     .ToList();
             }
 
-            appointments = appointments
+            return appointments
                 .Skip((page - 1) * itemsPerPage).Take(itemsPerPage)
                 .ToList();
+        }
 
-            if (appointments.Count == 0)
+        public async Task<IEnumerable<Appointment>> GetTodayByTherapistIdAsync(Guid therapistId, DateTime? filterDate)
+        {
+            await _therapistsService.FindTherapistById(therapistId);
+
+            var appointments = await repo.All<Appointment>()
+                .Where(x => x.TherapistId == therapistId)
+                 .Include(c => c.Client)
+                 .Include(c => c.Service)
+                .OrderBy(x => x.DateTime)
+                .ToListAsync();
+
+            if (filterDate == null)
             {
-                throw new InvalidOperationException("There are no appointments");
+                appointments = appointments.Where(c => c.DateTime.Date == DateTime.UtcNow.Date)
+                    .ToList();
+            }
+
+            if (filterDate != null)
+            {
+                var wtf = filterDate.Value.Date;
+                appointments = appointments.Where(c => c.DateTime.Date == filterDate.Value.Date)
+                    .ToList();
             }
 
             return appointments;
         }
 
-        public async Task<IEnumerable<Appointment>> GetTodayByTherapistIdAsync(Guid therapistId)
-        {
-            return
-                await repo.All<Appointment>()
-                .Where(x => x.TherapistId == therapistId
-                        && x.DateTime.Day == DateTime.UtcNow.Day)
-                 .Include(c => c.Client)
-                 .Include(c => c.Service)
-                .OrderBy(x => x.DateTime)
-                .ToListAsync();
-        }
-
         public async Task<IEnumerable<Appointment>> GetUpcomingByTherapistIdAsync(Guid therapistId)
         {
-            return
-                await repo.All<Appointment>()
+            await _therapistsService.FindTherapistById(therapistId);
+
+            var appointments = await repo.All<Appointment>()
                 .Where(x => x.TherapistId == therapistId
                         && x.DateTime >= DateTime.UtcNow)
                  .Include(c => c.Client)
                  .Include(c => c.Service)
                 .OrderBy(x => x.DateTime)
                 .ToListAsync();
+
+            return appointments;
         }
 
         public async Task AddAsync(Appointment input)
         {
+            await _therapistsService.FindTherapistById(input.TherapistId);
+            await _clientsService.FindClientById(input.ClientId);
+            await _therapistsServicesService.FindTherapistServiceById(input.TherapistId, input.ServiceId);
+
             await repo.AddAsync(input);
             await repo.SaveChangesAsync();
         }
 
         public async Task UpdateAsync(Appointment input)
         {
+            await _therapistsService.FindTherapistById(input.TherapistId);
+            await _clientsService.FindClientById(input.ClientId);
+            await _therapistsServicesService.FindTherapistServiceById(input.TherapistId, input.ServiceId);
+
             repo.Update(input);
             await repo.SaveChangesAsync();
         }
 
-        public async Task DeleteAsync(string id)
+        public async Task DeleteAsync(Guid id)
         {
-            var appointment =
-               await repo.All<Appointment>()
-                .Where(x => x.Id == Guid.Parse(id))
-                .FirstOrDefaultAsync();
+            var appointment = await GetByIdAsync(id);
 
-            repo.Delete<Appointment>(appointment);
+            repo.Delete(appointment);
             await repo.SaveChangesAsync();
         }
 

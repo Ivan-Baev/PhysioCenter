@@ -3,7 +3,6 @@
     using Microsoft.EntityFrameworkCore;
 
     using PhysioCenter.Core.Contracts;
-    using PhysioCenter.Infrastructure.Data;
     using PhysioCenter.Infrastructure.Data.Models;
     using PhysioCenter.Infrastructure.Data.Repository;
 
@@ -56,44 +55,46 @@
             await repo.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<TherapistService>> GetTherapistServicesByIdAsync(string therapistId)
+        public async Task<IEnumerable<TherapistService>> GetTherapistServicesByIdAsync(Guid therapistId)
         {
             return await repo.All<TherapistService>()
                 .Include(x => x.Service)
-                .Where(x => x.TherapistId.ToString() == therapistId)
+                .Where(x => x.TherapistId == therapistId)
                 .ToListAsync();
         }
 
-        public async Task<IEnumerable<TherapistService>> GetProvidedTherapistServicesByIdAsync(string therapistId)
+        public async Task<IEnumerable<TherapistService>> GetProvidedTherapistServicesByIdAsync(Guid therapistId)
         {
             return await repo.All<TherapistService>()
                 .Include(x => x.Service)
-                .Where(x => x.TherapistId.ToString() == therapistId && x.isProvided)
+                .Where(x => x.TherapistId == therapistId && x.isProvided)
                 .ToListAsync();
         }
 
-        public async Task ChangeProvidedStatusAsync(string therapistId, string serviceId)
+        public async Task ChangeProvidedStatusAsync(Guid therapistId, Guid serviceId)
         {
             var therapistService = await repo.All<TherapistService>()
                                 .FirstOrDefaultAsync(
-                                x => x.ServiceId.ToString() == serviceId
-                                && x.TherapistId.ToString() == therapistId);
+                                x => x.ServiceId == serviceId
+                                && x.TherapistId == therapistId);
 
             therapistService.isProvided = !therapistService.isProvided;
 
             await repo.SaveChangesAsync();
         }
 
-        public async Task AddTherapistToServiceAsync(string therapistId, string serviceId)
+        public async Task FindTherapistServiceById(Guid therapistId, Guid serviceId)
         {
             var therapistService = await repo.All<TherapistService>()
                                 .FirstOrDefaultAsync(
-                                x => x.ServiceId.ToString() == serviceId
-                                && x.TherapistId.ToString() == therapistId);
+                                x => x.ServiceId == serviceId
+                                && x.TherapistId == therapistId
+                                && x.isProvided);
 
-            therapistService.isProvided = !therapistService.isProvided;
-
-            await repo.SaveChangesAsync();
+            if (therapistService == null)
+            {
+                throw new ArgumentException("This service is not provided by the therapist!");
+            }
         }
     }
 }

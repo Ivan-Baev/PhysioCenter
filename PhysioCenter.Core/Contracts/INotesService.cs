@@ -6,12 +6,12 @@
     {
         Task AddAsync(Note input);
 
-        Task<Note> GetByIdAsync(string id);
+        Task<Note> GetByIdAsync(Guid id);
 
         Task<IEnumerable<Note>> GetAllByClientIdAsync(string clientId);
 
         Task UpdateDetailsAsync(Note input);
 
-        Task DeleteAsync(string id);
+        Task DeleteAsync(Guid id);
     }
 }

@@ -23,30 +23,32 @@
                 .ToListAsync();
         }
 
+        public async Task<Review> GetByIdAsync(Guid id)
+        {
+            var review = await repo.All<Review>()
+                  .Where(x => x.Id == id)
+                  .Include(x => x.Client)
+                 .FirstOrDefaultAsync();
+
+            if (review == null)
+            {
+                throw new ArgumentException("This review does not exist!");
+            }
+            return review;
+        }
+
         public async Task AddAsync(Review input)
         {
             await repo.AddAsync(input);
             await repo.SaveChangesAsync();
         }
 
-        public async Task DeleteAsync(string id)
+        public async Task DeleteAsync(Guid id)
         {
-            var review =
-               await repo.All<Review>()
-                .Where(x => x.Id == Guid.Parse(id))
-                .FirstOrDefaultAsync();
+            var review = await GetByIdAsync(id);
 
-            repo.Delete<Review>(review);
+            repo.Delete(review);
             await repo.SaveChangesAsync();
-        }
-
-        public async Task<Review> GetByIdAsync(string id)
-        {
-            return
-                await repo.All<Review>()
-                .Where(x => x.Id == Guid.Parse(id))
-                .Include(x => x.Client)
-               .FirstOrDefaultAsync();
         }
     }
 }

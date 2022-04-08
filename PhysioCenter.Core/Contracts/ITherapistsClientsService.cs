@@ -6,7 +6,7 @@
 
     public interface ITherapistsClientsService
     {
-        Task<IEnumerable<TherapistClient>> GetProvidedClientTherapistsByIdAsync(string clientId);
+        Task<IEnumerable<TherapistClient>> GetProvidedClientTherapistsByIdAsync(Guid clientId);
 
         Task<IEnumerable<TherapistClient>> GetProvidedTherapistClientsByIdAsync(Guid therapistId);
 

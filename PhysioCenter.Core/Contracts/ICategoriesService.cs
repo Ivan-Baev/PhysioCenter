@@ -8,10 +8,10 @@
 
         Task AddAsync(Category input);
 
-        Task<Category> GetByIdAsync(string id);
+        Task<Category> GetByIdAsync(Guid id);
 
         Task UpdateDetailsAsync(Category input);
 
-        Task DeleteAsync(string id);
+        Task DeleteAsync(Guid id);
     }
 }

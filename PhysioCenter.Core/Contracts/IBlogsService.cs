@@ -8,10 +8,10 @@
 
         Task AddAsync(Blog input);
 
-        Task<Blog> GetByIdAsync(string id);
+        Task<Blog> GetByIdAsync(Guid id);
 
         Task UpdateDetailsAsync(Blog input);
 
-        Task DeleteAsync(string id);
+        Task DeleteAsync(Guid id);
     }
 }
