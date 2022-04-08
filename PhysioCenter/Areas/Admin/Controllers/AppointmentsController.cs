@@ -42,25 +42,21 @@
             therapistsClientsService = _therapistsClientsService;
         }
 
-        public async Task<IActionResult> Index(int page = 1)
+        public async Task<IActionResult> Index(string? clientName, int page = 1, int pageSize = 10)
         {
-            var pageSize = 10;
-            var input = await appointmentsService.GetAllAsync();
+            var input = await appointmentsService.GetAllAsync(page, pageSize, clientName);
+
+            ViewData["CurrentFilter"] = clientName;
+
             var viewModel = new AppointmentsListViewModel
             {
-                Appointments = mapper.Map<IEnumerable<AppointmentViewModel>>(input).Skip((page - 1) * pageSize).Take(pageSize)
+                ItemCount = await appointmentsService.GetCount(clientName),
+                ItemsPerPage = pageSize,
+                CurrentPage = page,
+                Appointments = mapper.Map<IEnumerable<AppointmentViewModel>>(input)
             };
-            var count = input.Count();
-            viewModel.CurrentPage = page;
-            viewModel.PageCount = (int)Math.Ceiling((double)count / pageSize) != 0
-                ? (int)Math.Ceiling((double)count / pageSize) : 1;
 
-            if (viewModel == null)
-            {
-                return this.NotFound();
-            }
-
-            return this.View(viewModel);
+            return viewModel == null ? this.NotFound() : this.View(viewModel);
         }
 
         public async Task<IActionResult> CreateAppointment()
@@ -86,7 +82,6 @@
                 ViewData["Clients"] = new SelectList(clients, "Id", "FullName");
                 ViewData["Therapists"] = new SelectList(therapists, "Id", "FullName");
                 ViewData["Services"] = new SelectList(services, "ServiceId", "Service.Name");
-
 
                 return View();
             }
