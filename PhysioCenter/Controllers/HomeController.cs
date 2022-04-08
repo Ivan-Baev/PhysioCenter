@@ -48,10 +48,20 @@
             return View();
         }
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
+        public IActionResult Privacy()
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            return View();
+        }
+
+        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        public IActionResult Error(int? statusCode = null)
+        {
+            if (statusCode == StatusCodes.Status404NotFound)
+            {
+                return this.Redirect($"/Error/{StatusCodes.Status404NotFound}");
+            }
+
+            return this.Redirect($"/Error/{StatusCodes.Status500InternalServerError}");
         }
     }
 }
