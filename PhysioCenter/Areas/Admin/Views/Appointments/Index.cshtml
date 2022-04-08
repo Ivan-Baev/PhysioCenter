@@ -3,6 +3,7 @@
 
 @{
     this.ViewData["Title"] = "Appointments";
+    var currentFilter = ViewData["CurrentFilter"];
 }
 
 @if (TempData.ContainsKey("SuccessfullyDeleted"))
@@ -27,6 +28,10 @@
 <div class="container px-5">
     <main role="main" class="pb-3">
         <h2>All Appointments </h2>
+        <form method="get" asp-controller="Appointments" asp-action="Index">
+            <span>Client Name: </span><input type="text" name="clientName" value="@currentFilter" />
+            <input type="submit" value="Search" />
+        </form>
         <span>
             <a class="btn btn-info" asp-controller="Appointments" asp-action="CreateAppointment">Add New Appointment</a>
         </span>
@@ -49,18 +54,18 @@
                         <td>@appointment.TherapistFullName</td>
                         <td>@appointment.ServiceName</td>
                         <td>
-                                <a asp-controller="Appointments"
+                            <a asp-controller="Appointments"
                            asp-action="EditAppointment"
                            asp-route-id="@appointment.Id"
                            class="btn btn-warning">
-                                    Edit
-                                </a>
-                                <a asp-controller="Appointments"
+                                Edit
+                            </a>
+                            <a asp-controller="Appointments"
                            asp-action="DeleteConfirmation"
                            asp-route-id="@appointment.Id"
                            class="btn btn-danger">
-                                    Delete
-                                </a>
+                                Delete
+                            </a>
                         </td>
                     </tr>
                 }
