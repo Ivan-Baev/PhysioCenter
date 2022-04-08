@@ -41,9 +41,9 @@
         public async Task<IActionResult> Index()
         {
             var userId = _userManager.GetUserId(User);
-            var therapist = await _therapistsService.GetByUserIdAsync(userId);
+            var therapistId = _therapistsService.FindTherapistId(userId);
 
-            var input = await _appointmentsService.GetAllByTherapistIdAsync(therapist.Id.ToString());
+            var input = await _appointmentsService.GetTodayByTherapistIdAsync(therapistId);
             var viewModel = new AppointmentsListViewModel
             {
                 Appointments = mapper.Map<IEnumerable<AppointmentViewModel>>(input)

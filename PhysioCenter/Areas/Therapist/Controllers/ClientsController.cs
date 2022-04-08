@@ -15,31 +15,33 @@
         private readonly IClientsService clientsService;
         private readonly IMapper _mapper;
         private readonly UserManager<IdentityUser> _usersManager;
+        private readonly ITherapistsClientsService _therapistsClientsService;
 
         public ClientsController(
             ITherapistsService therapistsService,
             IServicesService servicesService,
             IMapper mapper,
             UserManager<IdentityUser> usersManager,
-            IClientsService _clientsService)
+            IClientsService _clientsService,
+            ITherapistsClientsService therapistsClientsService)
         {
             _therapistsService = therapistsService;
             _servicesService = servicesService;
             _mapper = mapper;
             _usersManager = usersManager;
             clientsService = _clientsService;
+            _therapistsClientsService = therapistsClientsService;
         }
 
         public async Task<IActionResult> Index()
         {
             var userId = _usersManager.GetUserId(User);
-            var therapist = await _therapistsService.GetByUserIdAsync(userId);
-
-            var results = await clientsService.GetAllByIdAsync(therapist.Id.ToString());
-            ViewBag.TherapistId = therapist.Id.ToString();
+            var therapistId = _therapistsService.FindTherapistId(userId);
+            var clients = await _therapistsClientsService.GetProvidedTherapistClientsByIdAsync(therapistId);
+            ViewBag.TherapistId = therapistId;
             var viewModel = new ClientsListViewModel
             {
-                Clients = _mapper.Map<IEnumerable<ClientViewModel>>(results)
+                Clients = _mapper.Map<IEnumerable<ClientViewModel>>(clients)
             };
 
             return View(viewModel);
