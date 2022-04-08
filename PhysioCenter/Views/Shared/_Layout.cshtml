@@ -1,6 +1,4 @@
-﻿<!DOCTYPE html>
-<html lang="en">
-<head>
+﻿<head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - PhysioCenter</title>
@@ -41,6 +39,7 @@
             <!-- Page Content -->
         <div id="page-content-wrapper">
             <div class="container-fluid container px-5">
+                <partial name="_CookieConsentPartial" />
                 <div class="row">
                     <div class="col-lg-12">
     @RenderBody()
@@ -64,9 +63,7 @@
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="~/js/canvasTest.js" asp-append-version="true"></script>
     <script src="~/js/alert-hide.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
-</html>
