@@ -5,7 +5,7 @@
 
 @{
     ViewData["Title"] = "Edit an Therapist";
-    var services = ViewData["Services"] as List<TherapistServiceViewModel>;
+     var services = ViewData["Services"] as List<TherapistServiceViewModel>;
 }
 
 @section Styles {
@@ -34,7 +34,7 @@
                 <label asp-for="Description" for="floatingTextarea">Description....</label>
                 <span asp-validation-for="Description" class="small text-danger"></span>
             </div>
-            <div class="form-floating mb-3 w-25 mt-2 h-100">
+            <div class="form-floating mb-3 w-25 mt-2">
                 <input asp-for="Image" class="form-control" id="floatingImage" placeholder="Leave a comment here">
                 <label asp-for="Image" for="floatingImage">Upload a new image if you want to update</label>
                 <span asp-validation-for="Image" class="small text-danger"></span>
@@ -57,7 +57,7 @@
                         <tr>
                             <th scope="row">
                                 @service.ServiceName
-                                @if (service.IsProvided == true)
+                                @if (@service.IsProvided == true)
                                 {
                                     <i class="bi bi-check-circle-fill" style="color: green;"></i>
                                 }
@@ -71,7 +71,7 @@
                                     <button type="submit" class="btn btn-dark btn-sm"
                                         asp-area="Admin" asp-controller="Therapists" asp-action="EditTherapistServiceProvidedStatus"
                                         asp-route-therapistId="@Model.Id" asp-route-serviceId="@service.ServiceId">
-                                        @if (service.IsProvided == true)
+                                        @if (@service.IsProvided == true)
                                         {
                                             <text>Remove service</text>
                                         }
