@@ -47,6 +47,11 @@
         {
             var input = await _blogsService.GetByIdAsync(blogId);
             var viewModel = _mapper.Map<BlogViewModel>(input);
+
+            if (viewModel == null)
+            {
+                return new StatusCodeResult(404);
+            }
             return View(viewModel);
         }
     }
