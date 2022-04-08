@@ -37,7 +37,7 @@
         public async Task AddTherapistClientAsync(TherapistClient input)
         {
             var test = repo.All<TherapistClient>()
-                .FirstOrDefaultAsync(x => x.ClientId == input.ClientId & x.TherapistId == input.TherapistId);
+                .FirstOrDefaultAsync(x => x.ClientId == input.ClientId && x.TherapistId == input.TherapistId);
 
             if (test.Result == null)
             {

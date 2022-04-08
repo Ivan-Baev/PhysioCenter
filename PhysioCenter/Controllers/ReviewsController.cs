@@ -45,7 +45,7 @@
             return View(viewModel);
         }
 
-        public async Task<IActionResult> WriteReview(string therapistId)
+        public IActionResult WriteReview(string therapistId)
         {
             TempData["TherapistId"] = therapistId;
 

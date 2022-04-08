@@ -26,8 +26,10 @@
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult NotFoundError()
         {
-            var errorViewModel = new ErrorViewModel();
-            errorViewModel.StatusCode = StatusCodes.Status404NotFound;
+            var errorViewModel = new ErrorViewModel
+            {
+                StatusCode = StatusCodes.Status404NotFound
+            };
 
             if (TempData["ErrorParams"] is Dictionary<string, string> dict)
             {

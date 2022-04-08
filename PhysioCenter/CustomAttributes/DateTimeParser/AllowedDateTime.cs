@@ -4,7 +4,7 @@
 
     public class AllowedDateTime : ValidationAttribute
     {
-        protected override ValidationResult IsValid(object value, ValidationContext validationContext)
+        protected override ValidationResult IsValid(object? value, ValidationContext validationContext)
         {
             DateTime dt = (DateTime)value;
             var startDate = DateTime.UtcNow;

@@ -2,6 +2,7 @@
 {
     using System.ComponentModel.DataAnnotations;
 
+    [AttributeUsage(AttributeTargets.Property, AllowMultiple = false)]
     public class AllowedExtensionsAttribute : ValidationAttribute
     {
         private readonly string[] _extensions;
@@ -11,29 +12,25 @@
             _extensions = extensions;
         }
 
-        protected override ValidationResult IsValid(object value, ValidationContext validationContext)
+        protected override ValidationResult IsValid(object? value, ValidationContext validationContext)
         {
-            var file = value as IFormFile;
-
-            if (file == null)
+            if (value is not IFormFile file)
             {
                 return ValidationResult.Success;
             }
 
             var extension = Path.GetExtension(file.FileName);
-            if (file != null)
+
+            if (file != null && !_extensions.Contains(extension.ToLower()))
             {
-                if (!_extensions.Contains(extension.ToLower()))
-                {
-                    return new ValidationResult(GetErrorMessage());
-                }
+                return new ValidationResult(GetErrorMessage());
             }
             return ValidationResult.Success;
         }
 
         public string GetErrorMessage()
         {
-            return $"Your image's filetype is not valid.";
+            return "The type of your image is not supported.";
         }
     }
 }

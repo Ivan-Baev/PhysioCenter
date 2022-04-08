@@ -9,17 +9,14 @@
 
     public class BlogsController : BaseController
     {
-        private readonly IServicesService _servicesService;
         private readonly IBlogsService _blogsService;
         private readonly IMapper _mapper;
 
         public BlogsController(
             IMapper mapper,
-            IServicesService servicesService,
             IBlogsService blogsService)
         {
             _mapper = mapper;
-            _servicesService = servicesService;
             _blogsService = blogsService;
         }
 

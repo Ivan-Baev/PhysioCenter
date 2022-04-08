@@ -11,13 +11,11 @@
 
     public class ServicesService : IServicesService
     {
-        private readonly IHtmlSanitizer htmlSanitizer;
         private readonly IApplicationDbRepository repo;
 
-        public ServicesService(IApplicationDbRepository _repo, IHtmlSanitizer _htmlSanitizer)
+        public ServicesService(IApplicationDbRepository _repo)
         {
             repo = _repo;
-            htmlSanitizer = _htmlSanitizer;
         }
 
         public async Task<Service> GetByIdAsync(string id)

@@ -117,7 +117,7 @@
                     .ToList();
             }
 
-            return appointments.Count();
+            return appointments.Count;
         }
     }
 }

@@ -14,27 +14,18 @@
     public class AppointmentsController : TherapistController
     {
         private readonly IAppointmentsService _appointmentsService;
-        private readonly IServicesService _servicesService;
-        private readonly IClientsService _clientsService;
         private readonly ITherapistsService _therapistsService;
-        private readonly ITherapistsServicesService _therapistsServicesService;
         private readonly IMapper mapper;
         private readonly UserManager<IdentityUser> _userManager;
 
         public AppointmentsController(IAppointmentsService appointmentsService,
-            IServicesService servicesService,
-            IClientsService clientsService,
             ITherapistsService therapistsService,
             IMapper mapper,
-            ITherapistsServicesService therapistsServicesService,
             UserManager<IdentityUser> userManager)
         {
             _appointmentsService = appointmentsService;
-            _servicesService = servicesService;
-            _clientsService = clientsService;
             _therapistsService = therapistsService;
             this.mapper = mapper;
-            _therapistsServicesService = therapistsServicesService;
             _userManager = userManager;
         }
 

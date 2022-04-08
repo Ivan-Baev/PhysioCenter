@@ -13,19 +13,13 @@
     public class TherapistsService : ITherapistsService
     {
         private readonly IApplicationDbRepository repo;
-        private readonly IHtmlSanitizer _htmlSanitizer;
         private readonly UserManager<IdentityUser> userManager;
-        private readonly RoleManager<IdentityRole> roleManager;
 
         public TherapistsService(IApplicationDbRepository _repo,
-            IHtmlSanitizer htmlSanitizer,
-            UserManager<IdentityUser> userManager,
-            RoleManager<IdentityRole> roleManager)
+            UserManager<IdentityUser> userManager)
         {
             repo = _repo;
-            _htmlSanitizer = htmlSanitizer;
             this.userManager = userManager;
-            this.roleManager = roleManager;
         }
 
         public async Task<Therapist> GetByIdAsync(string id)
@@ -49,7 +43,7 @@
 
             if (therapist == null)
             {
-                throw new ArgumentNullException("This therapist does not exist!");
+                throw new ArgumentNullException(nameof(id), "This therapist does not exist!");
             }
 
             return therapist.Id;

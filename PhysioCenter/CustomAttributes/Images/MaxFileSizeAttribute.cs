@@ -2,6 +2,7 @@
 {
     using System.ComponentModel.DataAnnotations;
 
+    [AttributeUsage(AttributeTargets.Property, AllowMultiple = false)]
     public class MaxFileSizeAttribute : ValidationAttribute
     {
         private readonly int _maxFileSize;
@@ -11,21 +12,17 @@
             _maxFileSize = maxFileSize;
         }
 
-        protected override ValidationResult IsValid(object value, ValidationContext validationContext)
+        protected override ValidationResult IsValid(object? value,
+            ValidationContext validationContext)
         {
-            var file = value as IFormFile;
-
-            if (file == null)
+            if (value is not IFormFile file)
             {
                 return ValidationResult.Success;
             }
 
-            if (file != null)
+            if (file != null && file.Length > _maxFileSize)
             {
-                if (file.Length > _maxFileSize)
-                {
-                    return new ValidationResult(GetErrorMessage());
-                }
+                return new ValidationResult(GetErrorMessage());
             }
 
             return ValidationResult.Success;
