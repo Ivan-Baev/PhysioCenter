@@ -10,7 +10,7 @@
     public class BlogEditViewModel
     {
         [Required]
-        public string Id { get; set; }
+        public Guid Id { get; set; }
 
         [Required]
         [StringLength(BlogTitleMaxLength, MinimumLength = BlogTitleMinLength, ErrorMessage = ErrorMessages.BlogTitleLength)]

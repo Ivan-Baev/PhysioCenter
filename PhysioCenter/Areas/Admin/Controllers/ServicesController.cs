@@ -78,7 +78,7 @@
             return this.RedirectToAction(nameof(Index));
         }
 
-        public async Task<IActionResult> EditService(string id)
+        public async Task<IActionResult> EditService(Guid id)
         {
             var categories = await _categoriesService.GetAllAsync();
             ViewData["Categories"] = new SelectList(categories, "Id", "Name");
@@ -124,7 +124,7 @@
             return RedirectToAction(nameof(Index));
         }
 
-        public async Task<IActionResult> DeleteConfirmation(string id)
+        public async Task<IActionResult> DeleteConfirmation(Guid id)
         {
             var serviceToDelete = await _servicesService.GetByIdAsync(id);
 
@@ -134,10 +134,10 @@
         }
 
         [HttpPost]
-        public async Task<IActionResult> Delete(string id, string imageUrl)
+        public async Task<IActionResult> Delete(Guid id, string imageUrl)
         {
-            await _cloudinaryService.DeleteFileAsync(imageUrl);
             await _servicesService.DeleteAsync(id);
+            await _cloudinaryService.DeleteFileAsync(imageUrl);
 
             TempData["SuccessfullyDeleted"] = "You have successfully deleted the service!";
 

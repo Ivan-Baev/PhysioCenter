@@ -5,9 +5,22 @@
     this.ViewData["Title"] = "Appointments";
 }
 
+@section Styles {
+<link href="~/css/bootstrap-datetimepicker.css" rel="stylesheet" />
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/solid.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/fontawesome.css">
+}
+
 <div class="container px-5">
     <main role="main" class="pb-3"> 
-        <h2>Work schedule for today:</h2>
+        <h2>Work schedule:</h2>
+        <form method="get" asp-controller="Appointments" asp-action="Index">
+            <span>Date: </span>
+            <div class="col-sm-10">
+                <input class="datepicker form-select" style="width:200px;" type="text" readonly name="filterDate">
+            </div>
+            <input type="submit" value="Filter" />
+        </form>
         <table class="table table-bordered table-striped table-hover" id="adminTable">
             <thead class="table-dark">
                 <tr>
@@ -39,4 +52,9 @@
         </table>
     </main>
 </div>
+
+@section Scripts {
+<script src="~/js/bootstrap-datetimepicker.js" asp-append-version="true"></script>
+<script src="~/js/therapist-workschedule.js" asp-append-version="true"></script>
+}
 

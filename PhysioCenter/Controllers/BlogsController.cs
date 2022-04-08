@@ -40,7 +40,7 @@
             return View(viewModel);
         }
 
-        public async Task<IActionResult> Details(string blogId)
+        public async Task<IActionResult> Details(Guid blogId)
         {
             var input = await _blogsService.GetByIdAsync(blogId);
             var viewModel = _mapper.Map<BlogViewModel>(input);

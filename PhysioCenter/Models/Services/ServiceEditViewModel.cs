@@ -9,7 +9,7 @@
 
     public class ServiceEditViewModel
     {
-        public string Id { get; set; }
+        public Guid Id { get; set; }
 
         [Required]
         [StringLength(ServiceDescriptionMaxLength, MinimumLength = ServiceDescriptionMinLength, ErrorMessage = ErrorMessages.ServiceDescriptionLength)]

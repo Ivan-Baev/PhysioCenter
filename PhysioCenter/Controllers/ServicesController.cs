@@ -34,7 +34,7 @@
             return View(viewModel);
         }
 
-        public async Task<IActionResult> Details(string serviceId)
+        public async Task<IActionResult> Details(Guid serviceId)
         {
             var input = await _servicesService.GetByIdAsync(serviceId);
             var viewModel = _mapper.Map<ServiceViewModel>(input);

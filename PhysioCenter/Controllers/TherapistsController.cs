@@ -28,7 +28,7 @@
             return View(viewModel);
         }
 
-        public async Task<IActionResult> Details(string therapistId)
+        public async Task<IActionResult> Details(Guid therapistId)
         {
             var input = await _therapistsService.GetByIdAsync(therapistId);
             var viewModel = _mapper.Map<TherapistCardViewModel>(input);

@@ -78,7 +78,7 @@
             return this.RedirectToAction(nameof(Index));
         }
 
-        public async Task<IActionResult> EditTherapist(string id)
+        public async Task<IActionResult> EditTherapist(Guid id)
         {
             var services = await _therapistsServicesService.GetTherapistServicesByIdAsync(id);
             var therapistServices = _mapper.Map<IEnumerable<TherapistServiceViewModel>>(services);
@@ -116,7 +116,7 @@
             return this.RedirectToAction(nameof(Index));
         }
 
-        public async Task<IActionResult> DeleteConfirmation(string id)
+        public async Task<IActionResult> DeleteConfirmation(Guid id)
         {
             var therapistToDelete = await _therapistsService.GetByIdAsync(id);
 
@@ -126,7 +126,7 @@
         }
 
         [HttpPost]
-        public async Task<IActionResult> Delete(string id)
+        public async Task<IActionResult> Delete(Guid id)
         {
             await _therapistsService.DeleteAsync(id);
 
@@ -150,7 +150,7 @@
         }
 
         [HttpPost]
-        public async Task<IActionResult> EditTherapistServiceProvidedStatus(string therapistId, string serviceId)
+        public async Task<IActionResult> EditTherapistServiceProvidedStatus(Guid therapistId, Guid serviceId)
         {
             await this._therapistsServicesService.ChangeProvidedStatusAsync(therapistId, serviceId);
 

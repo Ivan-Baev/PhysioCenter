@@ -8,7 +8,7 @@
 
     public class NoteEditViewModel
     {
-        public string Id { get; set; }
+        public Guid Id { get; set; }
 
         [Required]
         [StringLength(NoteContentMaxLength, MinimumLength = NoteContentMinLength, ErrorMessage = ErrorMessages.NoteContentLength)]

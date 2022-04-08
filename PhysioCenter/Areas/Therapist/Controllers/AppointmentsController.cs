@@ -4,9 +4,6 @@
 
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
-    using Microsoft.AspNetCore.Mvc.Rendering;
-
-    using Newtonsoft.Json;
 
     using PhysioCenter.Core.Contracts;
     using PhysioCenter.Models.Appointments;
@@ -29,12 +26,12 @@
             _userManager = userManager;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(DateTime? filterDate)
         {
             var userId = _userManager.GetUserId(User);
-            var therapistId = _therapistsService.FindTherapistId(userId);
+            var therapistId = await _therapistsService.FindTherapistById(userId);
 
-            var input = await _appointmentsService.GetTodayByTherapistIdAsync(therapistId);
+            var input = await _appointmentsService.GetTodayByTherapistIdAsync(therapistId.Id, filterDate);
             var viewModel = new AppointmentsListViewModel
             {
                 Appointments = mapper.Map<IEnumerable<AppointmentViewModel>>(input)

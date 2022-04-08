@@ -77,7 +77,7 @@
             return this.RedirectToAction(nameof(Index), new { clientId = input.ClientId.ToString(), therapistId = input.TherapistId.ToString() });
         }
 
-        public async Task<IActionResult> EditNote(string id)
+        public async Task<IActionResult> EditNote(Guid id)
         {
             var noteToEdit = await _notesService.GetByIdAsync(id);
 
@@ -111,7 +111,7 @@
             return RedirectToAction(nameof(Index), new { clientId = input.ClientId.ToString(), therapistId = input.TherapistId.ToString() });
         }
 
-        public async Task<IActionResult> DeleteConfirmation(string id)
+        public async Task<IActionResult> DeleteConfirmation(Guid id)
         {
             var noteToDelete = await _notesService.GetByIdAsync(id);
 
@@ -121,7 +121,7 @@
         }
 
         [HttpPost]
-        public async Task<IActionResult> Delete(string id, string clientId, string therapistId)
+        public async Task<IActionResult> Delete(Guid id, Guid clientId, Guid therapistId)
         {
             await _notesService.DeleteAsync(id);
 

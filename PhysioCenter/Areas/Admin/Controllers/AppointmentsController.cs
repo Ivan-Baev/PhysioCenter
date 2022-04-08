@@ -56,6 +56,11 @@
                 Appointments = mapper.Map<IEnumerable<AppointmentViewModel>>(input)
             };
 
+            if (page > viewModel.PagesCount)
+            {
+                return this.NotFound();
+            }
+
             return viewModel == null ? this.NotFound() : this.View(viewModel);
         }
 
@@ -97,14 +102,14 @@
             return this.RedirectToAction(nameof(Index));
         }
 
-        public async Task<IActionResult> EditAppointment(string id)
+        public async Task<IActionResult> EditAppointment(Guid id)
         {
             var appointmentToEdit = await appointmentsService.GetByIdAsync(id);
             var viewModel = mapper.Map<AppointmentEditViewModel>(appointmentToEdit);
 
             var clients = await clientsService.GetAllAsync();
             var therapists = await therapistsService.GetAllAsync();
-            var services = await therapistsServicesService.GetProvidedTherapistServicesByIdAsync(appointmentToEdit.TherapistId.ToString());
+            var services = await therapistsServicesService.GetProvidedTherapistServicesByIdAsync(appointmentToEdit.TherapistId);
 
             ViewData["Clients"] = new SelectList(clients, "Id", "FullName");
             ViewData["Therapists"] = new SelectList(therapists, "Id", "FullName");
@@ -136,7 +141,7 @@
             return this.RedirectToAction(nameof(Index));
         }
 
-        public async Task<IActionResult> DeleteConfirmation(string id)
+        public async Task<IActionResult> DeleteConfirmation(Guid id)
         {
             var appointmentToDelete = await appointmentsService.GetByIdAsync(id);
 
@@ -146,7 +151,7 @@
         }
 
         [HttpPost]
-        public async Task<IActionResult> Delete(string id)
+        public async Task<IActionResult> Delete(Guid id)
         {
             await appointmentsService.DeleteAsync(id);
 

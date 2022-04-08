@@ -9,7 +9,7 @@
     public class TherapistEditViewModel
     {
         [Required]
-        public string Id { get; set; }
+        public Guid Id { get; set; }
 
         [Required]
         [StringLength(TherapistNameMaxLength, MinimumLength = TherapistNameMinLength, ErrorMessage = ErrorMessages.TherapistNameLength)]

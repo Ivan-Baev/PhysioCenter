@@ -36,9 +36,9 @@
         public async Task<IActionResult> Index()
         {
             var userId = _usersManager.GetUserId(User);
-            var therapistId = _therapistsService.FindTherapistId(userId);
-            var clients = await _therapistsClientsService.GetProvidedTherapistClientsByIdAsync(therapistId);
-            ViewBag.TherapistId = therapistId;
+            var therapist = await _therapistsService.FindTherapistById(userId);
+            var clients = await _therapistsClientsService.GetProvidedTherapistClientsByIdAsync(therapist.Id);
+            ViewBag.TherapistId = therapist.Id;
             var viewModel = new ClientsListViewModel
             {
                 Clients = _mapper.Map<IEnumerable<ClientViewModel>>(clients)

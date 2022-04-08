@@ -10,7 +10,7 @@
     public class CategoryEditViewModel
     {
         [Required]
-        public string Id { get; set; }
+        public Guid Id { get; set; }
 
         [Required]
         [StringLength(CategoryNameMaxLength, MinimumLength = CategoryNameMinLength, ErrorMessage = ErrorMessages.CategoryNameLength)]

@@ -60,7 +60,7 @@ namespace PhysioCenter.WebAPI.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet(Name = "GetTherapistServices")]
-        public async Task<ActionResult> GetTherapistServices(string id)
+        public async Task<ActionResult> GetTherapistServices(Guid id)
         {
             var services = await _therapistsServicesService.GetProvidedTherapistServicesByIdAsync(id);
             var providedServices = new SelectList(services, "ServiceId", "Service.Name");

@@ -20,8 +20,8 @@
             CreateMap<Therapist, TherapistClient>().ReverseMap();
 
             CreateMap<TherapistClient, ClientViewModel>()
-                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.TherapistId))
-                .ForMember(dest => dest.FullName, opt => opt.MapFrom(src => src.Therapist.FullName))
+                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.ClientId))
+                .ForMember(dest => dest.FullName, opt => opt.MapFrom(src => src.Client.FullName))
                 .ReverseMap();
         }
     }

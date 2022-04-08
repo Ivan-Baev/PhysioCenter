@@ -31,7 +31,7 @@
             return View(viewModel);
         }
 
-        public async Task<IActionResult> DeleteConfirmation(string id)
+        public async Task<IActionResult> DeleteConfirmation(Guid id)
         {
             var reviewToDelete = await _reviewsService.GetByIdAsync(id);
 
@@ -41,7 +41,7 @@
         }
 
         [HttpPost]
-        public async Task<IActionResult> Delete(string id)
+        public async Task<IActionResult> Delete(Guid id)
         {
             await _reviewsService.DeleteAsync(id);
 

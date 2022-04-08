@@ -37,7 +37,7 @@
             var userId = _usersManager.GetUserId(User);
             var client = await _clientsService.GetClientByUserId(userId);
 
-            var input = await _therapistsClientsService.GetProvidedClientTherapistsByIdAsync(client.Id.ToString());
+            var input = await _therapistsClientsService.GetProvidedClientTherapistsByIdAsync(client.Id);
             var viewModel = _mapper.Map<IEnumerable<TherapistCardViewModel>>(input);
 
             TempData["ClientId"] = client.Id;

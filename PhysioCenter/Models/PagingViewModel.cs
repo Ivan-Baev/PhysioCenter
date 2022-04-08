@@ -2,13 +2,14 @@
 {
     public class PagingViewModel
     {
+        private int pagesCount;
         public int CurrentPage { get; set; }
 
         public bool HasPreviousPage => this.CurrentPage > 1;
 
         public int PreviousPageNumber => this.CurrentPage - 1;
 
-        public bool HasNextPage => this.CurrentPage < this.PagesCount;
+        public bool HasNextPage => this.CurrentPage < PagesCount;
 
         public int NextPageNumber => this.CurrentPage + 1;
 
@@ -16,6 +17,21 @@
 
         public int ItemsPerPage { get; set; }
 
-        public int PagesCount => (int)Math.Ceiling((double)this.ItemCount / this.ItemsPerPage);
+        public int PagesCount
+        {
+            get
+            {
+                if (ItemCount > 0)
+                {
+                    pagesCount = (int)Math.Ceiling((double)ItemCount / ItemsPerPage);
+                }
+                else
+                {
+                    pagesCount = 1;
+                }
+
+                return pagesCount;
+            }
+        }
     }
 }
