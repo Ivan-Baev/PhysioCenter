@@ -2,11 +2,8 @@
 {
     using System.Collections.Generic;
 
-    public class AppointmentsListViewModel
+    public class AppointmentsListViewModel : PagingViewModel
     {
         public IEnumerable<AppointmentViewModel> Appointments { get; set; }
-        public int PageCount { get; set; }
-
-        public int CurrentPage { get; set; }
     }
 }
