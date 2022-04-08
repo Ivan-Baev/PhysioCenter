@@ -40,7 +40,7 @@ namespace PhysioCenter.WebAPI.Controllers
         /// <returns></returns>
         ///
         [HttpGet(Name = "GetTherapistSchedule")]
-        public async Task<JsonResult> GetTherapistSchedule(string id)
+        public async Task<JsonResult> GetTherapistSchedule(Guid id)
         {
             var items = await _appointmentsService.GetUpcomingByTherapistIdAsync(id);
 
