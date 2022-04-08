@@ -18,12 +18,6 @@
             repo = _repo;
         }
 
-        public async Task AddTherapistServiceAsync(IEnumerable<TherapistService> input)
-        {
-            await repo.AddRangeAsync(input);
-            await repo.SaveChangesAsync();
-        }
-
         public async Task AddAllServicesToTherapistId(IEnumerable<Service> services, Guid therapistId)
         {
             var therapistServices = new List<TherapistService>();

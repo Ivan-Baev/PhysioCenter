@@ -6,8 +6,6 @@
     {
         Task<IEnumerable<Blog>> GetAllAsync();
 
-        Task<IEnumerable<Blog>> GetFeatured();
-
         Task AddAsync(Blog input);
 
         Task<Blog> GetByIdAsync(string id);

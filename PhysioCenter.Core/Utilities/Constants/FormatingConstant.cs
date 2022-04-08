@@ -2,6 +2,6 @@
 {
     public class FormatingConstant
     {
-        public const string NormalDateFormat = "dd/MM/yyyy hh:mm";
+        public const string NormalDateFormat = "dd/MM/yyyy H:mm";
     }
 }

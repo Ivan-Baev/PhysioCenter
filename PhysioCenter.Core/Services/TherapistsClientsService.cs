@@ -18,11 +18,11 @@
             repo = _repo;
         }
 
-        public async Task<IEnumerable<TherapistClient>> GetProvidedTherapistClientsByIdAsync(string therapistId)
+        public async Task<IEnumerable<TherapistClient>> GetProvidedTherapistClientsByIdAsync(Guid therapistId)
         {
             return await repo.All<TherapistClient>()
                 .Include(x => x.Client)
-                .Where(x => x.TherapistId.ToString() == therapistId)
+                .Where(x => x.TherapistId == therapistId)
                 .ToListAsync();
         }
 

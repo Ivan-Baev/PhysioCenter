@@ -9,18 +9,18 @@
     {
         Task<Appointment> GetByIdAsync(string id);
 
-        Task<IEnumerable<Appointment>> GetAllAsync();
+        Task<IEnumerable<Appointment>> GetAllAsync(int page, int itemsPerPage, string? clientName = null);
 
-        Task<IEnumerable<Appointment>> GetAllByTherapistIdAsync(string therapistId);
+        Task<IEnumerable<Appointment>> GetUpcomingByTherapistIdAsync(Guid therapistId);
 
-        Task<IEnumerable<Appointment>> GetUpcomingByTherapistIdAsync(string therapistId);
-
-        Task<IEnumerable<Appointment>> GetPastByUserAsync(string userId);
+        Task<IEnumerable<Appointment>> GetTodayByTherapistIdAsync(Guid therapistId);
 
         Task AddAsync(Appointment input);
 
         Task UpdateAsync(Appointment input);
 
         Task DeleteAsync(string id);
+
+        Task<int> GetCount(string? clientName = null);
     }
 }

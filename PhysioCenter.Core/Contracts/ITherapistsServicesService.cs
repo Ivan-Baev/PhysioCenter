@@ -10,8 +10,6 @@
 
         Task<IEnumerable<TherapistService>> GetProvidedTherapistServicesByIdAsync(string therapistId);
 
-        Task AddTherapistServiceAsync(IEnumerable<TherapistService> input);
-
         Task AddAllServicesToTherapistId(IEnumerable<Service> services, Guid therapistId);
 
         Task AddAllTherapistsToServiceId(IEnumerable<Therapist> therapists, Guid serviceId);

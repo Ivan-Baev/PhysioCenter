@@ -39,16 +39,6 @@
                 .ToListAsync();
         }
 
-        public async Task<IEnumerable<Service>> GetAllByTherapistIdAsync(Guid id)
-        {
-            return
-                await repo.All<Service>()
-                .Include(x => x.Therapists)
-                .ThenInclude(x => x.TherapistId == id)
-                .OrderByDescending(x => x.Name)
-                .ToListAsync();
-        }
-
         public async Task AddAsync(Service input)
         {
             if (repo.All<Service>().Any(c => c.Name == input.Name))

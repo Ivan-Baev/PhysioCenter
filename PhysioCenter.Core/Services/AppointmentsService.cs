@@ -32,44 +32,54 @@
                .FirstOrDefaultAsync();
         }
 
-        public async Task<IEnumerable<Appointment>> GetAllAsync()
+        public async Task<IEnumerable<Appointment>> GetAllAsync(int page, int itemsPerPage, string? clientName = null)
         {
-            return await repo.All<Appointment>()
+            var appointments = await repo.All<Appointment>()
                 .Include(c => c.Client)
                 .Include(c => c.Therapist)
                 .Include(c => c.Service)
-                .OrderByDescending(x => x.DateTime)
-                .ToListAsync();
+                .OrderByDescending(x => x.DateTime).ToListAsync();
+
+            if (clientName != null)
+            {
+                appointments = appointments.Where(c => c.Client.FullName.Contains(clientName, StringComparison.InvariantCultureIgnoreCase))
+                    .ToList();
+            }
+
+            appointments = appointments
+                .Skip((page - 1) * itemsPerPage).Take(itemsPerPage)
+                .ToList();
+
+            if (appointments.Count == 0)
+            {
+                throw new InvalidOperationException("There are no appointments");
+            }
+
+            return appointments;
         }
 
-        public async Task<IEnumerable<Appointment>> GetAllByTherapistIdAsync(string therapistId)
-        {
-            return
-                 await repo.All<Appointment>()
-                 .Where(x => x.TherapistId == Guid.Parse(therapistId))
-                 .Include(c => c.Client)
-                 .OrderByDescending(x => x.DateTime)
-                 .ToListAsync();
-        }
-
-        public async Task<IEnumerable<Appointment>> GetUpcomingByTherapistIdAsync(string therapistId)
+        public async Task<IEnumerable<Appointment>> GetTodayByTherapistIdAsync(Guid therapistId)
         {
             return
                 await repo.All<Appointment>()
-                .Where(x => x.TherapistId == Guid.Parse(therapistId)
-                        && x.DateTime > DateTime.UtcNow)
+                .Where(x => x.TherapistId == therapistId
+                        && x.DateTime.Day == DateTime.UtcNow.Day)
+                 .Include(c => c.Client)
+                 .Include(c => c.Service)
                 .OrderBy(x => x.DateTime)
                 .ToListAsync();
         }
 
-        public async Task<IEnumerable<Appointment>> GetPastByUserAsync(string userId)
+        public async Task<IEnumerable<Appointment>> GetUpcomingByTherapistIdAsync(Guid therapistId)
         {
             return
-                     await repo.All<Appointment>()
-                     .Where(x => x.ClientId == Guid.Parse(userId)
-                             && x.DateTime.Date < DateTime.UtcNow.Date)
-                     .OrderBy(x => x.DateTime)
-                    .ToListAsync();
+                await repo.All<Appointment>()
+                .Where(x => x.TherapistId == therapistId
+                        && x.DateTime >= DateTime.UtcNow)
+                 .Include(c => c.Client)
+                 .Include(c => c.Service)
+                .OrderBy(x => x.DateTime)
+                .ToListAsync();
         }
 
         public async Task AddAsync(Appointment input)
@@ -93,6 +103,21 @@
 
             repo.Delete<Appointment>(appointment);
             await repo.SaveChangesAsync();
+        }
+
+        public async Task<int> GetCount(string? clientName = null)
+        {
+            var appointments = await repo.All<Appointment>()
+                .Include(c => c.Client)
+                .ToListAsync();
+
+            if (clientName != null)
+            {
+                appointments = appointments.Where(c => c.Client.FullName.Contains(clientName, StringComparison.InvariantCultureIgnoreCase))
+                    .ToList();
+            }
+
+            return appointments.Count();
         }
     }
 }

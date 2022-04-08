@@ -38,20 +38,21 @@
                 .Include(x => x.Clients)
                 .Include(x => x.Notes)
                 .Include(x => x.Reviews)
+                .AsSplitQuery()
                .FirstOrDefaultAsync();
         }
 
-        public async Task<Therapist> GetByUserIdAsync(string id)
+        public Guid FindTherapistId(string id)
         {
-            return
-                await repo.All<Therapist>()
-                .Where(x => x.UserId == id)
-                .Include(x => x.Services).ThenInclude(x => x.Service)
-                .Include(x => x.Appointments)
-                .Include(x => x.Clients)
-                .Include(x => x.Notes)
-                .Include(x => x.Reviews)
-               .FirstOrDefaultAsync();
+            var therapist = repo.All<Therapist>()
+               .FirstOrDefault(x => x.UserId == id);
+
+            if (therapist == null)
+            {
+                throw new ArgumentNullException("This therapist does not exist!");
+            }
+
+            return therapist.Id;
         }
 
         public async Task<IEnumerable<Therapist>> GetAllAsync()

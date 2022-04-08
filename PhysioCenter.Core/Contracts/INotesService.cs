@@ -4,8 +4,6 @@
 
     public interface INotesService
     {
-        Task<IEnumerable<Note>> GetAllAsync();
-
         Task AddAsync(Note input);
 
         Task<Note> GetByIdAsync(string id);

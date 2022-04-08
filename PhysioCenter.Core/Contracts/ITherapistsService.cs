@@ -6,9 +6,9 @@
     {
         Task<Therapist> GetByIdAsync(string id);
 
-        Task<Therapist> GetByUserIdAsync(string id);
-
         Task<IEnumerable<Therapist>> GetAllAsync();
+
+        Guid FindTherapistId(string id);
 
         Task AddAsync(Therapist input);
 

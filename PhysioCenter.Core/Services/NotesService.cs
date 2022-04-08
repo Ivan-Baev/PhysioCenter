@@ -32,12 +32,6 @@
             await repo.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<Note>> GetAllAsync()
-        {
-            return await repo.All<Note>()
-                .ToListAsync();
-        }
-
         public async Task<IEnumerable<Note>> GetAllByClientIdAsync(string clientId)
         {
             return
