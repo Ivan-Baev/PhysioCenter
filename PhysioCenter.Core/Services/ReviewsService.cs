@@ -1,8 +1,8 @@
-﻿namespace PhysioCenter.Core.Contracts
+﻿namespace PhysioCenter.Core.Services
 {
     using Microsoft.EntityFrameworkCore;
 
-    using PhysioCenter.Infrastructure.Data;
+    using PhysioCenter.Core.Contracts;
     using PhysioCenter.Infrastructure.Data.Models;
     using PhysioCenter.Infrastructure.Data.Repository;
 

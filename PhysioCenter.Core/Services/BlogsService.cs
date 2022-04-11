@@ -1,5 +1,6 @@
-﻿namespace PhysioCenter.Core.Contracts
+﻿namespace PhysioCenter.Core.Services
 {
+    using PhysioCenter.Core.Contracts;
     using Microsoft.EntityFrameworkCore;
 
     using PhysioCenter.Infrastructure.Data.Models;
@@ -36,8 +37,7 @@
 
         public async Task AddAsync(Blog input)
         {
-            if (repo.All<Blog>().Any(c => c.Title == input.Title))
-                return;
+            GuardAgainstSameTitle(input);
 
             await repo.AddAsync(input);
             await repo.SaveChangesAsync();
@@ -46,6 +46,15 @@
         public async Task UpdateDetailsAsync(Blog input)
         {
             var blog = await GetByIdAsync(input.Id);
+
+            if (blog.Title != input.Title)
+            {
+                GuardAgainstSameTitle(input);
+            }
+
+            blog.Title = input.Title;
+            blog.Content = input.Content;
+            blog.ImageUrl = input.ImageUrl;
 
             repo.Update(blog);
             await repo.SaveChangesAsync();
@@ -57,6 +66,14 @@
 
             repo.Delete(blog);
             await repo.SaveChangesAsync();
+        }
+
+        private void GuardAgainstSameTitle(Blog input)
+        {
+            if (repo.All<Blog>().Any(c => c.Title == input.Title))
+            {
+                throw new ArgumentException("Blog title already exists");
+            }
         }
     }
 }

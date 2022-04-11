@@ -1,7 +1,5 @@
-﻿namespace PhysioCenter.Core.Services.Clients
+﻿namespace PhysioCenter.Core.Services
 {
-    using Ganss.XSS;
-
     using Microsoft.EntityFrameworkCore;
 
     using PhysioCenter.Core.Contracts;
@@ -27,9 +25,6 @@
 
         public async Task AddAsync(Client input)
         {
-            if (repo.All<Client>().Any(c => c.FullName == input.FullName))
-                return;
-
             await repo.AddAsync(input);
             await repo.SaveChangesAsync();
         }

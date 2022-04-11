@@ -1,5 +1,6 @@
-﻿namespace PhysioCenter.Core.Services.Appointments
+﻿namespace PhysioCenter.Core.Services
 {
+    using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
 
     using PhysioCenter.Core.Contracts;
@@ -84,7 +85,6 @@
 
             if (filterDate != null)
             {
-                var wtf = filterDate.Value.Date;
                 appointments = appointments.Where(c => c.DateTime.Date == filterDate.Value.Date)
                     .ToList();
             }
@@ -148,6 +148,18 @@
             }
 
             return appointments.Count;
+        }
+
+        public async Task<JsonResult> GetScheduleList(Guid therapistId)
+        {
+            var appointments = await GetUpcomingByTherapistIdAsync(therapistId);
+            var schedule = new List<string>();
+            foreach (var appointment in appointments)
+            {
+                schedule.Add(appointment.DateTime.ToString("dd/MM/yyyy H"));
+            }
+
+            return new JsonResult(schedule);
         }
     }
 }

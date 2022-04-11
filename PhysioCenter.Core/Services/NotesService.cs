@@ -1,18 +1,21 @@
-﻿namespace PhysioCenter.Core.Contracts
+﻿namespace PhysioCenter.Core.Services
 {
+    using PhysioCenter.Core.Contracts;
     using Microsoft.EntityFrameworkCore;
 
-    using PhysioCenter.Infrastructure.Data;
     using PhysioCenter.Infrastructure.Data.Models;
     using PhysioCenter.Infrastructure.Data.Repository;
 
     public class NotesService : INotesService
     {
         private readonly IApplicationDbRepository repo;
+        private readonly IClientsService _clientsService;
 
-        public NotesService(IApplicationDbRepository _repo)
+        public NotesService(IApplicationDbRepository _repo,
+            IClientsService clientsService)
         {
             repo = _repo;
+            _clientsService = clientsService;
         }
 
         public async Task<Note> GetByIdAsync(Guid id)
@@ -29,11 +32,13 @@
             return note;
         }
 
-        public async Task<IEnumerable<Note>> GetAllByClientIdAsync(string clientId)
+        public async Task<IEnumerable<Note>> GetAllByClientIdAsync(Guid clientId)
         {
+            await _clientsService.FindClientById(clientId);
+
             return
                  await repo.All<Note>()
-                 .Where(x => x.ClientId == Guid.Parse(clientId))
+                 .Where(x => x.ClientId == clientId)
                  .OrderByDescending(x => x.CreatedOn)
                 .ToListAsync();
         }
@@ -46,7 +51,11 @@
 
         public async Task UpdateDetailsAsync(Note input)
         {
-            repo.Update(input);
+            var note = await GetByIdAsync(input.Id);
+
+            note.Content = input.Content;
+
+            repo.Update(note);
             await repo.SaveChangesAsync();
         }
 

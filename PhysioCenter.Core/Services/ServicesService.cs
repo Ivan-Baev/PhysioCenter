@@ -1,21 +1,22 @@
-﻿namespace PhysioCenter.Core.Services.Services
+﻿namespace PhysioCenter.Core.Services
 {
-    using Ganss.XSS;
-
     using Microsoft.EntityFrameworkCore;
 
     using PhysioCenter.Core.Contracts;
-    using PhysioCenter.Infrastructure.Data;
     using PhysioCenter.Infrastructure.Data.Models;
     using PhysioCenter.Infrastructure.Data.Repository;
 
     public class ServicesService : IServicesService
     {
         private readonly IApplicationDbRepository repo;
+        private readonly ICategoriesService _categoriesService;
 
-        public ServicesService(IApplicationDbRepository _repo)
+        public ServicesService(
+            IApplicationDbRepository _repo,
+            ICategoriesService categoriesService)
         {
             repo = _repo;
+            _categoriesService = categoriesService;
         }
 
         public async Task<Service> GetByIdAsync(Guid id)
@@ -45,10 +46,29 @@
 
         public async Task AddAsync(Service input)
         {
-            if (repo.All<Service>().Any(c => c.Name == input.Name))
-                return;
+            GuardAgainstSameName(input);
 
             await repo.AddAsync(input);
+            await repo.SaveChangesAsync();
+        }
+
+        public async Task UpdateDetailsAsync(Service input)
+        {
+            await _categoriesService.GetByIdAsync(input.CategoryId);
+            var service = await GetByIdAsync(input.Id);
+
+            if (service.Name != input.Name)
+            {
+                GuardAgainstSameName(input);
+            }
+
+            service.CategoryId = input.CategoryId;
+            service.Description = input.Description;
+            service.Price = input.Price;
+            service.Name = input.Name;
+            service.Price = input.Price;
+
+            repo.Update(service);
             await repo.SaveChangesAsync();
         }
 
@@ -56,14 +76,16 @@
         {
             var service = await GetByIdAsync(id);
 
-            repo.Delete<Service>(service);
+            repo.Delete(service);
             await repo.SaveChangesAsync();
         }
 
-        public async Task UpdateDetailsAsync(Service input)
+        private void GuardAgainstSameName(Service input)
         {
-            repo.Update(input);
-            await repo.SaveChangesAsync();
+            if (repo.All<Service>().Any(c => c.Name == input.Name))
+            {
+                throw new ArgumentException("This service name already exists");
+            }
         }
     }
 }

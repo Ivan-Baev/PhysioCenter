@@ -11,10 +11,17 @@
     public class TherapistsServicesService : ITherapistsServicesService
     {
         private readonly IApplicationDbRepository repo;
+        private readonly ITherapistsService _therapistsService;
+        private readonly IServicesService _servicesService;
 
-        public TherapistsServicesService(IApplicationDbRepository _repo)
+        public TherapistsServicesService(
+            IApplicationDbRepository _repo,
+            ITherapistsService therapistsService,
+            IServicesService servicesService)
         {
             repo = _repo;
+            _therapistsService = therapistsService;
+            _servicesService = servicesService;
         }
 
         public async Task AddAllServicesToTherapistId(IEnumerable<Service> services, Guid therapistId)
@@ -57,6 +64,8 @@
 
         public async Task<IEnumerable<TherapistService>> GetTherapistServicesByIdAsync(Guid therapistId)
         {
+            await _therapistsService.FindTherapistById(therapistId);
+
             return await repo.All<TherapistService>()
                 .Include(x => x.Service)
                 .Where(x => x.TherapistId == therapistId)
@@ -65,6 +74,8 @@
 
         public async Task<IEnumerable<TherapistService>> GetProvidedTherapistServicesByIdAsync(Guid therapistId)
         {
+            await _therapistsService.FindTherapistById(therapistId);
+
             return await repo.All<TherapistService>()
                 .Include(x => x.Service)
                 .Where(x => x.TherapistId == therapistId && x.isProvided)
@@ -73,18 +84,28 @@
 
         public async Task ChangeProvidedStatusAsync(Guid therapistId, Guid serviceId)
         {
+            await _therapistsService.FindTherapistById(therapistId);
+            await _servicesService.GetByIdAsync(serviceId);
+
             var therapistService = await repo.All<TherapistService>()
                                 .FirstOrDefaultAsync(
                                 x => x.ServiceId == serviceId
                                 && x.TherapistId == therapistId);
 
+            if (therapistService == null)
+            {
+                throw new ArgumentException("This therapist does not provide the chosen service. Unable to disable.");
+            }
             therapistService.isProvided = !therapistService.isProvided;
 
             await repo.SaveChangesAsync();
         }
 
-        public async Task FindTherapistServiceById(Guid therapistId, Guid serviceId)
+        public async Task<TherapistService> FindTherapistServiceById(Guid therapistId, Guid serviceId)
         {
+            await _therapistsService.FindTherapistById(therapistId);
+            await _servicesService.GetByIdAsync(serviceId);
+
             var therapistService = await repo.All<TherapistService>()
                                 .FirstOrDefaultAsync(
                                 x => x.ServiceId == serviceId
@@ -95,6 +116,8 @@
             {
                 throw new ArgumentException("This service is not provided by the therapist!");
             }
+
+            return therapistService;
         }
     }
 }

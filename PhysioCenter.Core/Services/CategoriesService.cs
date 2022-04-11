@@ -1,7 +1,8 @@
-﻿namespace PhysioCenter.Core.Contracts
+﻿namespace PhysioCenter.Core.Services
 {
     using Microsoft.EntityFrameworkCore;
 
+    using PhysioCenter.Core.Contracts;
     using PhysioCenter.Infrastructure.Data.Models;
     using PhysioCenter.Infrastructure.Data.Repository;
 
@@ -38,8 +39,7 @@
 
         public async Task AddAsync(Category input)
         {
-            if (repo.All<Category>().Any(c => c.Name == input.Name))
-                return;
+            GuardAgainstSameTitle(input);
 
             await repo.AddAsync(input);
             await repo.SaveChangesAsync();
@@ -47,7 +47,18 @@
 
         public async Task UpdateDetailsAsync(Category input)
         {
-            repo.Update(input);
+            var category = await GetByIdAsync(input.Id);
+
+            if (category.Name != input.Name)
+            {
+                GuardAgainstSameTitle(input);
+            }
+
+            category.Description = input.Description;
+            category.Name = input.Name;
+            category.ImageUrl = input.ImageUrl;
+
+            repo.Update(category);
             await repo.SaveChangesAsync();
         }
 
@@ -57,6 +68,14 @@
 
             repo.Delete(category);
             await repo.SaveChangesAsync();
+        }
+
+        private void GuardAgainstSameTitle(Category input)
+        {
+            if (repo.All<Category>().Any(c => c.Name == input.Name))
+            {
+                throw new ArgumentException("This category name already exists");
+            }
         }
     }
 }
