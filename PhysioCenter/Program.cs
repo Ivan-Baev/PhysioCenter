@@ -5,15 +5,11 @@ using Ganss.XSS;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
+using PhysioCenter.Adapters;
 using PhysioCenter.Core.Contracts;
 using PhysioCenter.Core.Services;
-using PhysioCenter.Core.Services.Appointments;
-using PhysioCenter.Core.Services.Clients;
-using PhysioCenter.Core.Services.Services;
-using PhysioCenter.Core.Services.Therapists;
 using PhysioCenter.Core.Utilities.Constants;
 using PhysioCenter.Infrastructure.Data;
-using PhysioCenter.Infrastructure.Data.Common;
 using PhysioCenter.Infrastructure.Data.Repository;
 using PhysioCenter.Infrastructure.Data.Seeding;
 using PhysioCenter.ModelBinders;
@@ -22,8 +18,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-var test = builder.Configuration.GetValue(typeof(string), "TestProperty");
-;
+
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 
@@ -63,16 +58,25 @@ builder.Services.AddAutoMapper(typeof(Program));
 // HTML sanitizer - check if it works like this?
 builder.Services.AddSingleton<IHtmlSanitizer, HtmlSanitizer>();
 
-Cloudinary cloudinary = new(new Account
-{
-});
+Cloudinary cloudinary = new(new Account(
+
+    builder.Configuration["Cloudinary:Cloud"],
+    builder.Configuration["Cloudinary:ApiKey"],
+    builder.Configuration["Cloudinary:ApiSecret"])
+);
 
 builder.Services.AddSingleton(cloudinary);
 
-// Application services
+builder.Services.AddCookiePolicy(
+                options =>
+                {
+                    options.CheckConsentNeeded = context => true;
+                    options.MinimumSameSitePolicy = SameSiteMode.None;
+                });
 
 builder.Services.AddTransient<IApplicationDbRepository, ApplicationDbRepository>();
 builder.Services.AddTransient<ICloudinaryService, CloudinaryService>();
+builder.Services.AddTransient<IHomeViewModelAdapter, HomeViewModelAdapter>();
 builder.Services.AddTransient<IAppointmentsService, AppointmentsService>();
 builder.Services.AddTransient<IServicesService, ServicesService>();
 builder.Services.AddTransient<IClientsService, ClientsService>();
@@ -83,6 +87,9 @@ builder.Services.AddTransient<INotesService, NotesService>();
 builder.Services.AddTransient<IBlogsService, BlogsService>();
 builder.Services.AddTransient<ITherapistsServicesService, TherapistsServicesService>();
 builder.Services.AddTransient<ITherapistsClientsService, TherapistsClientsService>();
+
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
@@ -97,16 +104,21 @@ using (var serviceScope = app.Services.CreateScope())
 if (app.Environment.IsDevelopment())
 {
     app.UseMigrationsEndPoint();
+    app.UseSwagger();
+    app.UseSwaggerUI();
 }
 else
 {
+    app.UseStatusCodePagesWithRedirects("/Home/Error?statusCode={0}");
     app.UseExceptionHandler("/Home/Error");
+
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+app.UseCookiePolicy();
 
 app.UseRouting();
 
