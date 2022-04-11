@@ -119,11 +119,17 @@
 
         public async Task UpdateAsync(Appointment input)
         {
+            var appointment = await GetByIdAsync(input.Id);
             await _therapistsService.FindTherapistById(input.TherapistId);
             await _clientsService.FindClientById(input.ClientId);
             await _therapistsServicesService.FindTherapistServiceById(input.TherapistId, input.ServiceId);
 
-            repo.Update(input);
+            appointment.TherapistId = input.TherapistId;
+            appointment.ServiceId = input.ServiceId;
+            appointment.ClientId = input.ClientId;
+            appointment.DateTime = input.DateTime;
+
+            repo.Update(appointment);
             await repo.SaveChangesAsync();
         }
 
