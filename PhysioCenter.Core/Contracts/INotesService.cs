@@ -8,7 +8,7 @@
 
         Task<Note> GetByIdAsync(Guid id);
 
-        Task<IEnumerable<Note>> GetAllByClientIdAsync(string clientId);
+        Task<IEnumerable<Note>> GetAllByClientIdAsync(Guid clientId);
 
         Task UpdateDetailsAsync(Note input);
 

@@ -14,7 +14,7 @@
 
         Task AddAllTherapistsToServiceId(IEnumerable<Therapist> therapists, Guid serviceId);
 
-        Task FindTherapistServiceById(Guid therapistId, Guid serviceId);
+        Task<TherapistService> FindTherapistServiceById(Guid therapistId, Guid serviceId);
 
         Task ChangeProvidedStatusAsync(Guid therapistId, Guid serviceId);
     }

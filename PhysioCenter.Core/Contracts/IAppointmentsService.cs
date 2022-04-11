@@ -1,5 +1,7 @@
 ﻿namespace PhysioCenter.Core.Contracts
 {
+    using Microsoft.AspNetCore.Mvc;
+
     using PhysioCenter.Infrastructure.Data.Models;
 
     using System.Collections.Generic;
@@ -20,6 +22,8 @@
         Task UpdateAsync(Appointment input);
 
         Task DeleteAsync(Guid id);
+
+        Task<JsonResult> GetScheduleList(Guid therapistId);
 
         Task<int> GetCount(string? clientName = null);
     }
