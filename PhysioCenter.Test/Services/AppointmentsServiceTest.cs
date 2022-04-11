@@ -244,6 +244,165 @@ namespace PhysioCenter.Test.Services
                 Throws.TypeOf<ArgumentException>().With.Message.EqualTo("This service does not exist!"));
         }
 
+        [Test]
+        public void AddAsyncShouldNotThrowError()
+        {
+            var appointment = new Appointment()
+            {
+                DateTime = DateTime.ParseExact("12/04/2022 10", "dd/mm/yyyy HH", CultureInfo.InvariantCulture),
+                ClientId = new Guid("104ff139-de00-4ed1-b6e5-7cbe0a19dfc9"),
+                ServiceId = new Guid("11969b29-91b6-4ba1-ba3e-d78f463fee32"),
+                TherapistId = new Guid("304ff139-de00-4ed1-b6e5-7cbe0a19dfc9"),
+                Id = new Guid("41169b29-91b6-4ba1-ba3e-d78f463fee32")
+            };
+
+            var service = serviceProvider.GetService<IAppointmentsService>();
+            Assert.DoesNotThrowAsync(async () => await service.AddAsync(appointment));
+        }
+
+        [Test]
+        public void UpdateAsyncShouldThrowErrorInvalidAppointmentId()
+        {
+            var appointment = new Appointment()
+            {
+                DateTime = DateTime.ParseExact("12/04/2022 10", "dd/mm/yyyy HH", CultureInfo.InvariantCulture),
+                ClientId = new Guid("104ff139-de00-4ed1-b6e5-7cbe0a19dfc9"),
+                ServiceId = new Guid("11969b29-91b6-4ba1-ba3e-d78f463fee32"),
+                TherapistId = new Guid("304ff139-de00-4ed1-b6e5-7cbe0a19dfc9"),
+                Id = new Guid("01169b29-91b6-4ba1-ba3e-d78f463fee32")
+            };
+
+            var service = serviceProvider.GetService<IAppointmentsService>();
+
+            Assert.That(async () => await service.UpdateAsync(appointment),
+
+                    Throws.TypeOf<ArgumentException>().With.Message.EqualTo("The provided id does not exist"));
+        }
+
+        [Test]
+        public void UpdateAsyncShouldThrowErrorInvalidTherapistId()
+        {
+            var appointment = new Appointment()
+            {
+                DateTime = DateTime.ParseExact("12/04/2022 10", "dd/mm/yyyy HH", CultureInfo.InvariantCulture),
+                ClientId = new Guid("104ff139-de00-4ed1-b6e5-7cbe0a19dfc9"),
+                ServiceId = new Guid("11969b29-91b6-4ba1-ba3e-d78f463fee32"),
+                TherapistId = new Guid("004ff139-de00-4ed1-b6e5-7cbe0a19dfc9"),
+                Id = new Guid("11169b29-91b6-4ba1-ba3e-d78f463fee32")
+            };
+
+            var service = serviceProvider.GetService<IAppointmentsService>();
+            Assert.That(async () => await service.UpdateAsync(appointment),
+                Throws.TypeOf<ArgumentException>().With.Message.EqualTo("This therapist does not exist!"));
+        }
+
+        [Test]
+        public void UpdateAsyncShouldThrowErrorInvalidClientId()
+        {
+            var appointment = new Appointment()
+            {
+                DateTime = DateTime.ParseExact("12/04/2022 10", "dd/mm/yyyy HH", CultureInfo.InvariantCulture),
+                ClientId = new Guid("004ff139-de00-4ed1-b6e5-7cbe0a19dfc9"),
+                ServiceId = new Guid("11969b29-91b6-4ba1-ba3e-d78f463fee32"),
+                TherapistId = new Guid("304ff139-de00-4ed1-b6e5-7cbe0a19dfc9"),
+                Id = new Guid("11169b29-91b6-4ba1-ba3e-d78f463fee32")
+            };
+
+            var service = serviceProvider.GetService<IAppointmentsService>();
+            Assert.That(async () => await service.UpdateAsync(appointment),
+                Throws.TypeOf<ArgumentException>().With.Message.EqualTo("This client does not exist!"));
+        }
+
+        [Test]
+        public void UpdateAsyncShouldThrowErrorInvalidServiceId()
+        {
+            var appointment = new Appointment()
+            {
+                DateTime = DateTime.ParseExact("12/04/2022 10", "dd/mm/yyyy HH", CultureInfo.InvariantCulture),
+                ClientId = new Guid("104ff139-de00-4ed1-b6e5-7cbe0a19dfc9"),
+                ServiceId = new Guid("01969b29-91b6-4ba1-ba3e-d78f463fee32"),
+                TherapistId = new Guid("304ff139-de00-4ed1-b6e5-7cbe0a19dfc9"),
+                Id = new Guid("11169b29-91b6-4ba1-ba3e-d78f463fee32")
+            };
+
+            var service = serviceProvider.GetService<IAppointmentsService>();
+            Assert.That(async () => await service.UpdateAsync(appointment),
+                Throws.TypeOf<ArgumentException>().With.Message.EqualTo("This service does not exist!"));
+        }
+
+        [Test]
+        public async Task UpdateAsyncShouldNotThrowErrorAndUpdateCorrectly()
+        {
+            var appointment = new Appointment()
+            {
+                DateTime = DateTime.ParseExact("12/04/2022 11", "dd/mm/yyyy HH", CultureInfo.InvariantCulture),
+                ClientId = new Guid("104ff139-de00-4ed1-b6e5-7cbe0a19dfc9"),
+                ServiceId = new Guid("11969b29-91b6-4ba1-ba3e-d78f463fee32"),
+                TherapistId = new Guid("304ff139-de00-4ed1-b6e5-7cbe0a19dfc9"),
+                Id = new Guid("11169b29-91b6-4ba1-ba3e-d78f463fee32")
+            };
+
+            var service = serviceProvider.GetService<IAppointmentsService>();
+            Assert.DoesNotThrowAsync(async () => await service.UpdateAsync(appointment));
+            var result = await service.GetByIdAsync(appointment.Id);
+            var expectedDate = DateTime.ParseExact("12/04/2022 11", "dd/mm/yyyy HH", CultureInfo.InvariantCulture);
+            Assert.AreEqual(expectedDate, result.DateTime);
+        }
+
+        [Test]
+        public void DeleteAsyncShouldNotThrowErrorWithValidIdAndCorrectlyDelete()
+        {
+            var id = new Guid("11169b29-91b6-4ba1-ba3e-d78f463fee32");
+
+            var service = serviceProvider.GetService<IAppointmentsService>();
+
+            Assert.DoesNotThrowAsync(async () => await service.DeleteAsync(id));
+            Assert.That(async () => await service.GetByIdAsync(id)
+            , Throws.TypeOf<ArgumentException>().With.Message.EqualTo("The provided id does not exist"));
+        }
+
+        [Test]
+        public void DeleteAsyncShouldThrowErrorWithInvalidId()
+        {
+            var id = new Guid("01169b29-91b6-4ba1-ba3e-d78f463fee32");
+
+            var service = serviceProvider.GetService<IAppointmentsService>();
+            Assert.That(async () => await service.DeleteAsync(id)
+            , Throws.TypeOf<ArgumentException>().With.Message.EqualTo("The provided id does not exist"));
+        }
+
+        [Test]
+        public async Task GetCountShouldReturnCorrectAppointmentCountWithValidName()
+        {
+            var name = "test2";
+
+            var service = serviceProvider.GetService<IAppointmentsService>();
+            var result = await service.GetCount(name);
+            var expected = 1;
+            Assert.That(result.Equals(expected));
+        }
+
+        [Test]
+        public async Task GetCountShouldReturnCorrectAppointmentCountWithInvalidName()
+        {
+            var name = "test22";
+
+            var service = serviceProvider.GetService<IAppointmentsService>();
+            var result = await service.GetCount(name);
+            var expected = 0;
+            Assert.That(result.Equals(expected));
+        }
+
+        [Test]
+        public async Task GetScheduleListShouldReturnCorrectSchedule()
+        {
+            var id = new Guid("304ff139-de00-4ed1-b6e5-7cbe0a19dfc9");
+            var service = serviceProvider.GetService<IAppointmentsService>();
+            var schedule = await service.GetScheduleList(id);
+            var convertedSchedule = schedule.Value as List<string>;
+            Assert.That(convertedSchedule.Count.Equals(1));
+        }
+
         [TearDown]
         public void TearDown()
         {
