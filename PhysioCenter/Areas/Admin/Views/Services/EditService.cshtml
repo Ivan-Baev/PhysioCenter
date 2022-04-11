@@ -43,9 +43,9 @@
                 <label asp-for="Description" for="floatingTextarea">Description....</label>
                 <span asp-validation-for="Description" class="small text-danger"></span>
             </div>
-            <div class="form-floating mb-3 w-25 mt-2 h-100">
-                <input asp-for="Image" class="form-control" id="floatingImage" placeholder="Leave a comment here">
-                <label asp-for="Image" for="floatingImage">Upload a new image if you want to update</label>
+            <div class="form-floating mb-3 w-25 mt-2">
+                <input asp-for="Image" style="width: auto;"        class="form-control" id="floatingImage" placeholder="Leave a comment here">
+                <label asp-for="Image" style="white-space: nowrap;"for="floatingImage">Upload a new image if you want to update</label>
                 <span asp-validation-for="Image" class="small text-danger"></span>
             </div>
             <input hidden asp-for="Id" />
