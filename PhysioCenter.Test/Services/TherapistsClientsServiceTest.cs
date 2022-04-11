@@ -61,7 +61,7 @@ namespace PhysioCenter.Test.Services
                 .BuildServiceProvider();
 
             var repo = serviceProvider.GetService<IApplicationDbRepository>();
-            UserManager<IdentityUser> usermanager = TestUserManager<IdentityUser>();
+            userManager = TestUserManager<IdentityUser>();
             mockTherapistsService = new Mock<TherapistsService>(repo, userManager).Object;
 
             serviceProvider = serviceCollection.AddSingleton(mockTherapistsService)
