@@ -42,16 +42,7 @@ namespace PhysioCenter.WebAPI.Controllers
         [HttpGet(Name = "GetTherapistSchedule")]
         public async Task<JsonResult> GetTherapistSchedule(Guid id)
         {
-            var items = await _appointmentsService.GetUpcomingByTherapistIdAsync(id);
-
-            var schedule = new List<string>();
-            foreach (var appointment in items)
-            {
-                schedule.Add(appointment.DateTime.ToString("dd/MM/yyyy H"));
-            }
-            var json = JsonConvert.SerializeObject(schedule);
-
-            return new JsonResult(json);
+            return await _appointmentsService.GetScheduleList(id);
         }
 
         /// <summary>
