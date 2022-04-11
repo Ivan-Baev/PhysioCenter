@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PhysioCenter.Infrastructure
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PhysioCenter.Core", "PhysioCenter.Core\PhysioCenter.Core.csproj", "{BAADE68C-6ECC-4A3F-82E0-6FACC348E1B5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhysioCenter.Test", "PhysioCenter.Test\PhysioCenter.Test.csproj", "{925BF7C8-C8D2-4EB1-8D15-C8D1D4C7DD3C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{BAADE68C-6ECC-4A3F-82E0-6FACC348E1B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BAADE68C-6ECC-4A3F-82E0-6FACC348E1B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BAADE68C-6ECC-4A3F-82E0-6FACC348E1B5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{925BF7C8-C8D2-4EB1-8D15-C8D1D4C7DD3C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{925BF7C8-C8D2-4EB1-8D15-C8D1D4C7DD3C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{925BF7C8-C8D2-4EB1-8D15-C8D1D4C7DD3C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{925BF7C8-C8D2-4EB1-8D15-C8D1D4C7DD3C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

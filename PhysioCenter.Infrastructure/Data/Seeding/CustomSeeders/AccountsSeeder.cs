@@ -110,7 +110,7 @@
                 }
                 else
                 {
-                    if (usersAssignedToRole.Count() != 0)
+                    if (usersAssignedToRole.Count != 0)
                     {
                         var result = await userManager.CreateAsync(user, password);
 
