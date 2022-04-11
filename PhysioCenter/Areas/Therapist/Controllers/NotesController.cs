@@ -39,7 +39,7 @@
             _notesService = notesService;
         }
 
-        public async Task<IActionResult> Index(string clientId, string therapistId)
+        public async Task<IActionResult> Index(Guid clientId, Guid therapistId)
         {
             var input = await _notesService.GetAllByClientIdAsync(clientId);
 
@@ -54,7 +54,7 @@
             return View(viewModel);
         }
 
-        public IActionResult CreateNote(string clientId, string therapistId)
+        public IActionResult CreateNote(Guid clientId, Guid therapistId)
         {
             ViewBag.ClientId = clientId;
             ViewBag.TherapistId = therapistId;

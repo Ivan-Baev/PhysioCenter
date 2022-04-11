@@ -53,7 +53,6 @@
                 return View(input);
             }
 
-            var test = _htmlSanitizer.Sanitize(input.ToString());
             string imageUrlCloudinary = await _cloudinaryService.UploadFileAsync(input.Image, input.Title);
             var blogToAdd = _mapper.Map<Blog>(input);
             blogToAdd.ImageUrl = imageUrlCloudinary;
