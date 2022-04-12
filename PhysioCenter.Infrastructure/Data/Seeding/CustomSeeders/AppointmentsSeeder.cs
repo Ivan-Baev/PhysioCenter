@@ -39,7 +39,7 @@
                 appointments.Add(new Appointment
                 {
                     Id = Guid.NewGuid(),
-                    DateTime = DateTime.UtcNow.AddDays(1),
+                    DateTime = new DateTime(2022, 04, 20, 10, 0, 0),
                     ClientId = clientId,
                     TherapistId = therapistId,
                     ServiceId = service.ServiceId,
@@ -48,7 +48,7 @@
                 appointments.Add(new Appointment
                 {
                     Id = Guid.NewGuid(),
-                    DateTime = DateTime.UtcNow.AddDays(-2),
+                    DateTime = new DateTime(2022, 04, 18, 10, 0, 0),
                     ClientId = clientId,
                     TherapistId = therapistId,
                     ServiceId = service.ServiceId,
@@ -57,7 +57,7 @@
                 appointments.Add(new Appointment
                 {
                     Id = Guid.NewGuid(),
-                    DateTime = DateTime.UtcNow.AddDays(-3),
+                    DateTime = new DateTime(2022, 04, 17, 10, 0, 0),
                     ClientId = clientId,
                     TherapistId = therapistId,
                     ServiceId = service.ServiceId,
