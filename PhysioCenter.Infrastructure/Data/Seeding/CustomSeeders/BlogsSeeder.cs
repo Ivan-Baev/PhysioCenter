@@ -24,7 +24,7 @@
                         Content = @"Icing an injury typically takes place immediately after the injury occurs.  Using a cold compress or ice pack on a strained muscle can decrease inflammation and numb pain in the area.  Icing is effective at reducing pain and swelling because the cold constricts blood vessels and decreases circulation to the area.
 
 For example, if an athlete rolls an ankle in a volleyball match an immediate application of ice will cut down on long-term swelling and potentially lessen recovery time.",
-                        ImageUrl = "https://st2.depositphotos.com/1518767/7343/i/600/depositphotos_73431259-stock-photo-highlighted-bones-of-man-at.jpg"
+                        ImageUrl = "https://res.cloudinary.com/physiocenter/image/upload/v1649786559/PhysioCenter%20Images/ice-injuries_ptaug2.jpg"
                     },
                     new Blog
                     {
@@ -34,7 +34,7 @@ For example, if an athlete rolls an ankle in a volleyball match an immediate app
 That said, is a massage still allowed past the 38-week mark, despite the fact that the babies due date is approaching? Yes, a pregnancy massage is still safe even after 38 weeks of pregnancy. However, if your doctor has advised you not to have a pregnant massage due to underlying health or medical concerns, you should not have one.
 
 In fact, our highly experienced and qualified pregnancy massage therapist can help you cope and manage all the major changes and hormones in your body during each trimester which we know can be tough.  This article will focus solely on pregnancy massage at the 38-week stage, which is in the third trimester",
-                        ImageUrl = "https://st2.depositphotos.com/1518767/7343/i/600/depositphotos_73431259-stock-photo-highlighted-bones-of-man-at.jpg"
+                        ImageUrl = "https://res.cloudinary.com/physiocenter/image/upload/v1649786651/PhysioCenter%20Images/parental-massage_nrkj8l.jpg"
                     },
                     new Blog
                     {
@@ -51,7 +51,7 @@ Poor memory, difficulty concentrating and lack of focus
 These symptoms are similar to other medical conditions, such as ME and CFS, which can last for weeks, or even months. However, normally these symptoms of post-viral fatigue are expected to last for a short period of time.
 
 COVID is seen as an aggressive virus that can weaken the immune and lymphatic systems. Unless a full recovery is made, energy levels will be reduced and fatal symptoms can remain. Even though there is still a lot to learn about COVID-19, health experts state the importance of resuming normal activities. They advise us to try to avoid resting too much. This will in turn help your immune system recover quicker.",
-                        ImageUrl = "https://st2.depositphotos.com/1518767/7343/i/600/depositphotos_73431259-stock-photo-highlighted-bones-of-man-at.jpg"
+                        ImageUrl = "https://res.cloudinary.com/physiocenter/image/upload/v1649786795/PhysioCenter%20Images/lymphatic-system_dayidu.jpg"
                     },
                     new Blog
                     {
@@ -65,7 +65,7 @@ Sitting also causes your back muscles to become less active, which leads to weak
 The sitting position also tightens your hip flexors and can restrict blood flow to the gluteal muscles, which are important spine supporters.
 
 Sitting for prolonged periods of time can also mean that our posture changes, with a forward head position and rounded shoulders being prevalent. These posture changes can cause increased stress on the spinal ligaments to stretch beyond their healthy limit, increasing the wear on our discs. ",
-                        ImageUrl = "https://st2.depositphotos.com/1518767/7343/i/600/depositphotos_73431259-stock-photo-highlighted-bones-of-man-at.jpg"
+                        ImageUrl = "https://res.cloudinary.com/physiocenter/image/upload/v1649786847/PhysioCenter%20Images/back-sitting_oxtvwa.jpg"
                     },
                     new Blog
                     {
@@ -78,7 +78,7 @@ Regular Swedish relaxation massage can help reduce tension, lower blood pressure
 Poor Mental health can be greatly improved by relaxation massage allowing the client to feel calmer and less stressed.
 
 Relaxation massage is lighter and less invasive than sports massage and can therefore be tolerated more often, so can be practised as often as the client requires.",
-                        ImageUrl = "https://st2.depositphotos.com/1518767/7343/i/600/depositphotos_73431259-stock-photo-highlighted-bones-of-man-at.jpg"
+                        ImageUrl = "https://res.cloudinary.com/physiocenter/image/upload/v1649786896/PhysioCenter%20Images/How-often-should-you-get-a-massage_uv9cto.jpg"
                     },
                 };
 
