@@ -19,22 +19,26 @@
             {
                 return;
             }
-            var userManager = serviceProvider.GetRequiredService<UserManager<IdentityUser>>();
-            var therapistsClients = new List<TherapistClient>();
 
-            var user = await userManager.FindByEmailAsync("user@physiocenter.com");
-            var therapist = await userManager.FindByEmailAsync("therapist1@physiocenter.com");
+            var therapistClients = new List<TherapistClient>();
 
-            var clientId = dbContext.Clients.FirstOrDefault(x => x.UserId == user.Id).Id;
-            var therapistId = dbContext.Therapists.FirstOrDefault(x => x.UserId == therapist.Id).Id;
-
-            therapistsClients.Add(new TherapistClient
+            foreach (var therapist in dbContext.Therapists)
             {
-                TherapistId = therapistId,
-                ClientId = clientId,
-            });
+                var therapistId = therapist.Id;
 
-            await dbContext.AddRangeAsync(therapistsClients);
+                foreach (var client in dbContext.Clients.Where(x => x.Id == Guid.Parse("EC2AEEC7-2F91-406C-927D-366EEDCCDF1B")))
+                {
+                    var clientId = client.Id;
+
+                    therapistClients.Add(new TherapistClient
+                    {
+                        TherapistId = therapistId,
+                        ClientId = clientId,
+                    });
+                }
+            }
+
+            await dbContext.AddRangeAsync(therapistClients);
         }
     }
 }
