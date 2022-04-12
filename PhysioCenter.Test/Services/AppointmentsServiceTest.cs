@@ -140,13 +140,22 @@ namespace PhysioCenter.Test.Services
         }
 
         [Test]
-        [TestCase(null)]
-        [TestCase("04/11/2022")]
-        public async Task GetTodayByTherapistIdAsyncShouldReturnOneAppointmentForToday(DateTime? date)
+        public async Task GetTodayByTherapistIdAsyncShouldReturnOneAppointmentForToday()
         {
+            var date = DateTime.UtcNow;
             var service = serviceProvider.GetService<IAppointmentsService>();
             var id = new Guid("304ff139-de00-4ed1-b6e5-7cbe0a19dfc9");
             var actual = await service.GetTodayByTherapistIdAsync(id, date);
+            var expectedCount = 1;
+            Assert.AreEqual(expectedCount, actual.Count());
+        }
+
+        [Test]
+        public async Task GetTodayByTherapistIdAsyncShouldReturnOneAppointmentForNull()
+        {
+            var service = serviceProvider.GetService<IAppointmentsService>();
+            var id = new Guid("304ff139-de00-4ed1-b6e5-7cbe0a19dfc9");
+            var actual = await service.GetTodayByTherapistIdAsync(id, null);
             var expectedCount = 1;
             Assert.AreEqual(expectedCount, actual.Count());
         }
