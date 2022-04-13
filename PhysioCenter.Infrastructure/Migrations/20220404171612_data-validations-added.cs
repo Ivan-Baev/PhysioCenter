@@ -4,7 +4,7 @@
 
 namespace PhysioCenter.Infrastructure.Migrations
 {
-    public partial class datavalidationsadded : Migration
+    public partial class Datavalidationsadded : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

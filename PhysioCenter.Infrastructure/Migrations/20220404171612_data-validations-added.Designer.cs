@@ -13,7 +13,7 @@ namespace PhysioCenter.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
     [Migration("20220404171612_data-validations-added")]
-    partial class datavalidationsadded
+    partial class Datavalidationsadded
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
