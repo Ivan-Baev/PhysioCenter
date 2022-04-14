@@ -4,6 +4,13 @@
     this.ViewData["Title"] = "Your therapists";
 }
 
+@if (TempData.ContainsKey("SuccessfullyAdded"))
+{
+    <div id="mainAlertMessage" class="alert alert-success text-center alert-dismissible" role="alert">
+        @TempData["SuccessfullyAdded"]
+    </div>
+}
+
 <link rel="stylesheet" href="~/css/cards.css" asp-append-version="true" />
 <canvas id=c></canvas>
 <div class="container mt-5 mb-5">
