@@ -39,6 +39,7 @@
 
             return await repo.All<TherapistClient>()
                 .Where(x => x.ClientId == clientId)
+                .Include(x => x.Client.Reviews)
                 .Include(x => x.Therapist).ThenInclude(x => x.Appointments)
                 .ToListAsync();
         }
