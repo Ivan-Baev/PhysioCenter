@@ -56,7 +56,7 @@
                 Appointments = mapper.Map<IEnumerable<AppointmentViewModel>>(input)
             };
 
-            if (page > viewModel.PagesCount)
+            if (page > viewModel.PagesCount || page <= 0)
             {
                 return this.NotFound();
             }
