@@ -3,6 +3,7 @@ using CloudinaryDotNet;
 using Ganss.XSS;
 
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 using PhysioCenter.Adapters;
@@ -48,6 +49,7 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options =>
 builder.Services.AddControllersWithViews()
     .AddMvcOptions(options =>
     {
+        options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
         options.ModelBinderProviders.Insert(0, new DecimalModelBinderProvider());
         options.ModelBinderProviders.Insert(1, new DateTimeModelBinderProvider(FormatingConstant.NormalDateFormat));
         options.ModelBinderProviders.Insert(2, new DoubleModelBinderProvider());
