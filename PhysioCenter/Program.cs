@@ -1,7 +1,5 @@
 using CloudinaryDotNet;
 
-using Ganss.XSS;
-
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -56,9 +54,6 @@ builder.Services.AddControllersWithViews()
     });
 
 builder.Services.AddAutoMapper(typeof(Program));
-
-// HTML sanitizer - check if it works like this?
-builder.Services.AddSingleton<IHtmlSanitizer, HtmlSanitizer>();
 
 Cloudinary cloudinary = new(new Account(
 
