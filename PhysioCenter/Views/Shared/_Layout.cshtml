@@ -19,9 +19,18 @@
                         <li class="nav-item">
                             <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
+                        @if (User.IsInRole("Standard User") || !User.Identity.IsAuthenticated)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="" asp-controller="Appointments" asp-action="BookAppointment">Book now</a>
+                            </li>
+                        }
+                        @if(User.Identity.IsAuthenticated && User.IsInRole("Standard User"))
+                        {
                         <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="Appointments" asp-action="BookAppointment">Book now!</a>
+                            <a class="nav-link" asp-area="" asp-controller="Reviews" asp-action="Index">Leave a review</a>
                         </li>
+                        }
                     </ul>
                     <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                         <li class="nav-item"><a class="nav-link" asp-area="" asp-controller="Home" asp-action="About">About us</a></li>
