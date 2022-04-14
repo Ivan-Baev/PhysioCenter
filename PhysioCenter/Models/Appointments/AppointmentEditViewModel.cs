@@ -23,6 +23,7 @@
 
         [Required]
         [Display(Name = "Time")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy hh:00}")]
         [AllowedDateTime]
         public DateTime DateTime { get; set; }
     }
