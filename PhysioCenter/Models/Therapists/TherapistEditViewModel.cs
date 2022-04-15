@@ -4,7 +4,7 @@
     using static PhysioCenter.Infrastructure.Data.Constants.DataValidations;
 
     using System.ComponentModel.DataAnnotations;
-    using PhysioCenter.Constants;
+    using PhysioCenter.Common;
 
     public class TherapistEditViewModel
     {

@@ -1,6 +1,6 @@
 ﻿namespace PhysioCenter.Models.Reviews
 {
-    using PhysioCenter.Constants;
+    using PhysioCenter.Common;
 
     using System.ComponentModel.DataAnnotations;
 

@@ -7,37 +7,35 @@
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.Rendering;
 
-    using Newtonsoft.Json;
-
     using PhysioCenter.Core.Contracts;
     using PhysioCenter.Infrastructure.Data.Models;
     using PhysioCenter.Models.Appointments;
 
     public class AppointmentsController : BaseController
     {
-        private readonly IAppointmentsService appointmentsService;
-        private readonly IServicesService servicesService;
-        private readonly IClientsService clientsService;
-        private readonly ITherapistsService therapistsService;
-        private readonly ITherapistsClientsService therapistsClientsService;
+        private readonly IAppointmentsService _appointmentsService;
+        private readonly IServicesService _servicesService;
+        private readonly IClientsService _clientsService;
+        private readonly ITherapistsService _therapistsService;
+        private readonly ITherapistsClientsService _therapistsClientsService;
         private readonly UserManager<IdentityUser> _usersManager;
-        private readonly IMapper mapper;
+        private readonly IMapper _mapper;
 
         public AppointmentsController(
-            IAppointmentsService _appointmentsService,
-            IServicesService _servicesService,
-            IClientsService _clientsService,
-            ITherapistsService _therapistsService,
-            IMapper _mapper,
-            ITherapistsClientsService _therapistsClientsService,
+            IAppointmentsService appointmentsService,
+            IServicesService servicesService,
+            IClientsService clientsService,
+            ITherapistsService therapistsService,
+            IMapper mapper,
+            ITherapistsClientsService therapistsClientsService,
             UserManager<IdentityUser> usersManager)
         {
-            appointmentsService = _appointmentsService;
-            servicesService = _servicesService;
-            clientsService = _clientsService;
-            therapistsService = _therapistsService;
-            mapper = _mapper;
-            therapistsClientsService = _therapistsClientsService;
+            _appointmentsService = appointmentsService;
+            _servicesService = servicesService;
+            _clientsService = clientsService;
+            _therapistsService = therapistsService;
+            _mapper = mapper;
+            _therapistsClientsService = therapistsClientsService;
             _usersManager = usersManager;
         }
 
@@ -45,9 +43,9 @@
         public async Task<IActionResult> BookAppointment()
         {
             var userId = _usersManager.GetUserId(User);
-            var client = await clientsService.GetClientByUserId(userId);
-            var therapists = await therapistsService.GetAllAsync();
-            var services = await servicesService.GetAllAsync();
+            var client = await _clientsService.GetClientByUserId(userId);
+            var therapists = await _therapistsService.GetAllAsync();
+            var services = await _servicesService.GetAllAsync();
 
             ViewData["ClientId"] = client.Id;
             ViewData["Therapists"] = new SelectList(therapists, "Id", "FullName");
@@ -64,13 +62,13 @@
                 return View(input);
             }
 
-            var appointment = mapper.Map<Appointment>(input);
-            await appointmentsService.AddAsync(appointment);
+            var appointment = _mapper.Map<Appointment>(input);
+            await _appointmentsService.AddAsync(appointment);
 
-            var therapistClient = mapper.Map<TherapistClient>(appointment);
-            await therapistsClientsService.AddTherapistClientAsync(therapistClient);
+            var therapistClient = _mapper.Map<TherapistClient>(appointment);
+            await _therapistsClientsService.AddTherapistClientAsync(therapistClient);
 
-            TempData["SuccessfullyAdded"] = "You have successfully booked an appointment!";
+            TempData["SuccessfullyAdded"] = Common.Alerts.SuccessfullyAddedAppointment;
 
             return this.RedirectToAction("Index", "Home");
         }

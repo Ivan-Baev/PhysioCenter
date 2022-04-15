@@ -1,4 +1,4 @@
-﻿namespace PhysioCenter.Constants
+﻿namespace PhysioCenter.Common
 {
     public static class ErrorMessages
     {
@@ -25,5 +25,11 @@
         public const string TherapistDescriptionLength = "{0} must be between {2} and {1} characters long!";
 
         public const string UploadImage = "Please upload an image!";
+
+        public const string InvalidCalendarDate = "Please select a valid date from the calendar!";
+
+        public const string ImageTypeNotSupported = "The type of your image is not supported.";
+
+        public const string MaximumFileSizeError = "Maximum allowed file size is {0} MB.";
     }
 }

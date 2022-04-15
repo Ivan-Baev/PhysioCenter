@@ -1,6 +1,6 @@
 ﻿namespace PhysioCenter.Models.Categories
 {
-    using PhysioCenter.Constants;
+    using PhysioCenter.Common;
     using PhysioCenter.CustomAttributes.Images;
 
     using System.ComponentModel.DataAnnotations;

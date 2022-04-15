@@ -30,7 +30,7 @@
 
         public string GetErrorMessage()
         {
-            return $"Maximum allowed file size is { _maxFileSize} bytes.";
+            return string.Format(Common.ErrorMessages.MaximumFileSizeError, _maxFileSize / (1024 * 1024));
         }
     }
 }

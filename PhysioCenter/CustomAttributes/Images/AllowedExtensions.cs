@@ -30,7 +30,7 @@
 
         public string GetErrorMessage()
         {
-            return "The type of your image is not supported.";
+            return Common.ErrorMessages.ImageTypeNotSupported;
         }
     }
 }

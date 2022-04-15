@@ -63,7 +63,7 @@
             var reviewToAdd = _mapper.Map<Review>(input);
             await _reviewsService.AddAsync(reviewToAdd);
 
-            TempData["SuccessfullyAdded"] = "You have successfully posted the review!";
+            TempData["SuccessfullyAdded"] = Common.Alerts.SuccessfullyAddedReview;
 
             return this.RedirectToAction(nameof(Index));
         }

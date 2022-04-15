@@ -3,8 +3,6 @@ namespace PhysioCenter.WebAPI.Controllers
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.Rendering;
 
-    using Newtonsoft.Json;
-
     using PhysioCenter.Core.Contracts;
 
     /// <summary>
