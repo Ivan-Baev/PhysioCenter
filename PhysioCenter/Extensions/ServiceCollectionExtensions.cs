@@ -44,7 +44,7 @@
                 options.User.RequireUniqueEmail = true;
             })
                     .AddRoles<IdentityRole>()
-                    .AddEntityFrameworkStores<ApplicationDbContext>(); ;
+                    .AddEntityFrameworkStores<ApplicationDbContext>();
 
             return services;
         }
