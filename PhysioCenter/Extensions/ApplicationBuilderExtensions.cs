@@ -2,6 +2,7 @@
 {
     using PhysioCenter.Infrastructure.Data;
     using PhysioCenter.Infrastructure.Data.Seeding;
+    using PhysioCenter.Hubs;
 
     public static class ApplicationBuilderExtensions
     {
@@ -25,6 +26,7 @@
                     endpoints.MapControllerRoute("areaRoute", "{area:exists}/{controller=Home}/{action=Index}/{id?}");
                     endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
                     endpoints.MapRazorPages();
+                    endpoints.MapHub<ChatHub>("/chatHub");
                 });
 
             return app;

@@ -33,6 +33,12 @@
             return View(viewModel);
         }
 
+        [Authorize(Roles = "Standard User")]
+        public IActionResult Chat()
+        {
+            return View();
+        }
+
         public IActionResult About()
         {
             return View();

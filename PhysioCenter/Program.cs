@@ -11,7 +11,8 @@ builder.Services.AddDatabase(builder.Configuration)
                 .AddCookiePolicyOptions()
                 .AddApplicationServices()
                 .AddEndpointsApiExplorer()
-                .AddSwaggerGen();
+                .AddSwaggerGen()
+                .AddSignalR();
 
 var app = builder.Build();
 
