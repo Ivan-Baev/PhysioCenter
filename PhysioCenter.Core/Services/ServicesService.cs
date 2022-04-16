@@ -28,7 +28,7 @@
 
             if (service == null)
             {
-                throw new ArgumentException("This service does not exist!");
+                throw new ArgumentException(Utilities.Constants.ErrorMessages.InvalidServiceId);
             }
 
             return service;
@@ -84,7 +84,7 @@
         {
             if (repo.All<Service>().Any(c => c.Name == input.Name))
             {
-                throw new ArgumentException("This service name already exists");
+                throw new ArgumentException(Utilities.Constants.ErrorMessages.DuplicateServiceName);
             }
         }
     }

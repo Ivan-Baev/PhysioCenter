@@ -43,7 +43,7 @@
 
             if (client == null)
             {
-                throw new ArgumentException("This client does not exist!");
+                throw new ArgumentException(Utilities.Constants.ErrorMessages.InvalidClientId);
             }
 
             return client;

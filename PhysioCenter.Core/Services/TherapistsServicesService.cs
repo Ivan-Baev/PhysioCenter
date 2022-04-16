@@ -94,7 +94,7 @@
 
             if (therapistService == null)
             {
-                throw new ArgumentException("This therapist does not provide the chosen service. Unable to disable.");
+                throw new ArgumentException(Utilities.Constants.ErrorMessages.InvalidTherapistService);
             }
             therapistService.isProvided = !therapistService.isProvided;
 
@@ -114,7 +114,7 @@
 
             if (therapistService == null)
             {
-                throw new ArgumentException("This service is not provided by the therapist!");
+                throw new ArgumentException(Utilities.Constants.ErrorMessages.ServiceNotProvidedByTherapist);
             }
 
             return therapistService;

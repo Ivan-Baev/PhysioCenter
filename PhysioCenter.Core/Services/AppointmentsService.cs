@@ -41,7 +41,7 @@
 
             if (appointment == null)
             {
-                throw new ArgumentException("The provided id does not exist");
+                throw new ArgumentException(Utilities.Constants.ErrorMessages.InvalidAppointmentId);
             }
 
             return appointment;
@@ -162,7 +162,7 @@
             var schedule = new List<string>();
             foreach (var appointment in appointments)
             {
-                schedule.Add(appointment.DateTime.ToString("dd/MM/yyyy H"));
+                schedule.Add(appointment.DateTime.ToString(Utilities.Constants.FormatingConstant.TherapistScheduleDateFormat));
             }
 
             return new JsonResult(schedule);

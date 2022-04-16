@@ -26,7 +26,7 @@
 
             if (note == null)
             {
-                throw new ArgumentException("This note does not exist");
+                throw new ArgumentException(Utilities.Constants.ErrorMessages.InvalidNoteId);
             }
 
             return note;

@@ -32,7 +32,7 @@
 
             if (review == null)
             {
-                throw new ArgumentException("This review does not exist!");
+                throw new ArgumentException(Utilities.Constants.ErrorMessages.InvalidReviewId);
             }
             return review;
         }

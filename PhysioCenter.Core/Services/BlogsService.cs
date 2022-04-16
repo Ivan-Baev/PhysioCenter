@@ -29,7 +29,7 @@
 
             if (blog == null)
             {
-                throw new ArgumentException("This blog does not exist");
+                throw new ArgumentException(Utilities.Constants.ErrorMessages.InvalidBlogId);
             }
 
             return blog;
@@ -72,7 +72,7 @@
         {
             if (repo.All<Blog>().Any(c => c.Title == input.Title))
             {
-                throw new ArgumentException("Blog title already exists");
+                throw new ArgumentException(Utilities.Constants.ErrorMessages.DuplicateBlogTitle);
             }
         }
     }

@@ -31,7 +31,7 @@
 
             if (category == null)
             {
-                throw new ArgumentException("This category doesn't exist!");
+                throw new ArgumentException(Utilities.Constants.ErrorMessages.InvalidCategoryId);
             }
 
             return category;
@@ -74,7 +74,7 @@
         {
             if (repo.All<Category>().Any(c => c.Name == input.Name))
             {
-                throw new ArgumentException("This category name already exists");
+                throw new ArgumentException(Utilities.Constants.ErrorMessages.DuplicateCategoryTitle);
             }
         }
     }

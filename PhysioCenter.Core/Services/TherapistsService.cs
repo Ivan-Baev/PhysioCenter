@@ -33,7 +33,7 @@
 
             if (therapist == null)
             {
-                throw new ArgumentException("This therapist does not exist!");
+                throw new ArgumentException(Utilities.Constants.ErrorMessages.InvalidTherapistId);
             }
 
             return therapist;
@@ -46,7 +46,7 @@
 
             if (therapist == null)
             {
-                throw new ArgumentException("This therapist does not exist!");
+                throw new ArgumentException(Utilities.Constants.ErrorMessages.InvalidTherapistId);
             }
 
             return therapist;
@@ -60,7 +60,7 @@
 
             if (therapist == null)
             {
-                throw new ArgumentException("This therapist does not exist!");
+                throw new ArgumentException(Utilities.Constants.ErrorMessages.InvalidTherapistId);
             }
 
             return therapist;
