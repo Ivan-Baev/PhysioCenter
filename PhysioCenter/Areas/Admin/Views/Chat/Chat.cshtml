@@ -2,25 +2,25 @@
     ViewData["Title"] = "Chat";
 }
 
+<div class="container">
 <h1>User chat</h1>
 <canvas hidden id=c></canvas>
-<div class="container">
     <div class="row">&nbsp;</div>
     <div class="row">
         <div class="col-4"><input type="text" id="senderInput" hidden value=@User.Identity.Name></div>
     </div>
     <div class="row">
-        <div class="col-2">Send to:</div>
+        <div class="col-2"><h2>Send to:</h2></div>
         <div class="col-4"><input type="text" id="receiverInput" /></div>
     </div>
     <div class="row">
-        <div class="col-2">Message</div>
-        <div class="col-4"><input type="text" id="messageInput" /></div>
-    </div>
+         <div class="col-2"><h2>Message</h2></div>
+         <div class="col-4"><textarea id="messageInput" style="width: 900px; height: 100px;"></textarea></div>
+     </div>
     <div class="row">&nbsp;</div>
     <div class="row">
         <div class="col-6">
-            <input type="button" id="sendButton" value="Send Message" />
+            <input type="button" class="btn btn-primary btn-lg px-4 me-sm-3" id="sendButton" value="Send Message" />
         </div>
     </div>
 </div>
