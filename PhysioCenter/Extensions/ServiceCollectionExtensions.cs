@@ -74,7 +74,7 @@
             services.AddControllersWithViews()
                     .AddMvcOptions(options =>
                     {
-                        options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
+                       /* options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute())*/;
                         options.ModelBinderProviders.Insert(0, new DecimalModelBinderProvider());
                         options.ModelBinderProviders.Insert(1, new DateTimeModelBinderProvider(FormatingConstant.NormalDateFormat));
                         options.ModelBinderProviders.Insert(2, new DoubleModelBinderProvider());
